@@ -3,21 +3,6 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from config import mailserver, mailusername, mailpassword, source_mailaddress, dest_mailaddress, mailsubject_success, smtpport, mailsubject_failed, smtpport
 
-def read_ip_address_from_file(file_path):
-    try:
-        with open(file_path, 'r') as f:
-            ip_address = f.read().strip()  # Read the IP address and remove leading/trailing whitespace
-            return ip_address
-    except Exception as e:
-        print("Error:", e)
-        return None
-
-# File path of myIpAddress.txt
-file_path = 'myIpAddress.txt'
-
-# Read IP address from file
-currentIpAddress = read_ip_address_from_file(file_path)
-
 def send_mail_my_ip_is(currentIpAddress):
   
     subject = mailsubject_success + currentIpAddress
