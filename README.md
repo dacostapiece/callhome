@@ -22,3 +22,6 @@ Script run openvpn - passing creds already
 
 <b>PASS.TXT</b><br>
 OpenVPN Creds
+
+<b>SENDMAIL.PY</b><br>
+This script works as a module called by my.ip which will receive tun0 IP address for VPN and send it out as email
