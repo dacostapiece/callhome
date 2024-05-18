@@ -25,3 +25,23 @@ OpenVPN Creds
 
 <b>SENDMAIL.PY</b><br>
 This script works as a module called by my.ip which will receive tun0 IP address for VPN and send it out as email
+
+<b>UPDATE_TUN0_IPNAME.PY</b><br>
+This script will retrieve tun0 IP address and update a FQDN in Cloudflare through API, so we can always reach it back the device over VPN without needing to know its current IP address, neither updating clients settings like SSH, VNC, etc...
+
+Find your Cloudflare Zone ID<br>
+Log to you Cloudflare account, access the Site/Domain you want to manipulate, account and zone id will be at the right column near bottom <br>
+https://developers.cloudflare.com/fundamentals/setup/find-account-and-zone-ids/<br>
+
+Find your Cloudflare Record ID<br>
+Create/Update the DNS Record will want to manipulate through Cloudflare dashboard<br>
+"Outside site/domain panel, the place where you land just after login, go to Manage Account/Audit log<br>
+Open audit logs, the DNS Record ID will be shown in the log, just click on the name far right to expand the log line<br>
+https://community.cloudflare.com/t/cannot-find-record-id/326344<br>
+
+Other references about Cloudflare settings<br>
+https://developers.cloudflare.com/fundamentals/api/get-started/create-token/<br>
+https://dash.cloudflare.com/profile/api-tokens<br>
+https://developers.cloudflare.com/api/operations/dns-records-for-a-zone-patch-dns-record<br>
+
+
