@@ -66,3 +66,9 @@ Scripts run every hour. I don't redirect errors, because the .sh script has alre
 0 * * * * /home/dacosta/CALLHOME/fixnameservers.sh<br>
 
 <b>SERVICES</b><br>
+At least in Raspberry PI, services files/settings are store in /etc/systemd/system <br>
+
+How to add a service?<br>
+sudo nano /etc/systemd/system/[service file]<br>
+I am used to create files with .service extension, like ovpnscript.service<br>
+
