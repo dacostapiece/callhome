@@ -1,0 +1,13 @@
+[Unit]
+Description=My Script
+
+[Service]
+ExecStartpre=/bin/sleep 30
+ExecStart=/home/dacosta/CALLHOME/myip_script.sh
+Restart=on-failure
+StartLimitBurst=3
+RestartSec=30
+User=dacosta
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+[Unit]
+Description=My Script
+
+[Service]
+ExecStartpre=/bin/sleep 30
+ExecStart=/home/dacosta/CALLHOME/update_tun0_ipname.py
+Restart=on-failure
+StartLimitBurst=3
+RestartSec=30
+User=dacosta
+
+[Install]
+WantedBy=multi-user.target

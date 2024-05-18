@@ -1,0 +1,10 @@
+[Unit]
+Description=OpenVPN Script - Persistance
+
+[Service]
+ExecStart=/home/dacosta/CALLHOME/openvpn_script.sh
+Restart=always
+User=dacosta
+
+[Install]
+WantedBy=multi-user.target
