@@ -10,6 +10,6 @@ ls -al fixnameservers.sh<br>
 expected result<br>
 -rwx------ 1 root root 194 mai 13 18:02 fixnameservers.sh<br>
 
-<b>MYIP.PY<b><br>
+<b>MYIP.PY</b><br>
 This script will retrieve tun0 ip address and call send_mail_my_ip_is function to send out an e-mail with this information
 If tun0 has no IP address, it will send out an e-mail with error
