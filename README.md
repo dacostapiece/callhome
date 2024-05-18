@@ -47,6 +47,10 @@ https://developers.cloudflare.com/fundamentals/api/get-started/create-token/<br>
 https://dash.cloudflare.com/profile/api-tokens<br>
 https://developers.cloudflare.com/api/operations/dns-records-for-a-zone-patch-dns-record<br>
 
+Give permission for files to be run<br>
+Example - repeat this process or call chmod +x *.py/chmod +x *.sh on the folder where scripts are stored.<br>
+chmod +x /home/dacosta/CALLHOME/openvpn_script.sh<br>
+
 <b>HOW SCRIPTS ARE CALLED?</b><br>
 Some scripts are call by cronjobs, because they required often calls, some scripts are run by service, wether it runs on starts or only once and other scripts are simply called by others
 
@@ -72,3 +76,16 @@ How to add a service?<br>
 sudo nano /etc/systemd/system/[service file]<br>
 I am used to create files with .service extension, like ovpnscript.service<br>
 
+<b>MANIPULATING SERVICES AFTER CREATION/UPDATE</b><br>
+EXAMPLES<br>
+sudo systemctl enable ovpnscript.service<br>
+sudo systemctl start ovpnscript.service<br>
+sudo systemctl status ovpnscript.service<br>
+sudo systemctl stop ovpnscript.service<br>
+sudo systemctl disable ovpnscript.service<br>
+
+Note: If VPN is connected by this service and you stop it, it will be same as closing a running program.<br>
+
+<b>MYIP.SERVICE</b><br>
+File myip.service<br>
+The service will wait 30 seconds before start, it will call myip_script.sh, it will restart on failure, but only three times, it won't try to run after this. Service will fail as an example, if the VPN isn't connected yet. The service will delay 30 seconds before trying again and it will as regular usar.
