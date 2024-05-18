@@ -1,9 +1,9 @@
 # Mail settings
-mailserver = 'isp07.netstructure.com.br'
+mailserver = 'smtp.gmail.com'
 smtpport = 587
-mailusername = 'soc@snsec.com.br'
-mailpassword = 'Alter@2024/*'
-source_mailaddress = 'soc@snsec.com.br'
-dest_mailaddress = 'infraestrutura@netstructure.com.br'
-mailsubject_success = "MY TUN IP ADDRESS IS: "
+mailusername = 'dacostapiecealerts@gmail.com'
+mailpassword = 'bknd izkv zbhr jogq'
+source_mailaddress = 'dacostapiecealerts@gmail.com'
+dest_mailaddress = 'dacostapiecealerts@gmail.com'
+mailsubject_success = "MY RASP TUN IP SERVICE ADDRESS IS: "
 mailsubject_failed = "VPN Failed"
