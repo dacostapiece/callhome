@@ -1,6 +1,6 @@
 The idea is to called these scripts after a device connects to VPN Server to advertises its tun interface IP address over email.
 
-FIXNAMESERVERS.SH
+FIXNAMESERVERS.SH<br>
 fixnameservers.sh must run as root, therefore
 sudo chown root:root fixnameservers.sh
 sudo chmod 700 fixnameservers.sh
