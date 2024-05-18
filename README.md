@@ -88,4 +88,12 @@ Note: If VPN is connected by this service and you stop it, it will be same as cl
 
 <b>MYIP.SERVICE</b><br>
 File myip.service<br>
-The service will wait 30 seconds before start, it will call myip_script.sh, it will restart on failure, but only three times, it won't try to run after this. Service will fail as an example, if the VPN isn't connected yet. The service will delay 30 seconds before trying again and it will as regular usar.
+The service will wait 30 seconds before start, it will call myip_script.sh, it will restart on failure, but only three times, it won't try to run after this. Service will fail as an example, if the VPN isn't connected yet. The service will delay 30 seconds before trying again and it will as regular user.<br>
+
+<b>OVPNSCRIPT.SERVICE</b><br>
+File ovpnscript.service<br>
+The service will start right away, it will call openvpn_script.sh, always run and it will be run as regular user.<br>
+
+<b>UPDATEDNS.SERVICE</b><br>
+File updatedns.service<br>
+The service will wait 30 seconds before start, it will call update_tun0_ipname.py, it will restart on failure, but only three times, it won't try to run after this. Service will fail as an example, if the VPN isn't connected yet. The service will delay 30 seconds before trying again and it will as regular user.<br>
