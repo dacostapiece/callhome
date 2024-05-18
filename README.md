@@ -47,6 +47,22 @@ https://developers.cloudflare.com/fundamentals/api/get-started/create-token/<br>
 https://dash.cloudflare.com/profile/api-tokens<br>
 https://developers.cloudflare.com/api/operations/dns-records-for-a-zone-patch-dns-record<br>
 
+<b>HOW SCRIPTS ARE CALLED?</b><br>
+Some scripts are call by cronjobs, because they required often calls, some scripts are run by service, wether it runs on starts or only once and other scripts are simply called by others
 
+<b>CRONJOBS</b><br>
+To create/edit cronjobs, type crontab -e - then select your text edit (when crontab -e is called at first time), i am more familiar with nano
 
+type sudo crontab -e to call cronjobs as root user
 
+<b>UPDATE_TUN0_IPNAME.PY CRONJOB</b><br>
+Update FQDN with current IP address at every 5min. It runs as regular raspberry user<br>
+Error outputs are appended to file tmp/update_tun0_ipname.log<br>
+*/5 * * * * /usr/bin/python /home/dacosta/CALLHOME/update_tun0_ipname.py >> /tmp/update_tun0_ipname.log 2>&1<br>
+
+<b>FIXNAMESERVERS.SH</b><br>
+Fix my nameserver settings in /etc/resolv.conf, that's the reason why, this script is run by root<br>
+Scripts run every hour. I don't redirect errors, because the .sh script has already that, i don't know if it's required to do the same in cronjob or it'd be redudant<br>
+0 * * * * /home/dacosta/CALLHOME/fixnameservers.sh<br>
+
+<b>SERVICES</b><br>
