@@ -19,3 +19,6 @@ Shell script that waits 60 secs after reboot (as it's set as startup service) to
 
 <b>OPENVPN_SCRIPT.SH</b><br>
 Script run openvpn - passing creds already
+
+<b>PASS.TXT</b><br>
+OpenVPN Creds
