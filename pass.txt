@@ -1,0 +1,3 @@
+Your VPNS creds in the following format
+domain\username or username
+password
