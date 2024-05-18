@@ -17,6 +17,9 @@ If tun0 has no IP address, it will send out an e-mail with error
 <b>MYIP_SCRIPT.SH</b><br>
 Shell script that waits 60 secs after reboot (as it's set as startup service) to call myip.py - it does also call uptime.py for script troubleshoots - it says when this .sh file was run
 
+<b>UPTIME.PY</b><br>
+myip_script.sh will call uptime.py for script troubleshoots - it says when this myip_script.sh file was run - i believe i was troubleshooting cronjob, i do not recall now
+
 <b>OPENVPN_SCRIPT.SH</b><br>
 Script run openvpn - passing creds already
 
@@ -43,5 +46,7 @@ Other references about Cloudflare settings<br>
 https://developers.cloudflare.com/fundamentals/api/get-started/create-token/<br>
 https://dash.cloudflare.com/profile/api-tokens<br>
 https://developers.cloudflare.com/api/operations/dns-records-for-a-zone-patch-dns-record<br>
+
+
 
 
