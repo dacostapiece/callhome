@@ -13,3 +13,6 @@ expected result<br>
 <b>MYIP.PY</b><br>
 This script will retrieve tun0 ip address and call send_mail_my_ip_is function to send out an e-mail with this information
 If tun0 has no IP address, it will send out an e-mail with error
+
+<br>MYIP_SCRIPT.SH</b><br>
+Shell script that waits 60 secs after reboot (as it's set as startup service) to call myip.py - it does also call uptime.py for script troubleshoots - it says when this .sh file was run
