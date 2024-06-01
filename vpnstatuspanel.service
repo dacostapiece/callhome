@@ -1,0 +1,15 @@
+[Unit]
+Description=My Script
+After=network.target
+
+[Service]
+ExecStartpre=/bin/sleep 30
+ExecStart=/home/dacosta/CALLHOME/update_status_panel.py
+Restart=on-failure
+StartLimitBurst=3
+RestartSec=30
+User=dacosta
+WorkingDirectory=/home/dacosta/CALLHOME
+
+[Install]
+WantedBy=multi-user.target
