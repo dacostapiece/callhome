@@ -29,6 +29,30 @@ OpenVPN Creds
 <b>SENDMAIL.PY</b><br>
 This script works as a module called by my.ip which will receive tun0 IP address for VPN and send it out as email
 
+<b>UPDATE STATUS PANEL</b>
+<b>UPDATE_STATUS_PANEL.PY</b><br>
+This script will retrieve will check if tun0 (VPN) is available and if we are able to ping a remote vpn target, so not only we ensure VPN is active, but it's also working properly.
+
+The main goal is having a way to check wether VPN is working or not over a Web panel.
+
+<b>Logics</b>
+A) If VPN is working, check if there are existing open incidents in Atlassian Status Panel, if there's any, solve that incident, VPN is working.
+B) If VPN is not working, check if there are existing open incidents in Atlassian Status Panel, if there's any, just keep it, VPN is not working.
+C) If VPN is not working, check if there are existing open incidents in Atlassian Status Panel, if there's none, create one, VPN is not working.
+D) If VPN is working, check if there are existing open incidents in Atlassian Status Panel, if there's none, do nothing, VPN is working.
+
+<b>CHECK_INCIDENT_STATUS</b><br>
+This script will retrieve will check if there's any existing unresolved incidents, save the JSON API response to a file and return incident id, if there's any
+
+<b>CREATE_INCIDENT_VPN.py</b><br>
+This script will create an incident, if a failure condition is met.
+
+<b>TUNNEL_CONNECTION.py</b><br>
+This script will check if tun0 is available, which means, OpenVPN is connected and try to ping a real IP address over VPN - to determine wether or not we have connection.
+
+<b>UPDATE_INCIDENT_VPN.py</b><br>
+This script will update an existing incident to solve it.
+
 <b>UPDATE_TUN0_IPNAME.PY</b><br>
 This script will retrieve tun0 IP address and update a FQDN in Cloudflare through API, so we can always reach it back the device over VPN without needing to know its current IP address, neither updating clients settings like SSH, VNC, etc...
 
@@ -64,6 +88,10 @@ Update FQDN with current IP address at every 5min. It runs as regular raspberry 
 Error outputs are appended to file tmp/update_tun0_ipname.log<br>
 */5 * * * * /usr/bin/python /home/dacosta/CALLHOME/update_tun0_ipname.py >> /tmp/update_tun0_ipname.log 2>&1<br>
 
+<b>UPDATE_STATUS_PANEL.PY</b><br>
+Run script to check VPN connection and update status panel accordingly every 05 min.
+*/5 * * * * /usr/bin/python /home/dacosta/CALLHOME/update_status_panel.py >> /tmp/update_status_panel.log 2>&1<br>
+
 <b>FIXNAMESERVERS.SH</b><br>
 Fix my nameserver settings in /etc/resolv.conf, that's the reason why, this script is run by root<br>
 Scripts run every hour. I don't redirect errors, because the .sh script has already that, i don't know if it's required to do the same in cronjob or it'd be redudant<br>
@@ -97,3 +125,7 @@ The service will start right away, it will call openvpn_script.sh, always run an
 <b>UPDATEDNS.SERVICE</b><br>
 File updatedns.service<br>
 The service will wait 30 seconds before start, it will call update_tun0_ipname.py, it will restart on failure, but only three times, it won't try to run after this. Service will fail as an example, if the VPN isn't connected yet. The service will delay 30 seconds before trying again and it will as regular user.<br>
+
+<b>VPNSTATUSPANEL.SERVICE</b><br>
+File vpnstatuspanel.service<br>
+The service will wait 30 seconds before start, it will call update_status_panel.py, it will restart on failure, but only three times, it won't try to run after this. Service will fail as an example, if the VPN isn't connected yet. The service will delay 30 seconds before trying again and it will as regular user. Here we set the WorkingDirectory - not sure if it's required.<br>
