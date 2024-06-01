@@ -31,6 +31,7 @@ This script works as a module called by my.ip which will receive tun0 IP address
 
 <b>UPDATE STATUS PANEL</b>
 <b>UPDATE_STATUS_PANEL.PY</b><br>
+https://dacostapiece.statuspage.io/ <br>
 This script will retrieve will check if tun0 (VPN) is available and if we are able to ping a remote vpn target, so not only we ensure VPN is active, but it's also working properly.
 
 The main goal is having a way to check wether VPN is working or not over a Web panel.
