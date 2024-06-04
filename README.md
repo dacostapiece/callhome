@@ -111,7 +111,7 @@ Scripts run every hour. I don't redirect errors, because the .sh script has alre
 <b>DNS_TEST.PY</b><br>
 Checks wether DNS resolutions is working or not, then call fixnameservers.sh if it does'nt., that's the reason why, this script is run by root, because it will call another own by root file<br>
 Scripts run 05 minutes. I don't redirect errors, because the .sh script has already that, i don't know if it's required to do the same in cronjob or it'd be redudant<br>
-*/5 * * * * /home/dacosta/CALLHOME/dns_test.py >>/tmp/dns_test.log 2&>1<br>
+*/5 * * * * /usr/bin/python /home/dacosta/CALLHOME/dns_test.py >>/tmp/dns_test.log 2&>1<br>
 
 <b>SERVICES</b><br>
 At least in Raspberry PI, services files/settings are store in /etc/systemd/system <br>
