@@ -1,5 +1,15 @@
 The idea is to called these scripts after a device connects to VPN Server to advertises its tun interface IP address over email.
 
+<b>DNS_TEST.PY</b><br>
+dns_test.py must run as root, therefore<br>
+sudo chown root:root dns_test.py<br>
+sudo chmod 700 dns_test.py<br>
+<br>
+<b>check permissions</b><br>
+ls -al dns_test.py<br>
+expected result<br>
+-rwx------ 1 root root 194 mai 13 18:02 dns_test.py<br>
+
 <b>FIXNAMESERVERS.SH</b><br>
 fixnameservers.sh must run as root, therefore<br>
 sudo chown root:root fixnameservers.sh<br>
@@ -97,6 +107,11 @@ Run script to check VPN connection and update status panel accordingly every 05 
 Fix my nameserver settings in /etc/resolv.conf, that's the reason why, this script is run by root<br>
 Scripts run every hour. I don't redirect errors, because the .sh script has already that, i don't know if it's required to do the same in cronjob or it'd be redudant<br>
 0 * * * * /home/dacosta/CALLHOME/fixnameservers.sh<br>
+
+<b>DNS_TEST.PY</b><br>
+Checks wether DNS resolutions is working or not, then call fixnameservers.sh if it does'nt., that's the reason why, this script is run by root, because it will call another own by root file<br>
+Scripts run 05 minutes. I don't redirect errors, because the .sh script has already that, i don't know if it's required to do the same in cronjob or it'd be redudant<br>
+*/5 * * * * /home/dacosta/CALLHOME/dns_test.py >>/tmp/dns_test.log 2&>1<br>
 
 <b>SERVICES</b><br>
 At least in Raspberry PI, services files/settings are store in /etc/systemd/system <br>
