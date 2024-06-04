@@ -5,8 +5,8 @@ Description=My Script
 ExecStartpre=/bin/sleep 30
 ExecStart=/home/dacosta/CALLHOME/myip_script.sh
 Restart=on-failure
-StartLimitBurst=3
-RestartSec=30
+StartLimitBurst=6
+RestartSec=60
 User=dacosta
 
 [Install]
