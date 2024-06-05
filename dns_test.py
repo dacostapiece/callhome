@@ -12,7 +12,7 @@ def test_dns_resolution(hostname='www.google.com'):
         print(f"DNS resolution failed: {e}")
         return False
 
-def call_alternative_script(script_path='fixnameservers.sh'):
+def call_alternative_script(script_path='/home/dacosta/CALLHOME/fixnameservers.sh'):
     try:
         # Call the alternative shell script using subprocess
         result = subprocess.run(['sh', script_path], capture_output=True, text=True)
