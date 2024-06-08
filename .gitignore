@@ -1,3 +1,4 @@
 .env
 pass.txt
 hub.ovpn
+__pycache__
