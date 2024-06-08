@@ -142,6 +142,9 @@ The service will start right away, it will call openvpn_script.sh, always run an
 File updatedns.service<br>
 The service will wait 30 seconds before start, it will call update_tun0_ipname.py, it will restart on failure, but only three times, it won't try to run after this. Service will fail as an example, if the VPN isn't connected yet. The service will delay 30 seconds before trying again and it will as regular user.<br>
 
+<b>__pycache__</b><br>
+Codes are syncing to a place where codes are actually running, this folder is generated from python running
+
 <b>VPNSTATUSPANEL.SERVICE</b><br>
 File vpnstatuspanel.service<br>
 The service will wait 30 seconds before start, it will call update_status_panel.py, it will restart on failure, but only three times, it won't try to run after this. Service will fail as an example, if the VPN isn't connected yet. The service will delay 30 seconds before trying again and it will as regular user. Here we set the WorkingDirectory - not sure if it's required.<br>
