@@ -1,5 +1,5 @@
 from datetime import datetime
-
+#
 # Mail settings
 mailserver = 'smtp.gmail.com'
 smtpport = 587
