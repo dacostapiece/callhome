@@ -18,11 +18,11 @@ mailsubject_failed = "VPN Failed"
 # Remote VPN Target
 vpn_probe_target = os.getenv('vpn_probe_target')
 
-#API General Settings
+#API General Settings - Status Panel
 api_token = os.getenv('api_token')
 page_id = os.getenv('page_id')
 
-#API Create Incident
+#API Create Incident - Status Panel
 name_create_incident = "VPN com falha"
 status_create_incident = "investigating"
 impact_create_incident = "major"
@@ -33,9 +33,16 @@ qxkt2r25bgrk = "major outrage"
 components = {"qxkt2r25bgrk": "major outrage"}
 component_ids = ["qxkt2r25bgrk"]
 
-#API Update Incident
+#API Update Incident - Status Panel
 name_update_incident = "VPN restabelecida"
 status_update_incident = "resolved"
 updated_at_update_incident = f"Falha resolvida em {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
 body_update_incident = "VPN restabelecida"
 
+# Cloudflare API credentials
+CF_API_TOKEN = os.getenv('CF_API_TOKEN')
+
+# Cloudflare Zone ID and DNS record information
+ZONE_ID = os.getenv('ZONE_ID')
+DNS_RECORD_NAME = os.getenv('DNS_RECORD_NAME')
+DNS_RECORD_ID = os.getenv('DNS_RECORD_ID')

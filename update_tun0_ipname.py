@@ -4,14 +4,7 @@ import ipaddress
 import subprocess
 import re
 from datetime import datetime
-
-# Cloudflare API credentials
-CF_API_TOKEN = 'Qv5b8bePRqrJNti0qifoPzLJpyq4NxZD1-nO4xaq'
-
-# Cloudflare Zone ID and DNS record information
-ZONE_ID = '615bfd2ecd68639dab792dbc57a2bdca'
-DNS_RECORD_NAME = 'vpn.dacostapiece.com.br'
-DNS_RECORD_ID = '573460b3c4763fd9b1ca81a7ce01a4d1'
+from config import ZONE_ID, DNS_RECORD_ID, DNS_RECORD_NAME, CF_API_TOKEN
 
 LOG_FILE_PATH = "/tmp/update_tun0_ipname.log"
 
