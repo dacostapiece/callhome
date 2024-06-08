@@ -1,21 +1,26 @@
+from dotenv import load_dotenv
 from datetime import datetime
-#
+import os
+
+# Load environment variables from the .env file
+load_dotenv()
+
 # Mail settings
-mailserver = 'smtp.gmail.com'
-smtpport = 587
-mailusername = 'dacostapiecealerts@gmail.com'
-mailpassword = 'bknd izkv zbhr jogq'
-source_mailaddress = 'dacostapiecealerts@gmail.com'
-dest_mailaddress = 'dacostapiecealerts@gmail.com'
+mailserver = os.getenv('mailserver')
+smtpport = os.getenv('smtpport')
+mailusername = os.getenv('mailusername')
+mailpassword = os.getenv('mailpassword')
+source_mailaddress = os.getenv('source_mailaddress')
+dest_mailaddress = os.getenv('dest_mailaddress')
 mailsubject_success = "MY RASP TUN IP SERVICE ADDRESS IS: "
 mailsubject_failed = "VPN Failed"
 
 # Remote VPN Target
-vpn_probe_target = "10.0.10.1"
+vpn_probe_target = os.getenv('vpn_probe_target')
 
 #API General Settings
-api_token = "2a93dea3212543298c99b5216b0e5e12"
-page_id = "qb7hs0ds4l0d"
+api_token = os.getenv('api_token')
+page_id = os.getenv('page_id')
 
 #API Create Incident
 name_create_incident = "VPN com falha"
