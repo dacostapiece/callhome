@@ -3,7 +3,7 @@ Description=My Script
 After=network.target
 
 [Service]
-ExecStartpre=/bin/sleep 30
+ExecStartPre=/bin/sleep 30
 ExecStart=/home/dacosta/CALLHOME/update_status_panel.py
 Restart=on-failure
 StartLimitBurst=3
