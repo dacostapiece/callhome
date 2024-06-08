@@ -23,6 +23,10 @@ status_create_incident = "investigating"
 impact_create_incident = "major"
 monitoring_at_create_incident = f"Falha registrada em {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
 body_create_incident = "VPN com falha, investigando"
+deliver_notifications_create_incident = True
+qxkt2r25bgrk = "major outrage"
+components = {"qxkt2r25bgrk": "major outrage"}
+component_ids = ["qxkt2r25bgrk"]
 
 #API Update Incident
 name_update_incident = "VPN restabelecida"

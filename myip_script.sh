@@ -1,7 +1,7 @@
 #!/bin/bash
 exec &>>/tmp/myip_script.log
 
-sleep 60
+sleep 120
 
 #Call the Python script
 python /home/dacosta/CALLHOME/myip.py

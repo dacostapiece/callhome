@@ -1,3 +1,2 @@
-Your VPN creds in the following format
-domain\username or username
-password
+rafaelrasp
+Rasp@2023/*

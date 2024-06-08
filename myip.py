@@ -27,9 +27,6 @@ if myIpAddress:
     print("IPv4 Address for", interface, "interface:", myIpAddress)
     send_mail_my_ip_is(myIpAddress)
 
-     # Write the IP address to a file
-    with open('myIpAddress.txt', 'w') as f:
-        f.write(myIpAddress)
 else:
     print("No IPv4 address found for tun interface.")
     send_mail_vpn_failed()

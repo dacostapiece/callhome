@@ -65,7 +65,7 @@ Te960JTzLigYq1F1Tp8t1sS2A5j/Ee16jbg+ZSaq8Q8H//L2HOl7pQJAQ7jJ4oUy
 -----END PRIVATE KEY-----
 </key>
 remote-cert-eku "TLS Web Server Authentication"
-remote 189.125.139.20 843
+remote hub.netstructure.com.br 843
 persist-key
 persist-tun
 verb 3
@@ -78,5 +78,5 @@ reneg-sec 28800
 nobind
 mute-replay-warnings
 auth-user-pass
-;remember_connection 1
+;remember_connection 0
 ;auto_reconnect 1

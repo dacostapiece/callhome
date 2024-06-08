@@ -1,9 +1,7 @@
-#!/usr/bin/env python3
 import requests
 import ipaddress
 import subprocess
 import re
-from datetime import datetime
 
 # Cloudflare API credentials
 CF_API_TOKEN = 'Qv5b8bePRqrJNti0qifoPzLJpyq4NxZD1-nO4xaq'
@@ -12,14 +10,6 @@ CF_API_TOKEN = 'Qv5b8bePRqrJNti0qifoPzLJpyq4NxZD1-nO4xaq'
 ZONE_ID = '615bfd2ecd68639dab792dbc57a2bdca'
 DNS_RECORD_NAME = 'vpn.dacostapiece.com.br'
 DNS_RECORD_ID = '573460b3c4763fd9b1ca81a7ce01a4d1'
-
-LOG_FILE_PATH = "/tmp/update_tun0_ipname.log"
-
-def log_run_time():
-    """Logs the date and time the script was run to the log file."""
-    with open(LOG_FILE_PATH, 'a') as log_file:
-        log_file.write("\n")
-        log_file.write(f"Script run at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 
 # Function to get the IP address from interface tun0
 def get_tun0_ip():
@@ -61,23 +51,35 @@ def update_dns_record(ip):
         response = requests.put(update_url, headers=headers, json=payload)
         if response.status_code == 200 and response.json()['success']:
             print(f"DNS record {DNS_RECORD_NAME} updated successfully with IP address {ip}.")
-            with open(LOG_FILE_PATH, 'a') as log_file:
-                log_file.write(f"DNS record {DNS_RECORD_NAME} updated successfully with IP address {ip}.\n")
         else:
             print("Failed to update DNS record.")
-            with open(LOG_FILE_PATH, 'a') as log_file:
-                log_file.write(f"Failed to update DNS record.\n")
     else:
         print("Failed to fetch DNS record ID.")
         print(response.content)  # Print response content for debugging
-        with open(LOG_FILE_PATH, 'a') as log_file:
-            log_file.write(f"Failed to fetch DNS record ID.\n")
 
 def main():
-    tun0_ip = get_tun0_ip()
-    log_run_time()  # Fixed indentation here
-    if tun0_ip:
-        update_dns_record(tun0_ip)
+	tun0_ip = "4.3.2.1"
+	tun0_ip = get_tun0_ip()
+	if tun0_ip:
+        	update_dns_record(tun0_ip)
 
 if __name__ == "__main__":
     main()
+
+#test API connection
+# curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
+#      -H "Authorization: Bearer NbbXCDnu_FJJ7Af0_NcHsE5DHrnUYSax687H1Pbe" \
+#      -H "Content-Type:application/json"
+
+# #sample command to update dns record in cURL
+# curl --request PATCH \
+#   --url https://api.cloudflare.com/client/v4/zones/615bfd2ecd68639dab792dbc57a2bdca/dns_records/573460b3c4763fd9b1ca81a7ce01a4d1 \
+#   --header 'Content-Type: application/json' \
+#   --header 'Authorization: Bearer Qv5b8bePRqrJNti0qifoPzLJpyq4NxZD1-nO4xaq'\
+#   --data '{
+#   "content": "1.1.1.1",
+#   "name": "vpn.dacostapiece.com.br",
+#   "proxied": false,
+#   "type": "A",
+#   "ttl": 3600
+# }'

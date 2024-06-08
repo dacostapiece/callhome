@@ -1,9 +1,8 @@
-#!/usr/bin/env python3
 import requests
-import ipaddress
 import subprocess
 import re
 from datetime import datetime
+import json
 
 # Cloudflare API credentials
 CF_API_TOKEN = 'Qv5b8bePRqrJNti0qifoPzLJpyq4NxZD1-nO4xaq'
@@ -14,6 +13,7 @@ DNS_RECORD_NAME = 'vpn.dacostapiece.com.br'
 DNS_RECORD_ID = '573460b3c4763fd9b1ca81a7ce01a4d1'
 
 LOG_FILE_PATH = "/tmp/update_tun0_ipname.log"
+API_RESPONSE_FILE = "update_tun0_ipname_response.txt"
 
 def log_run_time():
     """Logs the date and time the script was run to the log file."""
@@ -21,7 +21,6 @@ def log_run_time():
         log_file.write("\n")
         log_file.write(f"Script run at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 
-# Function to get the IP address from interface tun0
 def get_tun0_ip():
     try:
         # Run the Linux command to get the IP address of the tun0 interface
@@ -33,8 +32,6 @@ def get_tun0_ip():
         print("Interface tun0 not found.")
         return None
 
-
-# Function to update DNS record in Cloudflare
 def update_dns_record(ip):
     headers = {
         'Authorization': f'Bearer {CF_API_TOKEN}',
@@ -47,6 +44,8 @@ def update_dns_record(ip):
     }
     response = requests.get(url, headers=headers, params=params)
     data = response.json()
+    with open(API_RESPONSE_FILE, 'w') as response_file:
+        response_file.write(json.dumps(data))  # Save API response to a file
     if response.status_code == 200 and data['success']:
         record_id = data['result'][0]['id']
         update_url = f'{url}/{record_id}'
@@ -74,8 +73,8 @@ def update_dns_record(ip):
             log_file.write(f"Failed to fetch DNS record ID.\n")
 
 def main():
-    tun0_ip = get_tun0_ip()
-    log_run_time()  # Fixed indentation here
+    tun0_ip = "1.1.1.1"
+    log_run_time()
     if tun0_ip:
         update_dns_record(tun0_ip)
 
