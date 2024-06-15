@@ -1,6 +1,9 @@
 .env
 pass.txt
 hub.ovpn
-__pycache__
+__pycache__/
 local_config.py
 test_env_var.py
+*.test
+ANNOTATIONS/
+LOCAL_TEST_VARIABLES

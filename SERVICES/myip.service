@@ -2,7 +2,6 @@
 Description=My Script
 
 [Service]
-ExecStartPre=/bin/sleep 30
 ExecStart=/home/dacosta/CALLHOME/myip_script.sh
 Restart=on-failure
 StartLimitBurst=6

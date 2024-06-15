@@ -1,6 +1,13 @@
 import subprocess
 import re
 from sendmail import send_mail_my_ip_is, send_mail_vpn_failed
+import sys
+
+LOG_FILE = "/tmp/myip.py.log"
+
+def log_message(message):
+    with open(LOG_FILE, "a") as log_file:
+        log_file.write(f"{message}\n")
 
 def get_tun_ipv4_from_ifconfig():
     try:
@@ -26,7 +33,12 @@ interface, myIpAddress = get_tun_ipv4_from_ifconfig()
 if myIpAddress:
     print("IPv4 Address for", interface, "interface:", myIpAddress)
     send_mail_my_ip_is(myIpAddress)
+    log_message("Exiting with code 0 (success)")
+    sys.exit(0) #Sucess
 
 else:
     print("No IPv4 address found for tun interface.")
     send_mail_vpn_failed()
+    log_message("Exiting with code 2 (failure)")
+    sys.exit(2) #Fail
+    
