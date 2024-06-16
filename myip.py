@@ -26,13 +26,32 @@ def get_tun_ipv4_from_ifconfig():
     except Exception as e:
         print("Error:", e)
         return None, None
+    
+#get other interfaces info
+def get_interfaces_ipv4_from_ifconfig():
+    try:
+        # Run the ifconfig command
+        result = subprocess.run(['ifconfig'], capture_output=True, text=True, check=True)
+        output = result.stdout
+
+        if output!="":
+            return output  # Return ifconfig run
+        else:
+            return None, None  # Return None ifconfig run
+    except Exception as e:
+        print("Error:", e)
+        return None, None
 
 # Call the function to get the interface name and IPv4 address associated with "tun" interface
 interface, myIpAddress = get_tun_ipv4_from_ifconfig()
+ifconfig_run = get_interfaces_ipv4_from_ifconfig()
 
 if myIpAddress:
     print("IPv4 Address for", interface, "interface:", myIpAddress)
-    send_mail_my_ip_is(myIpAddress)
+    print("\n")
+    print("Full Ifconfig below:")
+    print(ifconfig_run)
+    send_mail_my_ip_is(myIpAddress,ifconfig_run)
     log_message("Exiting with code 0 (success)")
     sys.exit(0) #Sucess
 
