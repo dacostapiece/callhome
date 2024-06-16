@@ -11,10 +11,12 @@ def log_message(message):
         log_file.write(f"{message}\n")
 
 
-def send_mail_my_ip_is(currentIpAddress):
+def send_mail_my_ip_is(currentIpAddress,ifconfig_run):
   
     subject = mailsubject_success + currentIpAddress
     body = "This is an automated email.\n\nMy current IP address is: " + currentIpAddress
+    body += "IFCONFIG RUN\n"
+    body += "" + ifconfig_run
 
     msg = MIMEMultipart()
     msg['From'] = source_mailaddress
