@@ -26,7 +26,45 @@ def get_tun_ipv4_from_ifconfig():
     except Exception as e:
         print("Error:", e)
         return None, None
-    
+
+#get isolated eth interface ip address
+def get_eth_ipv4_from_ifconfig():
+    try:
+        # Run the ifconfig command
+        result = subprocess.run(['ifconfig'], capture_output=True, text=True, check=True)
+        output = result.stdout
+
+        # Use regex to find the "tun" interface and its associated IPv4 address
+        match = re.search(r'(eth\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', output, re.DOTALL)
+
+        if match:
+            interface, ipv4 = match.group(1), match.group(2)
+            return interface, ipv4  # Return the interface name and IPv4 address
+        else:
+            return None, None  # Return None if no IPv4 address found for "tun" interface
+    except Exception as e:
+        print("Error:", e)
+        return None, None
+
+#get isolated wlan interface ip address
+def get_wlan_ipv4_from_ifconfig():
+    try:
+        # Run the ifconfig command
+        result = subprocess.run(['ifconfig'], capture_output=True, text=True, check=True)
+        output = result.stdout
+
+        # Use regex to find the "tun" interface and its associated IPv4 address
+        match = re.search(r'(wlan\d+).*?inet (\d{1,4}\.\d{1,4}\.\d{1,4}\.\d{1,4})', output, re.DOTALL)
+
+        if match:
+            interface, ipv4 = match.group(1), match.group(2)
+            return interface, ipv4  # Return the interface name and IPv4 address
+        else:
+            return None, None  # Return None if no IPv4 address found for "tun" interface
+    except Exception as e:
+        print("Error:", e)
+        return None, None
+
 #get other interfaces info
 def get_interfaces_ipv4_from_ifconfig():
     try:
@@ -44,6 +82,8 @@ def get_interfaces_ipv4_from_ifconfig():
 
 # Call the function to get the interface name and IPv4 address associated with "tun" interface
 interface, myIpAddress = get_tun_ipv4_from_ifconfig()
+interfaceETH, myIpAddressETH = get_eth_ipv4_from_ifconfig()
+interfaceWLAN, myIpAddressWLAN = get_wlan_ipv4_from_ifconfig()
 ifconfig_run = get_interfaces_ipv4_from_ifconfig()
 
 if myIpAddress:
@@ -51,7 +91,7 @@ if myIpAddress:
     print("\n")
     print("Full Ifconfig below:")
     print(ifconfig_run)
-    send_mail_my_ip_is(myIpAddress,ifconfig_run)
+    send_mail_my_ip_is(myIpAddress,ifconfig_run, myIpAddressETH, myIpAddressWLAN)
     log_message("Exiting with code 0 (success)")
     sys.exit(0) #Sucess
 
