@@ -1,0 +1,12 @@
+[Unit]
+Description=AutoSSH Tunnel Service
+After=network.target
+
+[Service]
+ExecStart=/home/dacosta/CALLHOME/autossh_script.py
+User=dacosta
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
