@@ -73,11 +73,6 @@ def get_interfaces_ipv4_from_ifconfig():
         output = result.stdout
 
         if output!="":
-            # Save response to a file
-            with open("ifconfig.txt", "w") as file:
-                file.write(output)
-                print("Current ifconfig stored to ifconfig.txt")
-
             return output  # Return ifconfig run
         else:
             return None, None  # Return None ifconfig run
@@ -91,22 +86,18 @@ interfaceETH, myIpAddressETH = get_eth_ipv4_from_ifconfig()
 interfaceWLAN, myIpAddressWLAN = get_wlan_ipv4_from_ifconfig()
 ifconfig_run = get_interfaces_ipv4_from_ifconfig()
 
+if myIpAddress:
+    print("IPv4 Address for", interface, "interface:", myIpAddress)
+    print("\n")
+    print("Full Ifconfig below:")
+    print(ifconfig_run)
+    send_mail_my_ip_is(myIpAddress,ifconfig_run, myIpAddressETH, myIpAddressWLAN)
+    log_message("Exiting with code 0 (success)")
+    sys.exit(0) #Sucess
 
-def runMyIpAddress():
+else:
+    print("No IPv4 address found for tun interface.")
+    send_mail_vpn_failed()
+    log_message("Exiting with code 2 (failure)")
+    sys.exit(2) #Fail
     
-    if myIpAddress:
-        print("IPv4 Address for", interface, "interface:", myIpAddress)
-        print("\n")
-        print("Full Ifconfig below:")
-        print(ifconfig_run)
-        send_mail_my_ip_is(myIpAddress,ifconfig_run, myIpAddressETH, myIpAddressWLAN)
-        log_message("Exiting with code 0 (success)")
-
-    else:
-        print("No IPv4 address found for tun interface.")
-        send_mail_vpn_failed()
-        log_message("Exiting with code 2 (failure)")
-        sys.exit(2) #Fail
-
-if __name__ == "__main__":
-    runMyIpAddress()

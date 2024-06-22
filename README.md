@@ -1,3 +1,7 @@
+<b>RFE</b><br>
+1) Enable hotspot if no LAN or WLAN is unavailable<br>
+2) Start Webserver to receive SSID and password creds to login to neighbouring SSID
+
 The idea is to called these scripts after a device connects to VPN Server to advertises its tun interface IP address over email.
 
 <b>DNS_TEST.PY</b><br>
