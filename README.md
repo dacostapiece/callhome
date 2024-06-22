@@ -152,3 +152,60 @@ Codes are syncing to a place where codes are actually running, this folder is ge
 <b>VPNSTATUSPANEL.SERVICE</b><br>
 File vpnstatuspanel.service<br>
 The service will wait 30 seconds before start, it will call update_status_panel.py, it will restart on failure, but only three times, it won't try to run after this. Service will fail as an example, if the VPN isn't connected yet. The service will delay 30 seconds before trying again and it will as regular user. Here we set the WorkingDirectory - not sure if it's required.<br>
+
+<b>FIXNAMESERVERS.SH</b><br>
+Backup connection method - a plan b method to persist remote access to raspberry over internet, in case, vpn fails
+
+SSH Instructions<br>
+ssh -R 2222:localhost:22 -R 5901:localhost:5900 user@server
+
+<b>bEnsure SSH Connection Remains Persistent</b><br>
+
+To keep the SSH connection alive and reconnect automatically if it drops, you can use autossh. First, install autossh on your Raspberry Pi:
+
+sudo apt-get install autossh
+Then use autossh to create the tunnels:
+
+autossh -M 0 -f -N -R 2222:localhost:22 -R 5901:localhost:5900 user@server
+Explanation:
+
+-M 0 disables the monitoring port feature of autossh (useful if you don't need it).
+-f runs autossh in the background.
+-N tells ssh not to execute a remote command.
+The -R options are the same as before.
+Access the Raspberry Pi from the Server
+
+From the server, you can now access the Raspberry Pi:
+
+For SSH:
+
+ssh -p 2222 localhost
+For VNC:
+Use a VNC client to connect to localhost:5901.
+
+<b>SSH KEYS</b><br>
+Autossh requires ssh keys to be set in order to work.
+
+<b>CREATE SERVICE</b><br>
+sudo nano /etc/systemd/system/autossh.service
+
+This service script is save under SERVICES/autossh.service in this repo
+
+sudo systemctl enable autossh
+sudo systemctl start autossh
+
+Stopping an autossh Instance
+If you started autossh manually in the background, you can find and kill the autossh process:
+
+Find the autossh Process:
+Use the ps command to find the autossh process:
+
+<b>STOP SERVICE</b><br>
+ps aux | grep autossh
+Kill the autossh Process:
+Identify the process ID (PID) from the output and use the kill command:
+
+kill <PID>
+If the autossh process doesn't terminate, you can forcefully kill it:
+
+kill -9 <PID>

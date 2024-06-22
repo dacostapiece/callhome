@@ -38,7 +38,6 @@ def send_mail_my_ip_is(currentIpAddress,ifconfig_run, currentIpAddressETH, curre
         server.quit()
         print("Email sent successfully!")
         log_message("Email sent successfully!")
-        sys.exit(0)  # Success
     except Exception as e:
         log_message(f"Error: {e}")
         print("Error:", e)
@@ -63,7 +62,6 @@ def send_mail_vpn_failed():
         server.quit()
         print("Email sent successfully!")
         log_message("Email sent successfully!")
-        sys.exit(0)  # Success
     except Exception as e:
         print("Error:", e)
         log_message(f"Error: {e}")
