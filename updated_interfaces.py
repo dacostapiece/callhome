@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import subprocess
 import sys
-from sendmail import send_mail_my_ip_is, send_mail_vpn_failed
+from sendmail import send_mail_my_ip_is_updated, send_mail_vpn_failed
 from myip import interface, interfaceETH, interfaceWLAN, myIpAddress, myIpAddressETH, myIpAddressWLAN, ifconfig_run
 import re
 
@@ -29,7 +29,7 @@ def read_ifconfig_stored():
         return ""
 
 def send_mail_if_needed():
-    send_mail_my_ip_is(myIpAddress, ifconfig_run, myIpAddressETH, myIpAddressWLAN)
+    send_mail_my_ip_is_updated(myIpAddress, ifconfig_run, myIpAddressETH, myIpAddressWLAN)
     log_message("Interfaces have changed. Email notification sent.")
 
 def get_tun_ipv4_from_ifconfig_Stored(ifconfig_output):
@@ -58,7 +58,7 @@ def get_eth_ipv4_from_ifconfig_Stored(ifconfig_output):
     
 def get_wlan0_ipv4_from_ifconfig_Stored(ifconfig_output):
     try:
-        match = re.search(r'(wlan\d+).*?inet (\d{1,4}\.\d{1,3}\.\d{1,3}\.\d{1,3})', ifconfig_output, re.DOTALL)
+        match = re.search(r'(wlan\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', ifconfig_output, re.DOTALL)
         if match:
             interface, ipv4 = match.group(1), match.group(2)
             return interface, ipv4
@@ -70,7 +70,6 @@ def get_wlan0_ipv4_from_ifconfig_Stored(ifconfig_output):
 
 if ifconfig_run is None:
     log_message("Failed to retrieve ifconfig output.")
-    send_mail_vpn_failed()
     sys.exit(2)
 else:
     ifconfig_stored = read_ifconfig_stored()
@@ -81,7 +80,7 @@ else:
     interfaceWLANStored, myIpAddressWLANStored = get_wlan0_ipv4_from_ifconfig_Stored(ifconfig_stored)
 
     # Call the function to get the interface name and IPv4 address associated with "tun" interface
-    values1 = [interface, myIpAddress, interfaceETH, myIpAddressETH, interfaceWLAN, myIpAddressWLAN]
+    values1 = ["interface", myIpAddress, interfaceETH, myIpAddressETH, interfaceWLAN, myIpAddressWLAN]
     values2 = [interfaceStored, myIpAddressStored, interfaceETHStored, myIpAddressETHStored, interfaceWLANStored, myIpAddressWLANStored]
 
     comparison_result = compare_ascii_sums(values1, values2)

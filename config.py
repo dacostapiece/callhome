@@ -13,6 +13,7 @@ mailpassword = os.getenv('mailpassword')
 source_mailaddress = os.getenv('source_mailaddress')
 dest_mailaddress = os.getenv('dest_mailaddress')
 mailsubject_success = "MY RASP IP ADDRESSES ARE: "
+mailsubject_success_updated = "MY UPDATED RASP IP ADDRESSES ARE: "
 mailsubject_failed = "VPN Failed"
 
 # Remote VPN Target

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Redirect all output to the log file
-exec &>>/tmp/myip_script.log
+exec 2>>/tmp/myip_script.log
 
 # Call the Python script myip.py and check its exit code
 python /home/dacosta/CALLHOME/myip.py
@@ -12,4 +12,5 @@ if [ $exit_code_myip -ne 0 ]; then
 fi
 
 # If the script succeeds, exit with code 0
+echo "$(date): myip.py WORKED with exit code $exit_code_myip"
 exit 0
