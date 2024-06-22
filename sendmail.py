@@ -68,7 +68,7 @@ def send_mail_my_ip_is_updated(currentIpAddress,ifconfig_run, currentIpAddressET
         server.sendmail(source_mailaddress, dest_mailaddress, text)
 
         server.quit()
-        print("Email sent successfully!")
+        print("Update mail sent successfully!")
         log_message("Email sent successfully!")
     except Exception as e:
         log_message(f"Error: {e}")
