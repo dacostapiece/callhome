@@ -42,21 +42,19 @@ def get_tun_ipv4_from_ifconfig():
             return interface_name, ip_address
         else:
             print(f"No matching interface found with an IPv4 address.")
-            return "interface not connect", "None"
+            return None, None
     except subprocess.CalledProcessError:
         print("Error: Command 'ip addr show' failed.")
-        sys.exit(2) #Fail
         return None, None
     except Exception as e:
         print(f"Error occurred: {str(e)}")
-        sys.exit(2) #Fail
         return None, None
 
 #GET CURRENT ETH IP ADDRESS
 def get_eth_ipv4_from_ifconfig():
     try:
         # Run the Linux command to get all interface information
-        output = subprocess.check_output(["ip", "addr", "show", "eth0"]).decode("utf-8")
+        output = subprocess.check_output(["ip", "addr", "show"]).decode("utf-8")
         
         # Define regex pattern based on interface_type
         match = re.search(r'(eth\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', output, re.DOTALL)
@@ -66,8 +64,8 @@ def get_eth_ipv4_from_ifconfig():
             ip_address = match.group(2)
             return interface_name, ip_address
         else:
-            print(f"No matching eth interface found with an IPv4 address.")
-            return "interface not connect", "None"
+            print(f"No matching interface found with an IPv4 address.")
+            return None, None
     except subprocess.CalledProcessError:
         print("Error: Command 'ip addr show' failed.")
         return None, None
@@ -79,7 +77,7 @@ def get_eth_ipv4_from_ifconfig():
 def get_wlan_ipv4_from_ifconfig():
     try:
         # Run the Linux command to get all interface information
-        output = subprocess.check_output(["ip", "addr", "show", "wlan0"]).decode("utf-8")
+        output = subprocess.check_output(["ip", "addr", "show"]).decode("utf-8")
         
         # Define regex pattern based on interface_type
         match = re.search(r'(wlan\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', output, re.DOTALL)
@@ -93,35 +91,66 @@ def get_wlan_ipv4_from_ifconfig():
             return None, None
     except subprocess.CalledProcessError:
         print("Error: Command 'ip addr show' failed.")
-        return "interface not connect", "None"
+        return None, None
     except Exception as e:
         print(f"Error occurred: {str(e)}")
         return None, None
-    
-#update ipadd.txt to current interfaces info after comparison
-def update_get_interfaces_ipv4_from_ifconfig():
-    try:
-        # Run the ifconfig command
-        result = subprocess.check_output(["ip", "addr", "show"]).decode("utf-8")
-        output = result.stdout
 
-        if output!="":
-                        # Save response to a file
-            with open("ipadd.txt", "w") as file:
-                file.write(output)
-                print("Updated ipadd stored to ipadd.txt")
-            return output  # Return ifconfig run
-        else:
-            return None, None  # Return None ifconfig run
+print("ifconfig run")    
+a=get_tun_ipv4_from_ifconfig()
+b=get_eth_ipv4_from_ifconfig()
+c=get_wlan_ipv4_from_ifconfig()
+print(a)
+print(b)
+print(c)
+
+#NEW PATTERN
+def get_interface_ipv4(interface_pattern):
+    try:
+        # Run the Linux command to get all interface information
+        output = subprocess.check_output(["ip", "addr", "show"]).decode("utf-8")
+        
+        # Debug: Print the output to verify
+        #print(output)
+
+        # Define regex pattern to find interfaces and IP addresses
+        interface_pattern = rf'(\d+):\s({interface_pattern}):.*?state\s(\w+).*?inet\s(\d{{1,3}}\.\d{{1,3}}\.\d{{1,3}}\.\d{{1,3}})/\d+'
+        matches = re.findall(interface_pattern, output, re.DOTALL)
+        
+        # Debug: Print matches to verify
+        #print(matches)
+        
+        # Loop through matches to find the first UP interface with an IP address
+        for _, interface, state, ip_address in matches:
+            if state != 'UNKNOWN' and state == 'UP' and ip_address != "127.0.0.1":
+                return interface, ip_address
+        
+        return interface, " this interface is not up"
+    except subprocess.CalledProcessError:
+        print("Error: Command 'ip addr show' failed.")
+        return None, None
     except Exception as e:
-        print("Error:", e)
+        print(f"Error occurred: {str(e)}")
         return None, None
 
+def get_eth_ipv4():
+    return get_interface_ipv4('eth\\d+')
+
+def get_wlan_ipv4():
+    return get_interface_ipv4('wlan\\d+')
+
+def get_tun_ipv4():
+    return get_interface_ipv4('tun\\d+')
+
+# Example usage:
+interface, myIpAddress = get_tun_ipv4()
+interfaceETH, myIpAddressETH = get_eth_ipv4()
+interfaceWLAN, myIpAddressWLAN = get_wlan_ipv4()
 
 #GET VARIABLES
-interface, myIpAddress = get_tun_ipv4_from_ifconfig()
-interfaceETH, myIpAddressETH = get_eth_ipv4_from_ifconfig()
-interfaceWLAN, myIpAddressWLAN = get_wlan_ipv4_from_ifconfig()
+# interface, myIpAddress = get_tun_ipv4_from_ifconfig()
+# interfaceETH, myIpAddressETH = get_eth_ipv4_from_ifconfig()
+# interfaceWLAN, myIpAddressWLAN = get_wlan_ipv4_from_ifconfig()
 ifconfig_run = get_interfaces_ipv4_from_ifconfig()
 
 #SUM ASCII CHAR FOR LATER COMPARISON
@@ -145,8 +174,9 @@ def read_ifconfig_stored():
         with open(IFCONFIG_FILE, "r") as f:
             return f.read()
     except FileNotFoundError:
-        log_message(f"{IFCONFIG_FILE} not found. Assuming this is the first run.")
-        return ""
+        Failed_Run_Message = " not found. myip.py didn't save run initial for some reason."
+        log_message(f"{IFCONFIG_FILE}"+Failed_Run_Message)
+        return f"{IFCONFIG_FILE}"+Failed_Run_Message
 
 #SEND MAIL IF IPs HAVE CHANGED
 def send_mail_if_needed():
@@ -155,9 +185,9 @@ def send_mail_if_needed():
     log_message("Interfaces have changed. Email notification sent.")
 
 #READ STORED TUN INFO
-def get_tun_ipv4_from_ifconfig_Stored(ifconfig_output):
+def get_tun_ipv4_from_ifconfig_Stored(ifconfig_stored):
     try:
-        match = re.search(r'(tun\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', ifconfig_output, re.DOTALL)
+        match = re.search(r'(tun\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', ifconfig_stored, re.DOTALL)
         if match:
             interface, ipv4 = match.group(1), match.group(2)
             return interface, ipv4
@@ -168,9 +198,9 @@ def get_tun_ipv4_from_ifconfig_Stored(ifconfig_output):
         return None, None
 
 #READ STORED ETH0 INFO
-def get_eth_ipv4_from_ifconfig_Stored(ifconfig_output):
+def get_eth_ipv4_from_ifconfig_Stored(ifconfig_stored):
     try:
-        match = re.search(r'(eth\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', ifconfig_output, re.DOTALL)
+        match = re.search(r'(eth\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', ifconfig_stored, re.DOTALL)
         if match:
             interface, ipv4 = match.group(1), match.group(2)
             return interface, ipv4
@@ -181,9 +211,9 @@ def get_eth_ipv4_from_ifconfig_Stored(ifconfig_output):
         return None, None
     
 #READ STORED WLAN INFO
-def get_wlan0_ipv4_from_ifconfig_Stored(ifconfig_output):
+def get_wlan0_ipv4_from_ifconfig_Stored(ifconfig_stored):
     try:
-        match = re.search(r'(wlan\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', ifconfig_output, re.DOTALL)
+        match = re.search(r'(wlan\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', ifconfig_stored, re.DOTALL)
         if match:
             interface, ipv4 = match.group(1), match.group(2)
             return interface, ipv4
@@ -214,7 +244,7 @@ def update_get_interfaces_ipv4_from_ifconfig():
 
 #STARTS CHECKING NETWORK INFO FOR COMPARISON
 if ifconfig_run is None:
-    log_message("Failed to retrieve ipadd output.")
+    log_message("Failed to retrieve current ip addr show.")
     sys.exit(2)
 else:
     ifconfig_stored = read_ifconfig_stored()
@@ -230,9 +260,37 @@ else:
 
     comparison_result = compare_ascii_sums(currentNetworkInfo, storedNetworkInfo)
 
+    print("\n")
+    print("ifconfig stored")    
+    a=get_tun_ipv4_from_ifconfig_Stored(ifconfig_stored)
+    b=get_eth_ipv4_from_ifconfig_Stored(ifconfig_stored)
+    c=get_wlan0_ipv4_from_ifconfig_Stored(ifconfig_stored)
+    print(a)
+    print(b)
+    print(c)
+
     if comparison_result != True:
         send_mail_if_needed()
         #update_get_interfaces_ipv4_from_ifconfig()
     else:
         print("Sem alterações de IP nas placas mais importantes.")
         None
+
+
+# def ping_ip_address(stored_ip_address):
+#     try:
+#         # Run the ping command with 1 packet to check if the IP is reachable
+#         result = subprocess.run(["ping", "-c", "1", stored_ip_address], capture_output=True, text=True)
+        
+#         # Check the return code to determine if the ping was successful
+#         if result.returncode == 0:
+#             return stored_ip_address
+#         else:
+#             return f"This {stored_ip_address} IP is not responding locally."
+#     except Exception as e:
+#         return f"An error occurred: {str(e)}"
+
+# # Example usage:
+# stored_ip = myIpAddressETHStored
+# result = ping_ip_address(stored_ip)
+# print(result)
