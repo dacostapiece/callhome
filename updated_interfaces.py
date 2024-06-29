@@ -27,8 +27,39 @@ def get_interfaces_ipv4_from_ifconfig():
         print("Error:", e)
         return None  # Return None on any other exception
 
+#FIX NONE HERE
+
+#GET CURRENT IP FOR WLAN AND ETH0
+def get_interface_ipv4(interface_pattern):
+    try:
+        # Run the Linux command to get all interface information
+        output = subprocess.check_output(["ip", "addr", "show"]).decode("utf-8")
+        
+        # Debug: Print the output to verify
+        #print(output)
+
+        # Define regex pattern to find interfaces and IP addresses
+        interface_pattern = rf'(\d+):\s({interface_pattern}):.*?state\s(\w+).*?inet\s(\d{{1,3}}\.\d{{1,3}}\.\d{{1,3}}\.\d{{1,3}})/\d+'
+        matches = re.findall(interface_pattern, output, re.DOTALL)
+        
+        # Debug: Print matches to verify
+        #print(matches)
+        
+        # Loop through matches to find the first UP interface with an IP address
+        for _, interface, state, ip_address in matches:
+            if state == 'UP' and ip_address != "127.0.0.1":
+                return interface, ip_address
+        
+        return None, None
+    except subprocess.CalledProcessError:
+        print("Error: Command 'ip addr show' failed.")
+        return None, None
+    except Exception as e:
+        print(f"Error occurred: {str(e)}")
+        return None, None
+
 #GET CURRENT tun IP ADDRESS
-def get_tun_ipv4_from_ifconfig():
+def get_tun_interface_ipv4():
     try:
         # Run the Linux command to get all interface information
         output = subprocess.check_output(["ip", "addr", "show"]).decode("utf-8")
@@ -50,97 +81,34 @@ def get_tun_ipv4_from_ifconfig():
         print(f"Error occurred: {str(e)}")
         return None, None
 
-#GET CURRENT ETH IP ADDRESS
-def get_eth_ipv4_from_ifconfig():
-    try:
-        # Run the Linux command to get all interface information
-        output = subprocess.check_output(["ip", "addr", "show"]).decode("utf-8")
-        
-        # Define regex pattern based on interface_type
-        match = re.search(r'(eth\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', output, re.DOTALL)
-                
-        if match:
-            interface_name = match.group(1)
-            ip_address = match.group(2)
-            return interface_name, ip_address
-        else:
-            print(f"No matching interface found with an IPv4 address.")
-            return None, None
-    except subprocess.CalledProcessError:
-        print("Error: Command 'ip addr show' failed.")
-        return None, None
-    except Exception as e:
-        print(f"Error occurred: {str(e)}")
-        return None, None
+def get_tun_ipv4():
+    getValue = get_tun_interface_ipv4()
+    if getValue != (None, None):
+        return get_tun_interface_ipv4()
+    else:
+        return "None TUN iface", "None TUN ip"
 
-#GET CURRENT WLAN IP ADDRESS
-def get_wlan_ipv4_from_ifconfig():
-    try:
-        # Run the Linux command to get all interface information
-        output = subprocess.check_output(["ip", "addr", "show"]).decode("utf-8")
-        
-        # Define regex pattern based on interface_type
-        match = re.search(r'(wlan\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', output, re.DOTALL)
-                
-        if match:
-            interface_name = match.group(1)
-            ip_address = match.group(2)
-            return interface_name, ip_address
-        else:
-            print(f"No matching wlan interface found with an IPv4 address.")
-            return None, None
-    except subprocess.CalledProcessError:
-        print("Error: Command 'ip addr show' failed.")
-        return None, None
-    except Exception as e:
-        print(f"Error occurred: {str(e)}")
-        return None, None
+def get_eth_ipv4():
+    getValue = get_interface_ipv4('eth\\d+')
+    if getValue !=  (None, None):
+        return get_interface_ipv4('eth\\d+')
+    else:
+        return "None ETH iface", "None ETH ip"
+
+def get_wlan_ipv4():
+    getValue = get_interface_ipv4('wlan\\d+')
+    if getValue !=  (None, None):
+        return get_interface_ipv4('wlan\\d+')
+    else:
+        return "None WLAN iface", "None WLAN ip"
 
 print("ifconfig run")    
-a=get_tun_ipv4_from_ifconfig()
-b=get_eth_ipv4_from_ifconfig()
-c=get_wlan_ipv4_from_ifconfig()
+a=get_tun_ipv4()
+b=get_eth_ipv4()
+c=get_wlan_ipv4()
 print(a)
 print(b)
 print(c)
-
-#NEW PATTERN
-def get_interface_ipv4(interface_pattern):
-    try:
-        # Run the Linux command to get all interface information
-        output = subprocess.check_output(["ip", "addr", "show"]).decode("utf-8")
-        
-        # Debug: Print the output to verify
-        #print(output)
-
-        # Define regex pattern to find interfaces and IP addresses
-        interface_pattern = rf'(\d+):\s({interface_pattern}):.*?state\s(\w+).*?inet\s(\d{{1,3}}\.\d{{1,3}}\.\d{{1,3}}\.\d{{1,3}})/\d+'
-        matches = re.findall(interface_pattern, output, re.DOTALL)
-        
-        # Debug: Print matches to verify
-        #print(matches)
-        
-        # Loop through matches to find the first UP interface with an IP address
-        for _, interface, state, ip_address in matches:
-            if state != 'UNKNOWN' and state == 'UP' and ip_address != "127.0.0.1":
-                return interface, ip_address
-        
-        return interface, " this interface is not up"
-    except subprocess.CalledProcessError:
-        print("Error: Command 'ip addr show' failed.")
-        return None, None
-    except Exception as e:
-        print(f"Error occurred: {str(e)}")
-        return None, None
-
-def get_eth_ipv4():
-    return get_interface_ipv4('eth\\d+')
-
-def get_wlan_ipv4():
-    return get_interface_ipv4('wlan\\d+')
-
-def get_tun_ipv4():
-    return get_interface_ipv4('tun\\d+')
 
 # Example usage:
 interface, myIpAddress = get_tun_ipv4()
@@ -162,7 +130,7 @@ def compare_ascii_sums(currentNetworkInfo, storedNetworkInfo):
     sum1 = sum(sum_ascii_values(value) for value in currentNetworkInfo)
     sum2 = sum(sum_ascii_values(value) for value in storedNetworkInfo)
     return sum1 == sum2
-
+    
 #OUTPUT LOG MESSAGE
 def log_message(message):
     with open(LOG_FILE, "a") as log_file:
@@ -255,7 +223,7 @@ else:
     interfaceWLANStored, myIpAddressWLANStored = get_wlan0_ipv4_from_ifconfig_Stored(ifconfig_stored)
 
     # Call the function to get the interface name and IPv4 address associated with "tun" interface
-    currentNetworkInfo = ['interface', myIpAddress, interfaceETH, myIpAddressETH, interfaceWLAN, myIpAddressWLAN]
+    currentNetworkInfo = [interface, myIpAddress, interfaceETH, myIpAddressETH, interfaceWLAN, myIpAddressWLAN]
     storedNetworkInfo = [interfaceStored, myIpAddressStored, interfaceETHStored, myIpAddressETHStored, interfaceWLANStored, myIpAddressWLANStored]
 
     comparison_result = compare_ascii_sums(currentNetworkInfo, storedNetworkInfo)
