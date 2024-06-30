@@ -16,6 +16,7 @@ logging.basicConfig(filename='/tmp/autossh_script_nivel2.log', level=logging.INF
 # Define the status string to check (adjust for different languages/environment)
 check_status_string # Change as needed for different languages/environment
 
+#THIS FUNCTION IS NOT BEING CALLED - REVIEW
 def is_ssh_tunnel_active(host, port):
     """ Check if the SSH tunnel is active by attempting a connection. """
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -81,9 +82,9 @@ def check_ssh_tunnel(ip_address, log_file, status_string):
         if re.search(rf'{re.escape(ip_address)}:22\s+{status_string}', netstat_output):
             print(f"SSH tunnel to {ip_address}:22 is established.")
             log_error(f"SSH tunnel to {ip_address}:22 is established.")
-            sys.exit(0)
         else:
             print(f"SSH tunnel to {ip_address}:22 is not established.")
+            print("\ncheck_ssh_tunnel loop")
             log_error(f"SSH tunnel to {ip_address}:22 is not established.")
             sys.exit(2)
 
@@ -105,7 +106,7 @@ def log_error(message):
 # Main script logic
 if __name__ == "__main__":
     # Resolve DNS to get SSH server IP address
-    ssh_server_ip = resolve_dns(ssh_server)
+    #ssh_server_ip = resolve_dns(ssh_server)
 
     # Construct the autossh command
     autossh_command = f'autossh {ssh_options} {ssh_username}@{ssh_server}'
@@ -117,7 +118,8 @@ if __name__ == "__main__":
     start_autossh(autossh_command, log_file)
 
     # Check SSH tunnel status
-    check_ssh_tunnel(ssh_server_ip, log_file, check_status_string)
+    # check_ssh_tunnel(ssh_server_ip, log_file, check_status_string)
+    check_ssh_tunnel(ssh_server, log_file, check_status_string)
 
 
 

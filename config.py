@@ -54,4 +54,5 @@ ssh_server = os.getenv('SSH_SERVER')
 ssh_options = os.getenv('SSH_OPTIONS')
 
 check_status_string = 'ESTABELECIDA'  # Change as needed for different languages/environment
+#check_status_string = 'established'  # Change as needed for different languages/environment
 check_interval = 60
