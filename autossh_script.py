@@ -16,7 +16,6 @@ logging.basicConfig(filename='/tmp/autossh_script_nivel2.log', level=logging.INF
 # Define the status string to check (adjust for different languages/environment)
 check_status_string # Change as needed for different languages/environment
 
-#THIS FUNCTION IS NOT BEING CALLED - REVIEW
 def is_ssh_tunnel_active(host, port):
     """ Check if the SSH tunnel is active by attempting a connection. """
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -46,7 +45,15 @@ def restart_autossh():
         logging.error(f"Failed to start autossh: {e}")
 
 def resolve_dns(hostname):
-    """ Resolve DNS hostname to IP address. """
+    """ Resolve DNS hostname to IP address or return if already an IP address. """
+    # Regular expression to match IPv4 addresses
+    ipv4_pattern = re.compile(r"^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$")
+    
+    # Check if the hostname is an IPv4 address
+    if ipv4_pattern.match(hostname):
+        return hostname  # Return the IPv4 address as is
+    
+    # If not an IPv4 address, resolve the DNS hostname to an IP address
     try:
         ip_address = socket.gethostbyname(hostname)
         return ip_address
@@ -84,7 +91,7 @@ def check_ssh_tunnel(ip_address, log_file, status_string):
             log_error(f"SSH tunnel to {ip_address}:22 is established.")
         else:
             print(f"SSH tunnel to {ip_address}:22 is not established.")
-            print("\ncheck_ssh_tunnel loop")
+            print("\ncheck_ssh_tunnel loop - else")
             log_error(f"SSH tunnel to {ip_address}:22 is not established.")
             sys.exit(2)
 
@@ -106,7 +113,7 @@ def log_error(message):
 # Main script logic
 if __name__ == "__main__":
     # Resolve DNS to get SSH server IP address
-    #ssh_server_ip = resolve_dns(ssh_server)
+    ssh_server_ip = resolve_dns(ssh_server)
 
     # Construct the autossh command
     autossh_command = f'autossh {ssh_options} {ssh_username}@{ssh_server}'
@@ -114,12 +121,21 @@ if __name__ == "__main__":
     # Open the log file for writing (append mode to keep all output)
     log_file = '/tmp/autossh_script.log'
 
-    # Start autossh process
-    start_autossh(autossh_command, log_file)
+     # Check if the SSH server is reachable before starting autossh
+    if is_ssh_tunnel_active(ssh_server_ip, 22):
+        print(f"SSH server {ssh_server_ip} is reachable.")
+        logging.info(f"SSH server {ssh_server_ip} is reachable.")
 
-    # Check SSH tunnel status
-    # check_ssh_tunnel(ssh_server_ip, log_file, check_status_string)
-    check_ssh_tunnel(ssh_server, log_file, check_status_string)
+        # Start autossh process
+        start_autossh(autossh_command, log_file)
+
+        # Check SSH tunnel status
+        check_ssh_tunnel(ssh_server_ip, log_file, check_status_string)
+    else:
+        print(f"SSH server {ssh_server_ip} is not reachable.")
+        logging.error(f"SSH server {ssh_server_ip} is not reachable.")
+        sys.exit(1)
+
 
 
 
