@@ -6,8 +6,9 @@ import socket
 import time
 import re
 import logging
+import psutil
 
-from config import ssh_username, ssh_server, ssh_options, check_status_string, check_interval
+from config import ssh_username, ssh_server, ssh_options, check_status_string, check_interval, key_file, key_password
 
 # Configure logging
 logging.basicConfig(filename='/tmp/autossh_script_nivel2.log', level=logging.INFO,
@@ -29,6 +30,42 @@ def is_ssh_tunnel_active(host, port):
     finally:
         s.close()
 
+# Function to start ssh-agent and add SSH key
+def start_ssh_agent_and_add_key():
+    try:
+        # Start ssh-agent
+        ssh_agent_proc = subprocess.run(['ssh-agent', '-s'], capture_output=True, text=True, check=True)
+        ssh_agent_output = ssh_agent_proc.stdout.strip()
+
+       # Parse SSH_AUTH_SOCK and SSH_AGENT_PID from the output
+        matches = re.search(r'SSH_AUTH_SOCK=(?P<sock>\S+);\s*export\s+SSH_AGENT_PID=(?P<pid>\d+);', ssh_agent_output)
+        if not matches:
+            logging.error("Failed to parse ssh-agent output.")
+            print("Failed to parse ssh-agent output.")
+            return False
+        
+        # Set SSH_AUTH_SOCK and SSH_AGENT_PID environment variables
+        os.environ['SSH_AUTH_SOCK'] = matches.group('sock')
+        os.environ['SSH_AGENT_PID'] = matches.group('pid')
+        
+        # Add SSH key to ssh-agent with passphrase
+        ssh_add_proc = subprocess.run(['ssh-add', key_file], input=key_password.encode('utf-8'), capture_output=True, text=True)
+        
+        if ssh_add_proc.returncode != 0:
+            logging.error(f"Failed to add SSH key: {ssh_add_proc.stderr}")
+            print(f"Failed to add SSH key: {ssh_add_proc.stderr}")
+            return False
+        
+        logging.info("SSH key added to ssh-agent successfully.")
+        return True
+    
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Error adding SSH key to ssh-agent: {e}")
+        return False
+    except Exception as e:
+        logging.error(f"An unexpected error occurred: {e}")
+        return False
+    
 def restart_autossh():
     """ Restart autossh process. """
     try:
@@ -77,32 +114,28 @@ def start_autossh(command, log_file):
         log_error(f"Error starting autossh: {str(e)}")
         sys.exit(2)
 
-def check_ssh_tunnel(ip_address, log_file, status_string):
-    """ Check if SSH tunnel to IP address is established using netstat. """
+def check_ssh_tunnel(ip_address, port, log_file):
+    """ Check if SSH tunnel to IP address and port is established using psutil. """
     try:
-        time.sleep(5)  # Wait for some time to allow the tunnel to establish
+        # Get all TCP connections
+        connections = psutil.net_connections(kind='tcp')
 
-        # Check if SSH connection is established using netstat
-        netstat_output = subprocess.check_output(['netstat', '-an', '--tcp']).decode()
+        # Check if there is an established connection to ip_address:port
+        for conn in connections:
+            if conn.status == psutil.CONN_ESTABLISHED and conn.raddr and conn.raddr.ip == ip_address and conn.raddr.port == port:
+                logging.info(f"SSH tunnel to {ip_address}:{port} is established.")
+                print(f"SSH tunnel to {ip_address}:{port} is established.")
+                return True
+        
+        # If no matching connection found
+        logging.warning(f"No established SSH tunnel found to {ip_address}:{port}.")
+        print(f"No established SSH tunnel found to {ip_address}:{port}.")
+        return False
 
-        # Search for established SSH connection to ip_address:22 with the given status_string
-        if re.search(rf'{re.escape(ip_address)}:22\s+{status_string}', netstat_output):
-            print(f"SSH tunnel to {ip_address}:22 is established.")
-            log_error(f"SSH tunnel to {ip_address}:22 is established.")
-        else:
-            print(f"SSH tunnel to {ip_address}:22 is not established.")
-            print("\ncheck_ssh_tunnel loop - else")
-            log_error(f"SSH tunnel to {ip_address}:22 is not established.")
-            sys.exit(2)
-
-    except subprocess.CalledProcessError as e:
-        print(f"An error occurred during netstat check: {e}")
-        log_error(f"An error occurred during netstat check: {e}")
-        sys.exit(2)
     except Exception as e:
+        logging.error(f"Error occurred during SSH tunnel check: {str(e)}")
         print(f"Error occurred during SSH tunnel check: {str(e)}")
-        log_error(f"Error occurred during SSH tunnel check: {str(e)}")
-        sys.exit(2)
+        return False
 
 def log_error(message):
     """ Log error message to log file. """
@@ -115,9 +148,6 @@ if __name__ == "__main__":
     # Resolve DNS to get SSH server IP address
     ssh_server_ip = resolve_dns(ssh_server)
 
-    # Construct the autossh command
-    autossh_command = f'autossh {ssh_options} {ssh_username}@{ssh_server}'
-
     # Open the log file for writing (append mode to keep all output)
     log_file = '/tmp/autossh_script.log'
 
@@ -126,11 +156,22 @@ if __name__ == "__main__":
         print(f"SSH server {ssh_server_ip} is reachable.")
         logging.info(f"SSH server {ssh_server_ip} is reachable.")
 
-        # Start autossh process
-        start_autossh(autossh_command, log_file)
 
-        # Check SSH tunnel status
-        check_ssh_tunnel(ssh_server_ip, log_file, check_status_string)
+        # Start ssh-agent and add SSH key
+        if start_ssh_agent_and_add_key():
+             # Construct the autossh command
+            autossh_command = f'autossh {ssh_options} {ssh_username}@{ssh_server}'
+
+            # Proceed with autossh or other operations that require SSH key authentication
+            # Start autossh process
+            start_autossh(autossh_command, log_file)
+
+            # Check SSH tunnel status
+            check_ssh_tunnel(ssh_server_ip, log_file, check_status_string)
+        else:
+            logging.error("Failed to start ssh-agent or add SSH key. Exiting.")
+            print(("Failed to start ssh-agent or add SSH key. Exiting."))
+            sys.exit(1)
     else:
         print(f"SSH server {ssh_server_ip} is not reachable.")
         logging.error(f"SSH server {ssh_server_ip} is not reachable.")

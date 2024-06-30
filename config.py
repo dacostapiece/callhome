@@ -56,3 +56,7 @@ ssh_options = os.getenv('SSH_OPTIONS')
 check_status_string = 'ESTABELECIDA'  # Change as needed for different languages/environment
 #check_status_string = 'established'  # Change as needed for different languages/environment
 check_interval = 60
+
+#SSH-AGENT Handling
+key_file = os.getenv('KEY_FILE')
+key_password = os.getenv('SSH_KEY_PASSWORD')
