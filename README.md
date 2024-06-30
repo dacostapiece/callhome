@@ -1,8 +1,9 @@
 <b>RFE</b><br>
 1) Enable hotspot if no LAN or WLAN is unavailable<br>
-2) Start Webserver to receive SSID and password creds to login to neighbouring SSID
-3) Clean code
-4) Draw code flow
+2) Handle multiple interfaces from single type - two VPNs, more than one ETH, etc...
+3) Start Webserver to receive SSID and password creds to login to neighbouring SSID
+4) Clean code
+5) Draw code flow
 
 The idea is to called these scripts after a device connects to VPN Server to advertises its tun interface IP address over email.
 
