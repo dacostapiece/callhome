@@ -239,7 +239,7 @@ else:
 
     if comparison_result != True:
         send_mail_if_needed()
-        #update_get_interfaces_ipv4_from_ifconfig()
+        update_get_interfaces_ipv4_from_ifconfig()
     else:
         print("Sem alterações de IP nas placas mais importantes.")
         None
