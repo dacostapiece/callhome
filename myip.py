@@ -102,9 +102,11 @@ def runMyIpAddres():
     interface, myIpAddress, interfaceETH, myIpAddressETH, interfaceWLAN, myIpAddressWLAN, ifconfig_run = setVariables()
     if myIpAddress:
         print("IPv4 Address for", interface, "interface:", myIpAddress)
+        print("IPv4 Address for", interfaceETH, "interface:", myIpAddressETH)
+        print("IPv4 Address for", interfaceWLAN, "interface:", myIpAddressWLAN)
         print("\n")
         print("Full Ifconfig below:")
-        print(ifconfig_run)
+        #print(ifconfig_run)
         send_mail_my_ip_is(myIpAddress,ifconfig_run, myIpAddressETH, myIpAddressWLAN)
         log_message("myIpAddress (success)")
 

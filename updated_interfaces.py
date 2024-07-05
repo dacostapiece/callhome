@@ -65,7 +65,8 @@ def get_tun_interface_ipv4():
         output = subprocess.check_output(["ip", "addr", "show"]).decode("utf-8")
         
         # Define regex pattern based on interface_type
-        match = re.search(r'(tun\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', output, re.DOTALL)
+        #match = re.search(r'(tun\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', output, re.DOTALL)
+        match = re.search(r'(tun\d+)(?:.*?\n){0,2}.*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', output)
                 
         if match:
             interface_name = match.group(1)
@@ -155,7 +156,8 @@ def send_mail_if_needed():
 #READ STORED TUN INFO
 def get_tun_ipv4_from_ifconfig_Stored(ifconfig_stored):
     try:
-        match = re.search(r'(tun\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', ifconfig_stored, re.DOTALL)
+        #match = re.search(r'(tun\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', ifconfig_stored, re.DOTALL)
+        match = re.search(r'(tun\d+)(?:.*?\n){0,2}.*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', ifconfig_stored)
         if match:
             interface, ipv4 = match.group(1), match.group(2)
             return interface, ipv4
@@ -168,7 +170,8 @@ def get_tun_ipv4_from_ifconfig_Stored(ifconfig_stored):
 #READ STORED ETH0 INFO
 def get_eth_ipv4_from_ifconfig_Stored(ifconfig_stored):
     try:
-        match = re.search(r'(eth\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', ifconfig_stored, re.DOTALL)
+        #match = re.search(r'(eth\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', ifconfig_stored, re.DOTALL)
+        match = re.search(r'(eth\d+)(?:.*?\n){0,2}.*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', ifconfig_stored)
         if match:
             interface, ipv4 = match.group(1), match.group(2)
             return interface, ipv4
@@ -181,7 +184,8 @@ def get_eth_ipv4_from_ifconfig_Stored(ifconfig_stored):
 #READ STORED WLAN INFO
 def get_wlan0_ipv4_from_ifconfig_Stored(ifconfig_stored):
     try:
-        match = re.search(r'(wlan\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', ifconfig_stored, re.DOTALL)
+        #match = re.search(r'(wlan\d+).*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', ifconfig_stored, re.DOTALL)
+        match = re.search(r'(wlan\d+)(?:.*?\n){0,2}.*?inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', ifconfig_stored)
         if match:
             interface, ipv4 = match.group(1), match.group(2)
             return interface, ipv4
@@ -196,11 +200,11 @@ def update_get_interfaces_ipv4_from_ifconfig():
     try:
         # Run the ifconfig command
         result = subprocess.check_output(["ip", "addr", "show"]).decode("utf-8")
-        output = result.stdout
+        output = result
 
         if output!="":
                         # Save response to a file
-            with open("ipadd.txt", "w") as file:
+            with open(IFCONFIG_FILE, "w") as file:
                 file.write(output)
                 print("Current ipadd stored to ipadd.txt")
             return output  # Return ifconfig run
@@ -217,10 +221,35 @@ if ifconfig_run is None:
 else:
     ifconfig_stored = read_ifconfig_stored()
 
+    def get_tun_ipv4_stored(ifconfig_stored):
+        getValue = get_tun_ipv4_from_ifconfig_Stored(ifconfig_stored)
+        if getValue != (None, None):
+            return get_tun_ipv4_from_ifconfig_Stored(ifconfig_stored)
+        else:
+            return "None TUN iface", "None TUN ip"
+
+    def get_eth_ipv4_stored(ifconfig_stored):
+        getValue = get_eth_ipv4_from_ifconfig_Stored(ifconfig_stored)
+        if getValue !=  (None, None):
+            return get_eth_ipv4_from_ifconfig_Stored(ifconfig_stored)
+        else:
+            return "None ETH iface", "None ETH ip"
+
+    def get_wlan_ipv4_stored(ifconfig_stored):
+        getValue = get_wlan0_ipv4_from_ifconfig_Stored(ifconfig_stored)
+        if getValue !=  (None, None):
+            return get_wlan0_ipv4_from_ifconfig_Stored(ifconfig_stored)
+        else:
+            return "None WLAN iface", "None WLAN ip"
+
+    d=get_tun_ipv4_stored(ifconfig_stored)
+    e=get_eth_ipv4_stored(ifconfig_stored)
+    f=get_wlan_ipv4_stored(ifconfig_stored)
+
     # Call the function to get the interface name and IPv4 address associated with "tun" interface
-    interfaceStored, myIpAddressStored = get_tun_ipv4_from_ifconfig_Stored(ifconfig_stored)
-    interfaceETHStored, myIpAddressETHStored = get_eth_ipv4_from_ifconfig_Stored(ifconfig_stored)
-    interfaceWLANStored, myIpAddressWLANStored = get_wlan0_ipv4_from_ifconfig_Stored(ifconfig_stored)
+    interfaceStored, myIpAddressStored = get_tun_ipv4_stored(ifconfig_stored)
+    interfaceETHStored, myIpAddressETHStored = get_eth_ipv4_stored(ifconfig_stored)
+    interfaceWLANStored, myIpAddressWLANStored = get_wlan_ipv4_stored(ifconfig_stored)
 
     # Call the function to get the interface name and IPv4 address associated with "tun" interface
     currentNetworkInfo = [interface, myIpAddress, interfaceETH, myIpAddressETH, interfaceWLAN, myIpAddressWLAN]
@@ -228,18 +257,16 @@ else:
 
     comparison_result = compare_ascii_sums(currentNetworkInfo, storedNetworkInfo)
 
+
     print("\n")
     print("ifconfig stored")    
-    a=get_tun_ipv4_from_ifconfig_Stored(ifconfig_stored)
-    b=get_eth_ipv4_from_ifconfig_Stored(ifconfig_stored)
-    c=get_wlan0_ipv4_from_ifconfig_Stored(ifconfig_stored)
-    print(a)
-    print(b)
-    print(c)
+    print(d)
+    print(e)
+    print(f)
 
     if comparison_result != True:
         send_mail_if_needed()
-        update_get_interfaces_ipv4_from_ifconfig()
+        #update_get_interfaces_ipv4_from_ifconfig()
     else:
         print("Sem alterações de IP nas placas mais importantes.")
         None
