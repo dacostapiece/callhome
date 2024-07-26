@@ -52,6 +52,7 @@ DNS_RECORD_ID = os.getenv('DNS_RECORD_ID')
 ssh_username = os.getenv('SSH_USER')
 ssh_server = os.getenv('SSH_SERVER')
 ssh_options = os.getenv('SSH_OPTIONS')
+ssh_port = os.getenv('SSH_PORT')
 
 check_status_string = 'ESTABELECIDA'  # Change as needed for different languages/environment
 #check_status_string = 'established'  # Change as needed for different languages/environment
