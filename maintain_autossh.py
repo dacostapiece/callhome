@@ -13,7 +13,7 @@ def restart_autossh():
         logging.info("Stopped existing autossh process.")
         print("Stopped existing autossh process.")
     except subprocess.CalledProcessError as e:
-        logging.error(f"Failed to stop autossh: {e}"
+        logging.error(f"Failed to stop autossh: {e}")
         print(f"Failed to stop autossh: {e}")
 
 restart_autossh()
