@@ -2,12 +2,11 @@ import subprocess
 import paramiko
 import logging
 
-# Configure logging
-logging.basicConfig(filename='/tmp/manual_check_autossh_port.log', level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - %(message)s')
+from config_ssh_server import PORT_TO_CHECK
 
-# Define the port to check
-PORT_TO_CHECK = 2220
+# Configure logging
+logging.basicConfig(filename='/tmp/check_autossh_port.log', level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
 def is_ssh_responding(host, port):
     """ Check if SSH is responding on the specified host and port. """
@@ -16,13 +15,17 @@ def is_ssh_responding(host, port):
     try:
         client.connect(host, port=port, username='dummy', password='dummy', timeout=5)
         client.close()
+        print("working open port")
         return True
     except paramiko.ssh_exception.NoValidConnectionsError:
+        print("not working")
         return False
     except paramiko.ssh_exception.AuthenticationException:
+        print("working failed auth - just testing")
         return True  # Authentication failure means SSH is up
     except Exception as e:
         logging.error(f"Unexpected error while checking SSH: {str(e)}")
+        print("not working")
         return False
 
 def kill_ssh_process(port):
@@ -44,10 +47,12 @@ def main():
     host = 'localhost'
 
     # Check if SSH is responding
-    if is_ssh_responding(host, PORT_TO_CHECK):
+    if is_ssh_responding(host, PORT_TO_CHECK)==True:
         logging.info(f"SSH on port {PORT_TO_CHECK} is responding. No action required.")
+        print(f"SSH on port {PORT_TO_CHECK} is responding. No action required.")
     else:
         logging.warning(f"SSH on port {PORT_TO_CHECK} is not responding. Killing SSH process.")
+        print(f"SSH on port {PORT_TO_CHECK} is not responding. Killing SSH process.")
         kill_ssh_process(PORT_TO_CHECK)
 
 if __name__ == "__main__":

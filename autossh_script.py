@@ -176,7 +176,7 @@ if __name__ == "__main__":
     log_file = '/tmp/autossh_script.log'
 
      # Check if the SSH server is reachable before starting autossh
-    if is_ssh_tunnel_active(ssh_server_ip, ssh_port):
+    if is_ssh_tunnel_active(ssh_server_ip, ssh_port)==True:
         print(f"SSH server {ssh_server_ip} is reachable.")
         logging.info(f"SSH server {ssh_server_ip} is reachable.")
 
@@ -214,4 +214,6 @@ if __name__ == "__main__":
     else:
         print(f"SSH server {ssh_server_ip} is not reachable.")
         logging.error(f"SSH server {ssh_server_ip} is not reachable.")
+        # restart_autossh()
+        # logging.info("Running Restart AutoSSH")
         sys.exit(1)
