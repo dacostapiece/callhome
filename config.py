@@ -53,6 +53,7 @@ ssh_username = os.getenv('SSH_USER')
 ssh_server = os.getenv('SSH_SERVER')
 ssh_options = os.getenv('SSH_OPTIONS')
 ssh_port = int(os.getenv('SSH_PORT'))
+ssh_server_filename = os.getenv('SSH_SERVER_FILENAME')
 
 check_status_string = 'ESTABELECIDA'  # Change as needed for different languages/environment
 #check_status_string = 'established'  # Change as needed for different languages/environment
@@ -61,3 +62,7 @@ check_interval = 60
 #SSH-AGENT Handling
 key_file = os.getenv('KEY_FILE')
 key_password = os.getenv('SSH_KEY_PASSWORD')
+
+#SSH SERVER - SEND INFO
+ssh_server_filename_directory = os.getenv('ssh_server_filename_directory')
+ssh_server_filename = os.getenv('SSH_SERVER_FILENAME')
