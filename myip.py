@@ -3,7 +3,7 @@ import re
 from sendmail import send_mail_my_ip_is, send_mail_vpn_failed
 import sys
 import ipaddress
-from send_current_rasp_ip import ssh_command
+from writeandreadip_tunip import writeip
 
 LOG_FILE = "/tmp/myip.py.log"
 
@@ -109,7 +109,8 @@ def runMyIpAddres():
         print("Full Ifconfig below:")
         #print(ifconfig_run)
         send_mail_my_ip_is(myIpAddress,ifconfig_run, myIpAddressETH, myIpAddressWLAN)
-        ssh_command(myIpAddress)
+        writeip(myIpAddress)
+        print("Write IP: ", myIpAddress)
         log_message("myIpAddress (success)")
 
     else:

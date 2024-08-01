@@ -21,6 +21,8 @@ def write_ip_to_file_via_ssh(user, ssh_server, ip_address, filename, port, direc
         result = subprocess.run(command_standard_port, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         # Print the output of the command
         print(f"Command output (standard port): {result.stdout.decode()}")
+        print(result)
+
     except subprocess.CalledProcessError as e:
         # If it fails, try using the alternative port
         print(f"Command failed with error (standard port): {e.stderr.decode()}")
@@ -37,10 +39,6 @@ def write_ip_to_file_via_ssh(user, ssh_server, ip_address, filename, port, direc
             # Print the error if the command fails again
             print(f"Command failed with error (alternative port): {e.stderr.decode()}")
 
-
-# Example usages
-ip_address = "192.168.1.50"
-port = 22
 
 def ssh_command(ip_address):
     write_ip_to_file_via_ssh(ssh_username, ssh_server, ip_address, ssh_server_filename, port, ssh_server_filename_directory)

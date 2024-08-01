@@ -8,6 +8,8 @@ import re
 import logging
 import psutil
 import pexpect
+from send_current_rasp_ip import ssh_command
+from writeandreadip_tunip import readip
 
 from config import ssh_username, ssh_server, ssh_options, ssh_port, check_status_string, check_interval, key_file, key_password
 
@@ -125,6 +127,9 @@ def start_autossh(command, log_file):
             subprocess.Popen(command, shell=True, stdout=log, stderr=subprocess.STDOUT)
             print("command\n", command)
             print("start_autossh worked it")
+            #send current ip for remote vpn checking
+            ipaddress = readip()
+            ssh_command(ipaddress)
     except subprocess.CalledProcessError as e:
         print(f"An error occurred starting autossh: {e}")
         logging.error(f"An error occurred starting autossh: {e}")

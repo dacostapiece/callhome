@@ -4,7 +4,7 @@ import ipaddress
 import sys
 from sendmail import send_mail_my_ip_is_updated, send_mail_vpn_failed
 import re
-from send_current_rasp_ip import ssh_command
+from writeandreadip_tunip import writeip
 
 LOG_FILE = "/tmp/updated_interfaces.py.log"
 IFCONFIG_FILE = "/home/dacosta/CALLHOME/ipadd.txt"
@@ -157,7 +157,7 @@ def read_ifconfig_stored():
 def send_mail_if_needed():
     #NETWORK INFO WILL BE PULLED FROM HERE FOR MAIL SENDING
     send_mail_my_ip_is_updated(myIpAddress, ifconfig_run, myIpAddressETH, myIpAddressWLAN)
-    ssh_command(myIpAddress)
+    writeip(myIpAddress)
     log_message("Interfaces have changed. Email notification sent.")
 
 #READ STORED TUN INFO
