@@ -54,6 +54,16 @@ password
 This script works as a module called by my.ip which will receive tun0 IP address for VPN and send it out as email
 
 <b>UPDATE STATUS PANEL</b>
+<b>SAMPLE SIMPLE CURL</b><br>
+curl https://api.statuspage.io/v1/pages/{page_id}/incidents \
+  -H "Authorization: OAuth {api_token}" \
+  -X POST \
+  -d "incident[name]=Teste Component" \
+  -d "incident[status]=investigating" \
+  -d "incident[body]=Testando componentes" \
+  -d "incident[component_ids][]={component id}" \
+  -d "incident[components][{component id}]=major_outage"
+
 <b>UPDATE_STATUS_PANEL.PY</b><br>
 https://dacostapiece.statuspage.io/ <br>
 This script will retrieve will check if tun0 (VPN) is available and if we are able to ping a remote vpn target, so not only we ensure VPN is active, but it's also working properly.
