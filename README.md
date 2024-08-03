@@ -55,7 +55,7 @@ This script works as a module called by my.ip which will receive tun0 IP address
 
 <b>UPDATE STATUS PANEL</b><br>
 <b>SAMPLE SIMPLE CURL</b><br>
-'''sh
+```bash
 curl https://api.statuspage.io/v1/pages/{page_id}/incidents \
   -H "Authorization: OAuth {api_token}" \
   -X POST \
@@ -66,7 +66,7 @@ curl https://api.statuspage.io/v1/pages/{page_id}/incidents \
   -d "incident[component_ids][]={component id2}" \
   -d "incident[components][{component id}]=major_outage" \
   -d "incident[components][{component id}2]=major_outage"
-'''
+```
 <br>
 <b>UPDATE_STATUS_PANEL.PY</b><br>
 https://dacostapiece.statuspage.io/ <br>
