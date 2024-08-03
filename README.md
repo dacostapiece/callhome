@@ -55,7 +55,7 @@ This script works as a module called by my.ip which will receive tun0 IP address
 
 <b>UPDATE STATUS PANEL</b><br>
 <b>SAMPLE SIMPLE CURL</b><br>
-'''bash
+'''sh
 curl https://api.statuspage.io/v1/pages/{page_id}/incidents \
   -H "Authorization: OAuth {api_token}" \
   -X POST \
