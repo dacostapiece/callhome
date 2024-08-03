@@ -62,7 +62,9 @@ curl https://api.statuspage.io/v1/pages/{page_id}/incidents \
   -d "incident[status]=investigating" \
   -d "incident[body]=Testando componentes" \
   -d "incident[component_ids][]={component id}" \
+  -d "incident[component_ids][]={component id2}" \
   -d "incident[components][{component id}]=major_outage"
+  -d "incident[components][{component id}2]=major_outage"
 
 <b>UPDATE_STATUS_PANEL.PY</b><br>
 https://dacostapiece.statuspage.io/ <br>
