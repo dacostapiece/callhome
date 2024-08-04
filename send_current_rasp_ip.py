@@ -41,4 +41,4 @@ def write_ip_to_file_via_ssh(user, ssh_server, ip_address, filename, port, direc
 
 
 def ssh_command(ip_address):
-    write_ip_to_file_via_ssh(ssh_username, ssh_server, ip_address, ssh_server_filename, port, ssh_server_filename_directory)
+    write_ip_to_file_via_ssh(ssh_username, ssh_server, ip_address, ssh_server_filename, ssh_port, ssh_server_filename_directory)
