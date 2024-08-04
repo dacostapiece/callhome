@@ -95,7 +95,7 @@ def create_incident_ssh(api_token, page_id, name, status, impact, monitoring_at,
 
     # Save Pair Incident to a file
     print("Response saved to create_pair_incident_response_ssh.txt")
-    with open("create_pair_incident_response_vpn.ssh", "w") as file:
+    with open("create_pair_incident_response_ssh.txt", "w") as file:
         file.write(str(pair_incident))
     
     return pair_incident
