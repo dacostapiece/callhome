@@ -30,15 +30,33 @@ impact_create_incident = "major"
 monitoring_at_create_incident = f"Falha registrada em {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
 body_create_incident = "VPN com falha, investigando"
 deliver_notifications_create_incident = True
-qxkt2r25bgrk = "major outrage"
-components = {"qxkt2r25bgrk": "major outrage"}
-component_ids = ["qxkt2r25bgrk"]
+raspberry_vpn_component_id = "qxkt2r25bgrk"
+callback_ssh_component_id = "1xwlm9hny2gc"
+ssh_server_vpn_component_id = "dg89n8m7yjnn"
 
 #API Update Incident - Status Panel
 name_update_incident = "VPN restabelecida"
 status_update_incident = "resolved"
 updated_at_update_incident = f"Falha resolvida em {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
 body_update_incident = "VPN restabelecida"
+
+#API Create Incident SSH- Status Panel
+name_create_incident_ssh = "SSH Server com falha"
+status_create_incident_ssh = "investigating"
+impact_create_incident_ssh = "major"
+monitoring_at_create_incident_ssh = f"Falha registrada em {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+body_create_incident_ssh = "SSH Server com falha, investigando"
+deliver_notifications_create_incident_ssh = True
+remote_ssh_server_component_id = "4rx3bm9yfyh0"
+
+callback_ssh_component_id = "1xwlm9hny2gc"
+ssh_server_vpn_component_id = "dg89n8m7yjnn"
+
+#API Update Incident SSH- Status Panel
+name_update_incident_ssh = "SSH Server restabelecido"
+status_update_incident_ssh = "resolved"
+updated_at_update_incident_ssh = f"Falha resolvida em {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+body_update_incident_ssh = "SSH Server restabelecido"
 
 # Cloudflare API credentials
 CF_API_TOKEN = os.getenv('CF_API_TOKEN')
