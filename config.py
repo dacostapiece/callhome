@@ -31,8 +31,8 @@ monitoring_at_create_incident = f"Falha registrada em {datetime.now().strftime('
 body_create_incident = "VPN com falha, investigando"
 deliver_notifications_create_incident = True
 raspberry_vpn_component_id = "qxkt2r25bgrk"
-callback_ssh_component_id = "1xwlm9hny2gc"
-ssh_server_vpn_component_id = "dg89n8m7yjnn"
+callback_vpn_component_id = "1xwlm9hny2gc"
+callback_ssh_component_id = "dg89n8m7yjnn"
 
 #API Update Incident - Status Panel
 name_update_incident = "VPN restabelecida"
