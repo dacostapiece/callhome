@@ -3,10 +3,12 @@ Description=AutoSSH Tunnel Service
 After=network.target
 
 [Service]
+ExecStartPre=/bin/sleep 30
+Type=simple
 ExecStart=/home/dacosta/CALLHOME/autossh_script.py
-User=dacosta
 Restart=always
-RestartSec=10
+User=dacosta
+WorkingDirectory=/home/dacosta/CALLHOME
 
 [Install]
 WantedBy=multi-user.target

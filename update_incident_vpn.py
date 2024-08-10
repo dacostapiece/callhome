@@ -1,6 +1,6 @@
 import requests
 import json
-from config import raspberry_vpn_component_id, remote_ssh_server_component_id, callback_ssh_component_id, ssh_server_vpn_component_id
+from config import raspberry_vpn_component_id, remote_ssh_server_component_id
 
 #UPDATE INCIDENT FOR HUB VPN
 def update_incident(api_token, page_id, incident_id, name, status, updated_at, body):

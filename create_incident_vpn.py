@@ -1,6 +1,6 @@
 import requests
 from datetime import datetime
-from config import raspberry_vpn_component_id, remote_ssh_server_component_id, callback_ssh_component_id, ssh_server_vpn_component_id
+from config import raspberry_vpn_component_id, remote_ssh_server_component_id
 
 #CREATE INCIDENT FOR RASPBERRY TO HUB VPN CONNECTION
 def create_incident(api_token, page_id, name, status, impact, monitoring_at, body):

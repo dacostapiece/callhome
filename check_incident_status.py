@@ -1,5 +1,5 @@
 import requests
-from config import raspberry_vpn_component_id, remote_ssh_server_component_id, callback_ssh_component_id, ssh_server_vpn_component_id
+from config import raspberry_vpn_component_id, remote_ssh_server_component_id
 
 #HUB VPN INCIDENT
 def list_incident(api_token, page_id):
