@@ -236,6 +236,8 @@ kill -9 <PID>
 
 <br>
 <h1>DRAFT</h1><br>
+```bash
+RASPBERRY
 SERVICES
 autossh --> autossh_script.py
 myip --> myip_script.sh --> myip.py
@@ -250,3 +252,13 @@ update_status_panel.py
 sync_services_scripts.sh
 updated_interfaces.py
 maintain_autossh.py
+
+SSH SERVER
+SERVICES
+openvpn.service --> openvpn.sh ok
+
+CRONJOBS USER
+update_status_panel_ssh_server.py
+sync_services_scripts.sh
+```
+
