@@ -233,3 +233,20 @@ kill <PID>
 If the autossh process doesn't terminate, you can forcefully kill it:
 
 kill -9 <PID>
+
+<br>
+<h1>DRAFT</h1><br>
+SERVICES
+autossh --> autossh_script.py
+myip --> myip_script.sh --> myip.py
+ovpnscript --> openvpn_script.sh
+ssh-agent --> start-ssh-agent.sh
+updatedns --> update_tun0_ipname.py
+vpnstatuspanel --> update_status_panel.py
+
+CRONJOBS USER
+update_tun0_ipname.py
+update_status_panel.py
+sync_services_scripts.sh
+updated_interfaces.py
+maintain_autossh.py
