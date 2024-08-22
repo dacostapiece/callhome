@@ -4,6 +4,7 @@
 3) Start Webserver to receive SSID and password creds to login to neighbouring SSID
 4) Clean code
 5) Draw code flow
+6) Iterate loop only on associated components IDs - VPN Checks VPNs Incidents related, SSH  Checks SSH Incidents related, and so on.
 
 <b>Added primary requirement</b><br>
 External monitor SSH reachability - primary connection<br>
