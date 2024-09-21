@@ -219,6 +219,6 @@ if __name__ == "__main__":
     else:
         print(f"SSH server {ssh_server_ip} is not reachable.")
         logging.error(f"SSH server {ssh_server_ip} is not reachable.")
-        # restart_autossh()
-        # logging.info("Running Restart AutoSSH")
+        restart_autossh()
+        logging.info("Running Restart AutoSSH")
         sys.exit(1)
