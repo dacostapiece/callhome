@@ -16,7 +16,8 @@ def is_vpn_working():
             current_incident_pair = raw_list_incident(api_token, page_id)
             print("Current Incident ID: ", current_incident_pair)
             print("VPN is working. Solving issue: ", current_incident_pair)
-            solved_incident_id = update_incident(api_token, page_id, current_incident_pair, name_update_incident, status_update_incident, updated_at_update_incident, body_update_incident)
+            for incident in current_incident_pair:
+                solved_incident_id = update_incident(api_token, page_id, incident, name_update_incident, status_update_incident, updated_at_update_incident, body_update_incident)
             return solved_incident_id
     else:
         print("Checking if there any current Incidents?")
@@ -43,7 +44,8 @@ def is_ssh_working():
             current_incident_pair = raw_list_incident_ssh(api_token, page_id)
             print("Current Incident ID: ", current_incident_pair)
             print("SSH Server is working. Solving issue: ", current_incident_pair)
-            solved_incident_id = update_incident_ssh(api_token, page_id, current_incident_pair, name_update_incident_ssh, status_update_incident_ssh, updated_at_update_incident_ssh, body_update_incident_ssh)
+            for incident in current_incident_pair:
+                solved_incident_id = update_incident(api_token, page_id, incident, name_update_incident, status_update_incident, updated_at_update_incident, body_update_incident)
             return solved_incident_id
     else:
         print("Checking if there any current Incidents?")
