@@ -70,7 +70,7 @@ def raw_list_incident(api_token, page_id):
     response_data = response.json()
 
     #Extract incident ID and component IDs
-     related_incidents = []  # List to store all related incidents
+    related_incidents = []  # List to store all related incidents
 
     loop_number = 1
     for incident in response_data:
@@ -124,7 +124,6 @@ def list_incident_ssh(api_token, page_id):
         return False
     
     # Extract incident ID and component ID
-
     related_incidents = []  # List to store all related incidents
 
     if not response_data:
@@ -173,7 +172,7 @@ def raw_list_incident_ssh(api_token, page_id):
     response_data = response.json()
 
     #Extract incident ID and component IDs
-     related_incidents = []  # List to store all related incidents
+    related_incidents = []  # List to store all related incidents
 
     loop_number = 1
     for incident in response_data:
