@@ -10,6 +10,7 @@ import psutil
 import pexpect
 from send_current_rasp_ip import ssh_command
 from writeandreadip_tunip import readip
+import pdb
 
 from config import ssh_username, ssh_server, ssh_options, ssh_port, check_status_string, check_interval, key_file, key_password
 
@@ -20,7 +21,7 @@ logging.basicConfig(filename='/tmp/autossh_script.log', level=logging.INFO,
 # Define the status string to check (adjust for different languages/environment)
 check_status_string # Change as needed for different languages/environment
 
-def is_ssh_tunnel_active(host, port):
+def is_ssh_server_available(host, port):
     """ Check if the SSH tunnel is active by attempting a connection. """
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.settimeout(5)
@@ -72,6 +73,8 @@ def start_ssh_agent_and_add_key():
         # Print the output
         ssh_add_output = child.before.decode()
         print(ssh_add_output)
+
+
         
         if 'Identity added' not in ssh_add_output:
             logging.error(f"Failed to add SSH key: {ssh_add_output}")
@@ -89,15 +92,17 @@ def start_ssh_agent_and_add_key():
 def restart_autossh():
     """ Restart autossh process. """
     try:
-        subprocess.run(["pkill", "autossh"], check=True)
+        subprocess.run(["killall", "autossh"], check=True)
+        # subprocess.run(["pkill", "autossh"], check=True)
         logging.info("Stopped existing autossh process.")
     except subprocess.CalledProcessError as e:
         logging.error(f"Failed to stop autossh: {e}")
 
     try:
-        command = f'autossh {ssh_options} {ssh_username}@{ssh_username}'
-        subprocess.Popen(command, shell=True)
-        logging.info("Started autossh process.")
+        start_autossh_process()
+        # command = f'autossh {ssh_options} {ssh_username}@{ssh_username}'
+        # subprocess.Popen(command, shell=True)
+        logging.info("Restarting autossh process.")
     except Exception as e:
         logging.error(f"Failed to start autossh: {e}")
 
@@ -144,12 +149,14 @@ def check_ssh_tunnel(ip_address, port, log_file):
     try:
         # Get all TCP connections
         connections = psutil.net_connections(kind='tcp')
+        #pdb.set_trace()
 
         # Check if there is an established connection to ip_address:port
         for conn in connections:
             if conn.status == psutil.CONN_ESTABLISHED and conn.raddr and conn.raddr.ip == ip_address and conn.raddr.port == port:
                 logging.info(f"SSH tunnel to {ip_address}:{port} is established.")
                 print(f"SSH tunnel to {ip_address}:{port} is established.")
+                
                 return True
         
         # If no matching connection found
@@ -173,7 +180,7 @@ def check_ssh_tunnel(ip_address, port, log_file):
 #         log.write(f"Error: {message}\n")
 
 # Main script logic
-if __name__ == "__main__":
+def start_autossh_process():
     # Resolve DNS to get SSH server IP address
     ssh_server_ip = resolve_dns(ssh_server)
 
@@ -181,13 +188,13 @@ if __name__ == "__main__":
     log_file = '/tmp/autossh_script.log'
 
      # Check if the SSH server is reachable before starting autossh
-    if is_ssh_tunnel_active(ssh_server_ip, ssh_port)==True:
+    if is_ssh_server_available(ssh_server_ip, ssh_port)==True:
         print(f"SSH server {ssh_server_ip} is reachable.")
         logging.info(f"SSH server {ssh_server_ip} is reachable.")
 
 
         # Start ssh-agent and add SSH key
-        if start_ssh_agent_and_add_key():
+        if start_ssh_agent_and_add_key()==True:
              # Construct the autossh command
             autossh_command = f'autossh {ssh_options} {ssh_username}@{ssh_server}'
 
@@ -219,6 +226,8 @@ if __name__ == "__main__":
     else:
         print(f"SSH server {ssh_server_ip} is not reachable.")
         logging.error(f"SSH server {ssh_server_ip} is not reachable.")
-        restart_autossh()
         logging.info("Running Restart AutoSSH")
+        restart_autossh()
         sys.exit(1)
+
+start_autossh_process()
