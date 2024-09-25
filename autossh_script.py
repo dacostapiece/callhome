@@ -129,7 +129,8 @@ def start_autossh(command, log_file):
     try:
         with open(log_file, 'a') as log:
             # Start autossh process in the background, redirecting both stdout and stderr to log file
-            subprocess.Popen(command, shell=True, stdout=log, stderr=subprocess.STDOUT)
+            # subprocess.Popen(command, shell=True, stdout=log, stderr=subprocess.STDOUT)
+            subprocess.Popen(command, shell=True, stdout=log, stderr=subprocess.STDOUT, preexec_fn=os.setpgrp)
             print("command\n", command)
             print("start_autossh worked it")
             #send current ip for remote vpn checking
@@ -170,6 +171,14 @@ def check_ssh_tunnel(ip_address, port, log_file):
     except Exception as e:
         logging.error(f"Error occurred during SSH tunnel check: {str(e)}")
         print(f"Error occurred during SSH tunnel check: {str(e)}")
+        return False
+    
+#CHECK AUTOSSH RUNNING PROCESS
+def check_autossh_process():
+    for proc in psutil.process_iter(['pid', 'name']):
+        if 'autossh' in proc.info['name']:
+            print(f"autossh process found with PID {proc.info['pid']}")
+            return True
         return False
 
 #Using logging.basicConfig
@@ -230,4 +239,15 @@ def start_autossh_process():
         restart_autossh()
         sys.exit(1)
 
+# # Write environment variables to a file
+# with open("/home/dacosta/CALLHOME/LOCAL_TEST_VARIABLES/environ.txt", "w") as env_file:
+#     for key, value in os.environ.items():
+#         env_file.write(f"{key}={value}\n")
+
+
 start_autossh_process()
+
+check_autossh_process()
+
+if not check_autossh_process():
+    print("autossh process is not running!")
