@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 ExecStartPre=/bin/sleep 30
-Type=simple
+Type=forking
 ExecStart=/home/dacosta/CALLHOME/autossh_script.py
 Restart=always
 User=dacosta

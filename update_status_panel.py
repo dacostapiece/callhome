@@ -45,7 +45,7 @@ def is_ssh_working():
             print("Current Incident ID: ", current_incident_pair)
             print("SSH Server is working. Solving issue: ", current_incident_pair)
             for incident in current_incident_pair:
-                solved_incident_id = update_incident(api_token, page_id, incident, name_update_incident, status_update_incident, updated_at_update_incident, body_update_incident)
+                solved_incident_id = update_incident_ssh(api_token, page_id, incident, name_update_incident_ssh, status_update_incident_ssh, updated_at_update_incident_ssh, body_update_incident_ssh)
             return solved_incident_id
     else:
         print("Checking if there any current Incidents?")
