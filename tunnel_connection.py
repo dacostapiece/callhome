@@ -5,6 +5,7 @@ import re
 import socket
 import sys
 import logging
+import ping3
 from ping3 import ping, errors
 
 #HUB VPN CHECK
@@ -33,21 +34,45 @@ def check_tun0_ip():
 
 #PING3
 def ping_ip(ip, timeout=10):
+    #ip = "172.16.113.4"
     try:
+        # Ensure the IP is a valid string before passing to ping
+        if not isinstance(ip, str) or not ip:
+            raise ValueError(f"Invalid IP address: {ip}")
         # Send ICMP request and get the response time
-        response_time = ping(ip, timeout=timeout)
-        
+        print("\n")
+        print("ping ip funcion")
+        print("early")
+        print("ip: ", ip)
+        print("RESPONSE TIME BROTHER")
         #pdb.set_trace()
+        response_time="Starting Response Time"
+        print("response_time: ", response_time)
+        #RUNNING IS BREAKING HERE
+
+
+        response_time = ping(ip, timeout=timeout)
+        print("RESPONSE TIME SISTER")
+        print("later")
+        print("ip: ", ip)
+        print("response_time: ", response_time)
+
         if response_time is None:
             print(f"Ping to {ip} failed. No response.")
             time.sleep(1)
-            return False
+            return "Falseano brow"  # Return a proper boolean value
         else:
             print(f"Ping to {ip} successful. Response time: {response_time} seconds")
             return True
-    except errors.PingError as e:
+
+    except Exception as e:
         print(f"ICMP error occurred while pinging {ip}: {str(e)}")
         time.sleep(1)
+        return False
+
+    except ValueError as ve:
+        print("ValueError")
+        print(str(ve))
         return False
 
 def check_vpn_connection():
