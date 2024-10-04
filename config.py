@@ -68,6 +68,7 @@ DNS_RECORD_ID = os.getenv('DNS_RECORD_ID')
 ssh_username = os.getenv('SSH_USER')
 ssh_server = os.getenv('SSH_SERVER')
 ssh_options = os.getenv('SSH_OPTIONS')
+ssh_handling = ('-o "ServerAliveInterval=30" -o "ServerAliveCountMax=3"')
 ssh_port = int(os.getenv('SSH_PORT'))
 ssh_server_filename = os.getenv('SSH_SERVER_FILENAME')
 

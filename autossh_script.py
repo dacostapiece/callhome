@@ -12,7 +12,7 @@ from send_current_rasp_ip import ssh_command
 from writeandreadip_tunip import readip
 import pdb
 
-from config import ssh_username, ssh_server, ssh_options, ssh_port, check_status_string, check_interval, key_file, key_password
+from config import ssh_username, ssh_server, ssh_options, ssh_handling, ssh_port, check_status_string, check_interval, key_file, key_password
 
 # Configure logging
 logging.basicConfig(filename='/tmp/autossh_script.log', level=logging.INFO,
@@ -205,7 +205,7 @@ def start_autossh_process():
         # Start ssh-agent and add SSH key
         if start_ssh_agent_and_add_key()==True:
              # Construct the autossh command
-            autossh_command = f'autossh {ssh_options} {ssh_username}@{ssh_server}'
+            autossh_command = f'autossh {ssh_options} {ssh_handling} {ssh_username}@{ssh_server}'
 
             # Proceed with autossh or other operations that require SSH key authentication
             # Start autossh process

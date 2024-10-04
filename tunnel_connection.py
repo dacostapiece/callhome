@@ -5,6 +5,7 @@ import re
 import socket
 import sys
 import logging
+from ping3 import ping, errors
 
 #HUB VPN CHECK
 def check_tun0_ip():
@@ -17,18 +18,37 @@ def check_tun0_ip():
         pass
     return False
 
-def ping_ip(ip, timeout=60):
-    end_time = time.time() + timeout
-    while time.time() < end_time:
-        try:
-            # Ping the IP address
-            ping_check = subprocess.run(['ping', '-c', '1', ip], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            if ping_check.returncode == 0:
-                return True
-        except subprocess.SubprocessError:
-            pass
+# def ping_ip(ip, timeout=60):
+#     end_time = time.time() + timeout
+#     while time.time() < end_time:
+#         try:
+#             # Ping the IP address
+#             ping_check = subprocess.run(['ping', '-c', '1', ip], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+#             if ping_check.returncode == 0:
+#                 return True
+#         except subprocess.SubprocessError:
+#             pass
+#         time.sleep(1)
+#     return False
+
+#PING3
+def ping_ip(ip, timeout=10):
+    try:
+        # Send ICMP request and get the response time
+        response_time = ping(ip, timeout=timeout)
+        
+        #pdb.set_trace()
+        if response_time is None:
+            print(f"Ping to {ip} failed. No response.")
+            time.sleep(1)
+            return False
+        else:
+            print(f"Ping to {ip} successful. Response time: {response_time} seconds")
+            return True
+    except errors.PingError as e:
+        print(f"ICMP error occurred while pinging {ip}: {str(e)}")
         time.sleep(1)
-    return False
+        return False
 
 def check_vpn_connection():
     if check_tun0_ip():
