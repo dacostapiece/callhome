@@ -7,6 +7,16 @@
 
 The idea is to called these scripts after a device connects to VPN Server to advertises its tun interface IP address over email.
 
+<b>AUTOSSH.PY</b><br>
+This is script is responsible to start and maintain an SSH connection to an outside server here called server.example.com<br>
+Through this connection Raspberry/Linux local device will connect to and exposed its own SSH service (terminal access) and VNC (graphical access)<br>
+So it gives a backup/secondary way to reach Raspberry device and network it's connected to even in incident where VPN server (primary connection) fails<br>
+1) It starts the autossh process<br>
+2) It resolves DNS if the server address is a fully qualified domain name (FQDN)<br>
+3) Verifies the externalSSH server is reachable<br>
+4) If the SSH server is reachable - it starts SSH Agent and Add SSH key
+Logs for this script are stored in /tmp/autossh_script.log
+
 <b>MYIP.PY</b><br>
 This script will retrieve tun0 ip address from Raspberry/Remote Linux device and send out an e-mail with WIRED, WLAN and TUNNEL VPN addresses along with whole IFCONFIG in mail body message.
 
@@ -218,4 +228,4 @@ curl https://api.statuspage.io/v1/pages/{page_id}/incidents \
   -d "incident[components][{component id}2]=major_outage"
 ```
 
-Remember to replace values between brackets {} for your correspondinds IDs.
+Remember to replace values between brackets { } for your correspondinds IDs.
