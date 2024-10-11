@@ -50,7 +50,7 @@ The main goal is having a way to check wether VPN is working or not over a Statu
 You'll have to setup an account on Atlassian Status panel, it's free, to have this feature working.
 
 <b>Logics</b><br>
-VPN
+VPN<br>
 A) If VPN is working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's any, solve that incident, VPN is working.<br>
 B) If VPN is not working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's any, just keep it, VPN is not working.<br>
 C) If VPN is not working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's none, create an incident, VPN is not working.<br>
@@ -111,9 +111,9 @@ Error outputs are appended to file tmp/update_tun0_ipname.log<br>
 <b>UPDATE_STATUS_PANEL.PY</b><br>
 Run script to check VPN connection and update status panel accordingly every 05 min.
 */5 * * * * /usr/bin/python /home/dacosta/CALLHOME/update_status_panel.py >> /tmp/update_status_panel.log 2>&1<br>
-Troubleshoot or check cronjob run status in here /tmp/update_status_panel.log
-Rememeber to update this with your local path /home/user/folder/update_status_panel.py
-You can use "which python" to see where is the full path for python binary
+Troubleshoot or check cronjob run status in here /tmp/update_status_panel.log<br>
+Rememeber to update this with your local path /home/user/folder/update_status_panel.py<br>
+You can use "which python" to see where is the full path for python binary<br>
 For me is /usr/bin/python
 
 <b>SERVICES</b><br>
@@ -125,13 +125,14 @@ I am used to create files with .service extension, like ovpnscript.service<br>
 
 <b>MANIPULATING SERVICES AFTER CREATION/UPDATE</b><br>
 EXAMPLES<br>
-sudo systemctl enable ovpnscript.service<br> //enable service after file creation
+```bash
+sudo systemctl enable ovpnscript.service //enable service after file creation
 sudo systemctl start ovpnscript.service<br> //start service
 sudo systemctl status ovpnscript.service<br> //check service status
 sudo systemctl stop ovpnscript.service<br> //stop service
 sudo systemctl disable ovpnscript.service<br> //disable service
 sudo systemctl daemon-reload<br> //when changes are applied to service file, it'll be requested to update is daemon
-
+```
 Note: If VPN is connected by this service and you stop it, it will be same as closing a running program.<br>
 
 <b>MYIP.SERVICE</b><br>
