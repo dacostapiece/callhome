@@ -14,7 +14,23 @@ So it gives a backup/secondary way to reach Raspberry device and network it's co
 1) It starts the autossh process<br>
 2) It resolves DNS if the server address is a fully qualified domain name (FQDN)<br>
 3) Verifies the externalSSH server is reachable<br>
-4) If the SSH server is reachable - it starts SSH Agent and Add SSH key
+4) If the SSH server is reachable - it starts SSH Agent and Add SSH key, if not call restart_ssh and then exit error<br>
+Restart SSH will kill existing autossh processes (it may be running, but real connection is not established)<br>
+and reinitiate the autossh process again<br>
+5) Run autossh command<br>
+6) Sends over SSH connection a calling<br>
+Example<br>
+ssh {user}@{ssh_server} \"echo '{ip_address}' > {remote_path}<br>
+```bash
+ssh user@server.example.com \"echo '192.168.0.10' > /home/user/folder/current_rasp_ip.txt
+```
+
+7) Checks if SSH tunnel is established, if not, exit with error
+8) If not any exit error, checks autossh existing process<br>
+
+The goal with this command is recover current Raspberry device IP address for Tunnel VPN and a create a file in SSH Server, another script will<br> read this file over there and know which IP address to ping it back to test "Callback VPN" connection from SSH Server to Raspberry itself<br>
+Later in this project we've realized we could simply tell SSH Server to ping raspberry.example.com which is an FQDN that's often update from<br> Raspberry to Cloudflare API to expose Raspberry's VPN IP address, but for the time being, we won't update this script logics.<br>
+
 Logs for this script are stored in /tmp/autossh_script.log
 
 <b>MYIP.PY</b><br>
