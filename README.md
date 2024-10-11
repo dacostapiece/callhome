@@ -23,7 +23,7 @@ myip.service, myip_script.sh and myip.py has the goal to tell us by sending out 
 <b>OPENVPN_SCRIPT.SH</b><br>
 Script run openvpn - passing creds already
 We have set up a service ovpnscript.service that calls openvpn_script.sh which is basically sending out in terminal a command line to establish a SSLVPN connection with a remote VPN Server - here called by reference purpose hub.example.com  
-sudo openvpn --config /home/user/folder/file.ovpn --auth-user-pass /home/user/folder/pass.txt
+sudo openvpn --config /home/user/folder/file.ovpn --auth-user-pass /home/user/folder/pass.txt<br>
 You should have your own OpenVPN Server, so you can retrieve *.ovpn OpenVPN profile file as long as credentials for this VPN connection.
 
 <b>pass.TXT</b><br>
@@ -40,20 +40,23 @@ This script works as a module called by myip.py and updated_interfaces.py which 
 <br>
 <b>UPDATE_STATUS_PANEL.PY</b><br>
 https://dacostapiece.statuspage.io/ <br>
-This script will  will check if 1) tun0 (VPN) is available and if we are able to ping a remote vpn target, in our configuration it's pinging VPN Gateway private IP address, so not only we ensure VPN is active, but it's also working properly and 2) Checks if SSH Server is reachable, here in the example - server.example.com. It's basically checking if primary connection over VPN and secondary connection over SSH are working from the perspective of Raspberry/Linux local device.
+This script will  will check if <br>
+1) tun0 (VPN) is available and if we are able to ping a remote vpn target, in our configuration it's pinging VPN Gateway private IP address, so not only we ensure VPN is active, but it's also working properly and <br>
+2) Checks if SSH Server is reachable, here in the example - server.example.com. <br>
+It's basically checking if primary connection over VPN and secondary connection over SSH are working from the perspective of Raspberry/Linux local device.
 
 The main goal is having a way to check wether VPN is working or not over a Status Web panel as well as triggering email alerts about failure incidents and restored services by Atlassian Status Panel.
 
 You'll have to setup an account on Atlassian Status panel, it's free, to have this feature working.
 
-<b>Logics</b>
+<b>Logics</b><br>
 VPN
-A) If VPN is working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's any, solve that incident, VPN is working.
-B) If VPN is not working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's any, just keep it, VPN is not working.
-C) If VPN is not working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's none, create an incident, VPN is not working.
-D) If VPN is working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's none, do nothing, VPN is working.
+A) If VPN is working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's any, solve that incident, VPN is working.<br>
+B) If VPN is not working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's any, just keep it, VPN is not working.<br>
+C) If VPN is not working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's none, create an incident, VPN is not working.<br>
+D) If VPN is working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's none, do nothing, VPN is working.<br>
 
-SSH
+SSH<br>
 This script follows same logic for SSH service.
 
 <b>CHECK_INCIDENT_STATUS</b><br>
