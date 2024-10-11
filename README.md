@@ -23,7 +23,10 @@ myip.service, myip_script.sh and myip.py has the goal to tell us by sending out 
 <b>OPENVPN_SCRIPT.SH</b><br>
 Script run openvpn - passing creds already
 We have set up a service ovpnscript.service that calls openvpn_script.sh which is basically sending out in terminal a command line to establish a SSLVPN connection with a remote VPN Server - here called by reference purpose hub.example.com  
-sudo openvpn --config /home/user/folder/file.ovpn --auth-user-pass /home/user/folder/pass.txt<br>
+```bash
+sudo openvpn --config /home/user/folder/file.ovpn --auth-user-pass /home/user/folder/pass.txt
+```
+
 You should have your own OpenVPN Server, so you can retrieve *.ovpn OpenVPN profile file as long as credentials for this VPN connection.
 
 <b>pass.TXT</b><br>
@@ -93,24 +96,39 @@ https://developers.cloudflare.com/api/operations/dns-records-for-a-zone-patch-dn
 
 Give permission for files to be run<br>
 Example - repeat this process or call chmod +x *.py/chmod +x *.sh on the folder where scripts are stored.<br>
-chmod +x /home/dacosta/CALLHOME/openvpn_script.sh<br>
+```bash
+chmod +x /home/dacosta/CALLHOME/openvpn_script.sh
+```
 
 <b>HOW SCRIPTS ARE CALLED?</b><br>
 Some scripts are call by cronjobs, because they required recurring calls, some scripts are run by service, it runs on device startup or only once and other scripts are simply called by others scripts in chain.
 
 <b>CRONJOBS</b><br>
-To create/edit cronjobs, type crontab -e - then select your text editor (when crontab -e is called at first time), i am more familiar with nano
+To create/edit cronjobs, type 
+```bash
+crontab -e
+```
+ - then select your text editor (when crontab -e is called at first time), i am more familiar with nano
 
-type sudo crontab -e to call cronjobs as root user (not required for our current scripts)
+type 
+```bash
+sudo crontab -e
+```
+
+to call cronjobs as root user (not required for our current scripts)
 
 <b>UPDATE_TUN0_IPNAME.PY CRONJOB</b><br>
 Update FQDN with current IP address at every 5min. It runs as regular raspberry user<br>
 Error outputs are appended to file tmp/update_tun0_ipname.log<br>
-*/5 * * * * /usr/bin/python /home/dacosta/CALLHOME/update_tun0_ipname.py >> /tmp/update_tun0_ipname.log 2>&1<br>
+```bash
+*/5 * * * * /usr/bin/python /home/dacosta/CALLHOME/update_tun0_ipname.py >> /tmp/update_tun0_ipname.log 2>&1
+```
 
 <b>UPDATE_STATUS_PANEL.PY</b><br>
 Run script to check VPN connection and update status panel accordingly every 05 min.
-*/5 * * * * /usr/bin/python /home/dacosta/CALLHOME/update_status_panel.py >> /tmp/update_status_panel.log 2>&1<br>
+```bash
+*/5 * * * * /usr/bin/python /home/dacosta/CALLHOME/update_status_panel.py >> /tmp/update_status_panel.log 2>&1
+```
 Troubleshoot or check cronjob run status in here /tmp/update_status_panel.log<br>
 Rememeber to update this with your local path /home/user/folder/update_status_panel.py<br>
 You can use "which python" to see where is the full path for python binary<br>
@@ -120,19 +138,29 @@ For me is /usr/bin/python
 At least in Raspberry PI, services files/settings are store in /etc/systemd/system <br>
 
 How to add a service?<br>
-sudo nano /etc/systemd/system/[service file]<br>
+```bash
+sudo nano /etc/systemd/system/service_filename
+```
 I am used to create files with .service extension, like ovpnscript.service<br>
 
 <b>MANIPULATING SERVICES AFTER CREATION/UPDATE</b><br>
 EXAMPLES<br>
 ```bash
-sudo systemctl enable ovpnscript.service //enable service after file creation
-sudo systemctl start ovpnscript.service<br> //start service
-sudo systemctl status ovpnscript.service<br> //check service status
-sudo systemctl stop ovpnscript.service<br> //stop service
-sudo systemctl disable ovpnscript.service<br> //disable service
-sudo systemctl daemon-reload<br> //when changes are applied to service file, it'll be requested to update is daemon
+sudo systemctl enable ovpnscript.service 
+sudo systemctl start ovpnscript.service 
+sudo systemctl status ovpnscript.service
+sudo systemctl stop ovpnscript.service 
+sudo systemctl disable ovpnscript.service 
+sudo systemctl daemon-reload 
 ```
+
+1) //enable service after file creation
+2) //start service
+3) //check service status
+4) //stop service
+5) //disable service
+6) //when changes are applied to service file, it'll be requested to update is daemon
+
 Note: If VPN is connected by this service and you stop it, it will be same as closing a running program.<br>
 
 <b>MYIP.SERVICE</b><br>
@@ -160,20 +188,23 @@ Backup connection method - a plan B method to persist remote access to raspberry
 Autossh requires ssh keys to be set in order to work.
 
 <b>CREATE SERVICE</b><br>
+```bash
 sudo nano /etc/systemd/system/autossh.service
-
+```
 This service script is save under SERVICES/autossh.service in this repo
-
+```bash
 sudo systemctl enable autossh
 sudo systemctl start autossh
-
+```
 Stopping an autossh instance manually
-1) sudo systemctl stop  autossh
-2) killall autossh
-
+```bash
+sudo systemctl stop  autossh
+killall autossh
+```
 <h1>DRAFT</h1><br>
 <b>SAMPLE SIMPLE CURL</b><br>
 <h1>So you can test API communication with Atlassian</h1><br>
+
 ```bash
 curl https://api.statuspage.io/v1/pages/{page_id}/incidents \
   -H "Authorization: OAuth {api_token}" \
@@ -186,5 +217,3 @@ curl https://api.statuspage.io/v1/pages/{page_id}/incidents \
   -d "incident[components][{component id}]=major_outage" \
   -d "incident[components][{component id}2]=major_outage"
 ```
-
-```bash
