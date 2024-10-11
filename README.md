@@ -21,6 +21,7 @@ and reinitiate the autossh process again<br>
 6) Sends over SSH connection a calling<br>
 Example<br>
 ssh {user}@{ssh_server} \"echo '{ip_address}' > {remote_path}<br>
+<b>192.168.0.10</b> is an example tunnel ip address<br>
 ```bash
 ssh user@server.example.com \"echo '192.168.0.10' > /home/user/folder/current_rasp_ip.txt
 ```
@@ -28,9 +29,11 @@ ssh user@server.example.com \"echo '192.168.0.10' > /home/user/folder/current_ra
 7) Checks if SSH tunnel is established, if not, exit with error
 8) If not any exit error, checks autossh existing process<br>
 
-The goal with this command is recover current Raspberry device IP address for Tunnel VPN and a create a file in SSH Server, another script will<br> read this file over there and know which IP address to ping it back to test "Callback VPN" connection from SSH Server to Raspberry itself<br>
-Later in this project we've realized we could simply tell SSH Server to ping raspberry.example.com which is an FQDN that's often update from<br> Raspberry to Cloudflare API to expose Raspberry's VPN IP address, but for the time being, we won't update this script logics.<br>
+The goal with this command is recover current Raspberry device IP address for Tunnel VPN and a create a file in SSH Server, <br>another script will read this file in the SSH Server and knows which IP address to ping it back to test "Callback VPN" connection from SSH Server to Raspberry itself<br>
+Later in this project we've realized we could simply tell SSH Server to ping <b>raspberry.example.com</b> which is an FQDN that's often update from<br> Raspberry to Cloudflare API to expose Raspberry's VPN IP address, but for the time being, we won't update this script logics.<br>
 
+This scripts runs on startup with autossh.service<br>
+And runs every 05min as cronjob<br>
 Logs for this script are stored in /tmp/autossh_script.log
 
 <b>MYIP.PY</b><br>
@@ -55,7 +58,7 @@ sudo openvpn --config /home/user/folder/file.ovpn --auth-user-pass /home/user/fo
 
 You should have your own OpenVPN Server, so you can retrieve *.ovpn OpenVPN profile file as long as credentials for this VPN connection.
 
-<b>pass.TXT</b><br>
+<b>PASS.TXT</b><br>
 OpenVPN Creds - format<br>
 domain\username or username<br>
 password
@@ -86,9 +89,12 @@ C) If VPN is not working, check if there are existing open incidents in Atlassia
 D) If VPN is working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's none, do nothing, VPN is working.<br>
 
 SSH<br>
-This script follows same logic for SSH service.
+This script follows same logic for SSH service.<br>
 
-<b>CHECK_INCIDENT_STATUS</b><br>
+This scripts runs on startup with vpnstatuspanel.service<br>
+And runs every 05min as cronjob<br>
+
+<b>CHECK_INCIDENT_STATUS.PY</b><br>
 This script will retrieve will check if there's any existing unresolved incidents for VPN in Atlassian Status Panel, save the JSON API response to a file and return component id (which service the incident is associated with) and incident id, if there's any
 This script follows same logic for SSH service.
 
@@ -102,13 +108,26 @@ This script will check if VPN or SSH is available.
 This script will update an existing incident to solve it in Atlassian Status Panel, if a failure no longer exists. VPN or SSH service.
 
 <b>UPDATE_TUN0_IPNAME.PY</b><br>
-This script will retrieve tun0 IP address and update a FQDN in Cloudflare through API, so we can always reach it back the device over VPN without needing to know its current IP address, neither updating clients settings like SSH, VNC, etc...
+This script will retrieve tun0 IP address and update a FQDN in Cloudflare through API, so we can always reach it back the device over VPN without<br>
+needing to know its current IP address, neither updating clients settings like SSH, VNC, etc...<br>
+In this example is <b>raspberry.example.com</b><br>
+This scripts runs on startup with updatedns.service<br>
+And runs every 05min as cronjob<br>
+
+Cloudflare Nameserver and API services for free are compatible with this project, you can just create an account and move or register an FQDN<br> domain and associate to Cloudflare nameservers before moving on. Do not enable Cloudflare DNS proxy for DNS records that will be used within this project. <br>
+
+Create/Find your Cloudflare API Token<br>
+1) Log to your Cloudflare account<br>
+2) Manage Account<br>
+3) Acocunt API Tokens<br>
+4) Create API Token with Edit DNS Zone permissions<br>
+https://developers.cloudflare.com/fundamentals/api/get-started/create-token/<br>
 
 Find your Cloudflare Zone ID<br>
 Log to you Cloudflare account, access the Site/Domain you want to manipulate, account and zone id will be at the right column near bottom <br>
 https://developers.cloudflare.com/fundamentals/setup/find-account-and-zone-ids/<br>
 
-Find your Cloudflare Record ID<br>
+Find your Cloudflare DNS Record ID<br>
 Create/Update the DNS Record you will want to manipulate through Cloudflare API in Cloudflare's Web dashboard<br>
 "Outside site/domain panel, the place where you land just after login, go to Manage Account/Audit log<br>
 Open audit logs, the DNS Record ID will be shown in the log, just click on the name far right to expand the log line<br>
@@ -159,6 +178,17 @@ Troubleshoot or check cronjob run status in here /tmp/update_status_panel.log<br
 Rememeber to update this with your local path /home/user/folder/update_status_panel.py<br>
 You can use "which python" to see where is the full path for python binary<br>
 For me is /usr/bin/python
+
+<b>UPDATED_INTERFACES_PY</b><br>
+myip.py scripts tell us on startup what are the at the moment associated IP addresses for WIRED, WLAN and Tunnel VPN for Raspberry device, but what<br> if the device reboots or changes any of those IP addresses somehow? This script grabs current network scenario and compares to a previous file<br> having prior network configuration, if there's any change, this scripts sends out an e-mail advising us what has changed.<br>
+
+<b>SYNC_SERVICES_SCRIPTS.SH</b><br>
+I've just created a job that runs every hour to sync services settings in /etc/systemd/system/<br>
+It basically grabs each service content and copies to a similar file inside Github repo folder to allow project syncness.<br>
+```bash
+cat /etc/systemd/system/myip.service >/home/dacosta/CALLHOME/SERVICES/myip.service
+
+```
 
 <b>SERVICES</b><br>
 At least in Raspberry PI, services files/settings are store in /etc/systemd/system <br>
@@ -227,7 +257,16 @@ Stopping an autossh instance manually
 sudo systemctl stop  autossh
 killall autossh
 ```
-<h1>DRAFT</h1><br>
+<h1>STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT</h1><br>
+```bash
+
+```
+Settings associated with SSH Server are available at<br>
+https://github.com/dacostapiece/callhome_ssh_server<br>
+If you "local device" is Windows, there's a project for that available at<br>
+https://github.com/dacostapiece/callhome_windows<br>
+
+<h1>TROUBLESHOOTING</h1>
 <b>SAMPLE SIMPLE CURL</b><br>
 <b>So you can test API communication with Atlassian</b>b<br>
 
