@@ -259,7 +259,7 @@ killall autossh
 ```
 <h1>STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT</h1><br>
 ```bash
-
+1)
 ```
 Settings associated with SSH Server are available at<br>
 https://github.com/dacostapiece/callhome_ssh_server<br>
