@@ -203,7 +203,7 @@ killall autossh
 ```
 <h1>DRAFT</h1><br>
 <b>SAMPLE SIMPLE CURL</b><br>
-<h1>So you can test API communication with Atlassian</h1><br>
+<b>So you can test API communication with Atlassian</b>b<br>
 
 ```bash
 curl https://api.statuspage.io/v1/pages/{page_id}/incidents \
@@ -217,3 +217,5 @@ curl https://api.statuspage.io/v1/pages/{page_id}/incidents \
   -d "incident[components][{component id}]=major_outage" \
   -d "incident[components][{component id}2]=major_outage"
 ```
+
+Remember to replace values between brackets {} for your correspondinds IDs.
