@@ -257,10 +257,12 @@ Stopping an autossh instance manually
 sudo systemctl stop  autossh
 killall autossh
 ```
-<h1>STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT</h1><br>
+<h1>STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT</h1>
+
 ```bash
 1)
 ```
+
 Settings associated with SSH Server are available at<br>
 https://github.com/dacostapiece/callhome_ssh_server<br>
 If you "local device" is Windows, there's a project for that available at<br>
