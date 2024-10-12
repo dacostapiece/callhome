@@ -8,3 +8,5 @@ ifconfig.txt
 *.txt
 ipadd.txt_old
 SSH-SERVER/.env
+dns_test.py
+fixnameservers.sh
