@@ -260,7 +260,25 @@ killall autossh
 <h1>STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT</h1>
 
 ```bash
-1)
+1) Get you API Token ID from in your Cloudflare account with associated FQDN domain
+a) Go to https://dash.cloudflare.com/profile/api-tokens/
+b) Select Create API Token
+c) Choose Edit Zone DNS and click on Select Template
+d) Choose permissions Zone/DNS/Edit
+e) Choose resources Zone/
+
+https://developers.cloudflare.com/fundamentals/setup/find-account-and-zone-ids/<br>
+https://developers.cloudflare.com/fundamentals/api/get-started/create-token/<br>
+https://dash.cloudflare.com/profile/api-tokens<br>
+
+3) Create three DNS Type A records without DNS proxy and TTL 5min in your Cloudflare account with associated FQDN domain
+a) raspberry.example.com for VPN Tunnel Raspberry IP device
+b) server.example.com for External SSH device
+c) hub.example.com for External SSH device
+2) Get from each one of them their respectives DNS Record IDs
+https://community.cloudflare.com/t/cannot-find-record-id/326344<br>
+Don't misundertook zone id with dns record id
+
 ```
 
 Settings associated with SSH Server are available at<br>
