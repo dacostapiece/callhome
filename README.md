@@ -353,6 +353,15 @@ ssh-keygen -t ed25519
 #ed25519 or preferable encryption algorihtm for SSH Key
 ```
 
+9) Shared SSH public key to External SSH Server
+Do it once you already have setup and SSH creds for External SSH Server
+```bash
+ssh-copy-id -i /path/to/custom_key.pub username@remote_server
+```
+If ssh-copy-id is unavailable, cat your file.pub (SSH Key public key) content and save it at on External SSH Server<br>
+/home/user/.ssh/authorized_keys
+If this file doesn't exist, create it on External SSH Server
+
 ```bash
 7) atlassian
 8) gmail
