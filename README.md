@@ -325,6 +325,7 @@ b) Create your free account
 c) Choose subdomain name in your Atlassian account
 Example
 examplepanel.atlassian.net
+Click next if possible, THIS IS NOT you Status Panel page, it's something else under the Umbrella of Atlassian/Jira cloud services
 d) It may be requested (currently it's for new accounts) a component creation in a setup wizard
 We're going to need four components, here they are:
 
@@ -348,9 +349,27 @@ e) In the current situation, after four components were added, just click Next
 f) Upload a Status Panel image logo or click Next, you can add it later on
 g) Setup e-mail to receive UPs and Downs regarding your components/services - click Send test email
 For me it didn't workout sending out a test email through Atlassian new account wizard. When i first used Status Page, i added manually on own.
-REVIEW STATUS PAGE MAIL
+While writing this doc, i've just realized admin notification from Atlassian Status Panel it seems to have two different approaches.
+g.1) Remind admins of ongoing incident - standard every 3, 6, 12 and 24 hours - this notification will be sent to e-mail account associated to your Atlassian account
+g.2) For our project and to receive at the moment incident notification from Atlassian, you have to subsbribe it. You can choose whatever e-mail account you might like receiving those email notifications. We suggest you use the recent created Gmail account or any e-mail address that it's supposed to receive those notifications
+g.3) Subscribing to your own Status Panel, click on View status page
+g.4) In our example, it opens up page: https://examplepanel.statuspage.io/
+g.5) Select Subscribe to Updates
+g.6) Enter your e-mail address - i haven't tested other subscription options like x.com - you can try it later
+g.7) Go to your e-mail account, open up Confirm you subscription mail message and click on Confirm
+g.8) You'll be redirected to Status Panel page with an advise that confirmation was sucessful
+g.9) There you go, anytime an incident occurs or get its clear, you'll receive an e-mail message.
+
+6) Get your API Token and Page ID for Atlassian Status Panel
+a) Go to Upper right "power" button and click it for change Settings
+b) Select API info
+c) Create key - give it a name - you call it whatever you like, i suggest "Callhome"
+d) Take note of your API Key for Atlassian Status Panel
+e) On same page you'll have down below the page next to Page IDs, your Page ID, take a note of it
+
 h) Invite a team member - it suggests you to do it, i haven't done. I'll suggest you to skip it for now, click Next.
 i) Save and exit to conclude Wizard
+j) On Status Page, click on Activate your page and select FREE plan, confirm role based warning telling you Free plan doesn't - we wont need it
 
 4) Clone and/or download this repository (callhome) under desired folder in your local linux device, here in our example, a raspberry device.
 If downloaded, remember unzip its folder
