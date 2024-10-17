@@ -308,6 +308,11 @@ Example
 https://community.cloudflare.com/t/cannot-find-record-id/326344
 Don't misundertook zone id with dns record id
 4) Clone and/or download this repository (callhome) under desired folder in your local linux device, here in our example, a raspberry device.
+If downloaded, remember unzip its folder
+a) Take note of the complete full path from this repository - you can call "pwd" inside the directory to get its full path location
+
+5) create an .env file using template below
+
 
 ```
 
