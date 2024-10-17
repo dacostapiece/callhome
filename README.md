@@ -277,29 +277,31 @@ https://developers.cloudflare.com/fundamentals/setup/find-account-and-zone-ids
 https://developers.cloudflare.com/fundamentals/api/get-started/create-token
 https://dash.cloudflare.com/profile/api-tokens
 
-2) Get from each one of them their respectives DNS Record IDs
+2) Get your DNS Zone ID in your Cloudflare account with associated FQDN domain
 a) Log into your Cloudflare account
 b) Go to Websites/example.com
 c) On far right you'll see your Zone ID record
 
 3) Create three DNS Type A records without DNS proxy and TTL 5min in your Cloudflare account with associated FQDN domain.
-After create, we'll edit each of those just to create an audit log for later purpose
 a) raspberry.example.com for VPN Tunnel Raspberry IP device
-edit for any IP address value
+You can set whatever IPv4 address, just for sake of creation of this DNS record
+After create, we'll edit it just to create an audit log for later purpose
 b) server.example.com for External SSH device
-edit for any IP address value
-c) hub.example.com for External SSH device
-edit for any IP address value
+Set External SSH Server Public IP address for this DNS record
+<b>Note:</b> You can create and associate a FQDN for you External SSH Server Public IP address or use an existing FQDN for it
+c) hub.example.com for VPN Server
+Set VPN Server Public IP address for this DNS record
+<b>Note:</b> You can create and associate a FQDN for you VPN Server Public IP address or use an existing FQDN for it
 d) Log into your Cloudflare account
 e) On left sidebar menu, go to Manage account/Audit log
-f) Expand recent audit logs for DNS changes and grab DNS record ID for the respective added DNS records.
+f) Expand recent audit logs for DNS changes and grab DNS record ID for raspberry.example.com.
 The DNS record ID will be simply called "id"
 Example
 {
   "content": "1.1.1.2",
   "data": {},
   "id": "your_dns_record_id",
-  "name": "hub.example.com",
+  "name": "raspberry.example.com",
   "proxied": false,
   "settings": {},
   "ttl": 300,
@@ -309,6 +311,43 @@ Example
 }
 https://community.cloudflare.com/t/cannot-find-record-id/326344
 Don't misundertook zone id with dns record id
+4) You can use any SMTP Server to sending our own E-mail notifications. In our scenario we're going to an Gmail account
+a) Create a new or login to your existing Gmail account
+b) After validation or creation of new Gmail account, go to
+https://myaccount.google.com/apppasswords
+c) Give it a name and click on create
+d) The generated app password will popup to you, this password will be used in our script to authenticate and send e-mails using our Gmail account
+e) You can always go back to same link and delete the password app if desired.
+
+5) Setting up your Status Page panel from Atlassian
+a) Go to https://www.atlassian.com/software/statuspage
+b) Create your free account
+c) Choose subdomain name in your Atlassian account
+Example
+examplepanel.atlassian.net
+d) It may be requested (currently it's for new accounts) a component creation in a setup wizard
+We're going to need four components, here they are:
+
+<b>OpenVPN Outbound Raspberry Device</b>
+Description: The primary VPN connection from Raspberry device to HUB VPN Gateway
+
+<b>SSH Tunnel Outbound Raspberry Device</b>
+Description:The secondary VPN connection over SSH Tunnel from Raspberry device to External SSH Server.
+
+<b>External OpenVPN Raspberry Device Check</b>
+Description: This component checks externally from SSH Server if VPN connection to Raspberry is working. It will connect to same VPN HUB device and try pinging Raspberry current tunnel IP address.
+
+<b>External SSH Tunnel Raspberry Device Check</b>
+Description: This component checks externally from SSH Server if the callback SSH Tunnel connection to Raspberry is working. It will try to connect to Raspberry SSH Service.
+
+If requested, you don't need to setup a Component group. You can leave as it is or play with it later on as pleased. This project doesn't use Component group.
+
+If Components wouldn't be requested at the new account startup, you'll need to setup them later.
+
+e) In the current situation, after four components were added, just click Next
+f) Upload a Status Panel image logo or click Next, you can add it later on
+g) Setup e-mail to receive UPs and Downs regarding your components/services - click Send test email
+
 4) Clone and/or download this repository (callhome) under desired folder in your local linux device, here in our example, a raspberry device.
 If downloaded, remember unzip its folder
 a) Take note of the complete full path from this repository - you can call "pwd" inside the directory to get its full path location
