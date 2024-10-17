@@ -365,11 +365,11 @@ You can test this authentication
 a) Enable SSH Agent with Environment Variable
 b) Add desired PRIVATE KEY file here exampled by "keyfile"
 c) Enter password if the SSH Key was password encrypted
-d) Try SSH into External SSH Server passing the private key already
+d) Try SSH into External SSH Server passing the private key already (From SSH-Agent)
 ```bash
 eval "$(ssh-agent -s)"
-ssh-add keyfile
-ssh -i keyfile kali@server.example.com
+ssh-add /home/user/.ssh/keyfile
+ssh kali@server.example.com
 ```
 
 ```bash
