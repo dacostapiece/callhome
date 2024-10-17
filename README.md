@@ -361,6 +361,16 @@ ssh-copy-id -i /path/to/custom_key.pub username@remote_server
 If ssh-copy-id is unavailable, cat your file.pub (SSH Key public key) content and save it at on External SSH Server<br>
 /home/user/.ssh/authorized_keys
 If this file doesn't exist, create it on External SSH Server
+You can test this authentication
+a) Enable SSH Agent with Environment Variable
+b) Add desired PRIVATE KEY file here exampled by "keyfile"
+c) Enter password if the SSH Key was password encrypted
+d) Try SSH into External SSH Server passing the private key already
+```bash
+eval "$(ssh-agent -s)"
+ssh-add keyfile
+ssh -i keyfile kali@server.example.com
+```
 
 ```bash
 7) atlassian
