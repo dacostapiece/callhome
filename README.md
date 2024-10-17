@@ -391,12 +391,16 @@ d) Click on OpenVPN Outbound Raspberry Device component
 d.1) You'll be able to grab this Component ID from the URL formatting, here exampled by:
 https://manage.statuspage.io/pages/{your page id}/components/{your current component id}/edit
 d.2) Or going down on the page, next to Component API ID and copying it, take a note.
+Here a table so you can follow along and do not get confused by.
 
-4) Clone and/or download this repository (callhome) under desired folder in your local linux device, here in our example, a raspberry device.
+
+You'll repeat this process to get all four Component IDs.
+
+8) Clone and/or download this repository (callhome) under desired folder in your local linux device, here in our example, a raspberry device.
 If downloaded, remember unzip its folder
 a) Take note of the complete full path from this repository - you can call "pwd" inside the directory to get its full path location
 
-6) Setup SSH Settings for Remote Access IN Raspberry
+9) Setup SSH Settings for Remote Access IN Raspberry
 a) For Raspberry, the most easy is
 b) Access it over GUI in virtual machine/HDMI monitor
 c) Click on Raspberry icon upper left/Preferences
@@ -417,11 +421,11 @@ sudo systemctl enable ssh
 sudo service ssh start
 ```
 
-7) Setup SSH Settings for External SSH Server<br>
+10) Setup SSH Settings for External SSH Server<br>
 Jump to this topic on Callhome SSH Server repository readme.md<br> 
 https://github.com/dacostapiece/callhome_ssh_server<br>
 
-8) Setup SSH Keys for SSH Reverse Tunnel between Raspberry and External SSH Server
+11) Setup SSH Keys for SSH Reverse Tunnel between Raspberry and External SSH Server
 a) Call ssh key generator
 b) Enter file name with full path or hit enter to maintain default
 If you type a desired name for ssh key pair, but you don't specify full path directory, key pair will be saved on the current directory
@@ -438,7 +442,7 @@ ssh-keygen -t ed25519
 #ed25519 or preferable encryption algorihtm for SSH Key
 ```
 
-9) Shared SSH public key to External SSH Server
+12) Shared SSH public key to External SSH Server
 Do it once you already have setup and SSH creds for External SSH Server
 ```bash
 ssh-copy-id -i /path/to/custom_key.pub username@remote_server
@@ -458,9 +462,8 @@ ssh kali@server.example.com
 ```
 
 ```bash
-7) atlassian
-8) gmail
-9) create an .env file using template below inside your download repository folder
+
+13) Create an .env file using template below inside your download repository folder (Raspberry/Linux local side)
 ```
 
 <b>.ENV file template</b><br>
@@ -518,10 +521,49 @@ ssh_server_filename_directory = "/home/user/CALLHOME_SSH_SERVER"
 #The place where you write the above file over SSH connection in the External SSH Server
 ```
 
+Which settings you can leave as it is .ENV file? (at least in most cases)
+a) SSH_OPTIONS
+b) SSH_PORT
+c) SSH_SERVER_FILENAME
+
+Everything else you'll need to update according to your environment.
+
+Adjust config settings (Raspberry/Linux local side)
+a) raspberry_vpn_component_id
+b) remote_ssh_server_component_id
+
 Settings associated with SSH Server are available at<br>
 https://github.com/dacostapiece/callhome_ssh_server<br>
 If you "local device" is Windows, there's a project for that available at<br>
 https://github.com/dacostapiece/callhome_windows<br>
+
+14) Enabling python libraries
+a) ping3
+b) python-dotenv
+c) requests
+d) pip
+e) autossh
+
+15) If you haven't so far, go start setting up External SSH Server
+https://github.com/dacostapiece/callhome_ssh_server<br>
+
+16) Test APIs
+17) Test OpenVPN
+18) Test SSH
+
+19) Enabling services
+a) autossh.service
+b) myip.service
+c) ovpnscript.service
+d) updatedns.service
+e) vpnstatuspanel.service
+
+20) Enabling cron jobs
+a) autossh_script.py
+b) sync_services_scripts.sh
+c) updated_interfaces.py
+d) update_tun0_ipname.py
+e) update_status_panel.py
 
 <h1>TROUBLESHOOTING</h1>
 <b>SAMPLE SIMPLE CURL</b><br>
