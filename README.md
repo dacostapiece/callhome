@@ -336,6 +336,23 @@ sudo service ssh start
 Jump to this topic on Callhome SSH Server repository readme.md<br> 
 https://github.com/dacostapiece/callhome_ssh_server<br>
 
+8) Setup SSH Keys for SSH Reverse Tunnel between Raspberry and External SSH Server
+a) Call ssh key generator
+b) Enter file name with full path or hit enter to maintain default
+If you type a desired name for ssh key pair, but you don't specify full path directory, key pair will be saved on the current directory
+You can type "pwd" to check current full path directory
+c) Enter SSH key password, you hit enter, no password will be set, for sake of current project, please set a password and take note
+d) Repeat password if it was entered before
+Key with .pub - public key
+Key without extension - private key
+
+
+```bash
+a)
+ssh-keygen -t ed25519
+#ed25519 or preferable encryption algorihtm for SSH Key
+```
+
 ```bash
 7) atlassian
 8) gmail
