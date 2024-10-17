@@ -371,6 +371,27 @@ h) Invite a team member - it suggests you to do it, i haven't done. I'll suggest
 i) Save and exit to conclude Wizard
 j) On Status Page, click on Activate your page and select FREE plan, confirm role based warning telling you Free plan doesn't - we wont need it
 
+7) Get your Component IDs in Atlassian Status Page
+We'll retrieve four Component IDs, two for the Raspberry/Linux local device and two for the External SSH Server
+
+Their variables we'll update them accordingly later in config code
+
+<b>Raspberry/Linux local device</b>
+raspberry_vpn_component_id
+remote_ssh_server_component_id
+
+<b>External SSH Server</b>
+callback_vpn_component_id
+callback_ssh_component_id
+
+a) Click on Components
+b) Here you can Add component - if you haven't on Startup Atlassian account Wizard and follow previous formentioned steps
+c) There two "builtin" Components, you can delete them, they are the for example purposes
+d) Click on OpenVPN Outbound Raspberry Device component
+d.1) You'll be able to grab this Component ID from the URL formatting, here exampled by:
+https://manage.statuspage.io/pages/{your page id}/components/{your current component id}/edit
+d.2) Or going down on the page, next to Component API ID and copying it, take a note.
+
 4) Clone and/or download this repository (callhome) under desired folder in your local linux device, here in our example, a raspberry device.
 If downloaded, remember unzip its folder
 a) Take note of the complete full path from this repository - you can call "pwd" inside the directory to get its full path location
