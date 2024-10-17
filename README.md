@@ -4,6 +4,8 @@
 3) Start Webserver to receive SSID and password creds to login to neighbouring SSID
 4) Clean code
 5) Iterate loop only on associated components IDs - VPN Checks VPNs Incidents related, SSH  Checks SSH Incidents related, and so on.
+6) Improve SSH habdling in SSH External Server - handle stale processes
+7) Create a Install script
 
 The idea is to called these scripts after a device connects to VPN Server to advertises its tun interface IP address over email.
 
