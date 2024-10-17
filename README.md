@@ -261,23 +261,35 @@ killall autossh
 
 ```bash
 1) Get you API Token ID from in your Cloudflare account with associated FQDN domain
-a) Go to https://dash.cloudflare.com/profile/api-tokens/
-b) Select Create API Token
-c) Choose Edit Zone DNS and click on Select Template
+a) Go to:
+https://dash.cloudflare.com/profile/api-tokens/
+b) Select Create Token in API Tokens
+c) Choose Edit Zone DNS and click on Use Template
 d) Choose permissions Zone/DNS/Edit
-e) Choose resources Zone/
+e) Choose resources Include/Specific zone/example.com
+f) Continue to summary
+g) Create Token
+h) Copy token
 
-https://developers.cloudflare.com/fundamentals/setup/find-account-and-zone-ids/<br>
-https://developers.cloudflare.com/fundamentals/api/get-started/create-token/<br>
-https://dash.cloudflare.com/profile/api-tokens<br>
+https://developers.cloudflare.com/fundamentals/setup/find-account-and-zone-ids
+https://developers.cloudflare.com/fundamentals/api/get-started/create-token
+https://dash.cloudflare.com/profile/api-tokens
+
+2) Get from each one of them their respectives DNS Record IDs
+a) Log into your Cloudflare account
+b) Go to Websites/example.com
+c) On far right you'll see your Zone ID record
 
 3) Create three DNS Type A records without DNS proxy and TTL 5min in your Cloudflare account with associated FQDN domain
 a) raspberry.example.com for VPN Tunnel Raspberry IP device
 b) server.example.com for External SSH device
 c) hub.example.com for External SSH device
-2) Get from each one of them their respectives DNS Record IDs
-https://community.cloudflare.com/t/cannot-find-record-id/326344<br>
+d) Log into your Cloudflare account
+e) On left sidebar menu, go to Manage account/Audit log
+f) Expand recent audit logs for DNS changes and grab DNS record ID for the respective added DNS records
+https://community.cloudflare.com/t/cannot-find-record-id/326344
 Don't misundertook zone id with dns record id
+
 
 ```
 
@@ -303,4 +315,13 @@ curl https://api.statuspage.io/v1/pages/{page_id}/incidents \
   -d "incident[components][{component id}2]=major_outage"
 ```
 
+<b>SAMPLE SIMPLE CURL</b><br>
+<b>So you can test API communication with Cloudflare</b>b<br>
+
+```bash
+
+curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
+     -H "Authorization: Bearer {Cloudflare API Token}" \
+     -H "Content-Type:application/json"
+```
 Remember to replace values between brackets { } for your correspondinds IDs.
