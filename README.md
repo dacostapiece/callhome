@@ -347,6 +347,10 @@ If Components wouldn't be requested at the new account startup, you'll need to s
 e) In the current situation, after four components were added, just click Next
 f) Upload a Status Panel image logo or click Next, you can add it later on
 g) Setup e-mail to receive UPs and Downs regarding your components/services - click Send test email
+For me it didn't workout sending out a test email through Atlassian new account wizard. When i first used Status Page, i added manually on own.
+REVIEW STATUS PAGE MAIL
+h) Invite a team member - it suggests you to do it, i haven't done. I'll suggest you to skip it for now, click Next.
+i) Save and exit to conclude Wizard
 
 4) Clone and/or download this repository (callhome) under desired folder in your local linux device, here in our example, a raspberry device.
 If downloaded, remember unzip its folder
