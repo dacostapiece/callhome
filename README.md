@@ -311,9 +311,90 @@ Don't misundertook zone id with dns record id
 If downloaded, remember unzip its folder
 a) Take note of the complete full path from this repository - you can call "pwd" inside the directory to get its full path location
 
-5) create an .env file using template below
+6) Setup SSH Settings for Remote Access IN Raspberry
+a) For Raspberry, the most easy is
+b) Access it over GUI in virtual machine/HDMI monitor
+c) Click on Raspberry icon upper left/Preferences
+d) Click on Raspberry PI Configuration
+e) On Interfaces tab, toggle ON for SSH
+IF Available On Interfaces tab, toggle ON for VNC for remote GUI access
+IF VNC option doesnt show, google it how to enable VNC or if you dont want, just ignore VNC step
+f) SSH user and password creds are the same you setup (or standard?) for raspberry device
+```
 
+IF YOUR LOCAL DEVICE is not a Raspberry PI, here an example to setup SSH Server for Kali Linux.<br> 
+If SSH isn't already enable on your local device, please google it how to enable it<br>
 
+```bash
+sudo apt-get update
+sudo apt-get install ssh
+sudo systemctl enable ssh
+sudo service ssh start
+```
+
+7) Setup SSH Settings for External SSH Server<br>
+Jump to this topic on Callhome SSH Server repository readme.md<br> 
+https://github.com/dacostapiece/callhome_ssh_server<br>
+
+```bash
+7) atlassian
+8) gmail
+9) create an .env file using template below inside your download repository folder
+```
+
+<b>.ENV file template</b><br>
+```bash
+#.env
+
+# Mail settings
+mailserver = 'smtp.gmail.com'
+smtpport = 587
+mailusername = 'yourgmailaccount@gmail.com'
+mailpassword = 'yourappgmailaccount'
+#it's not your actual gmail account password
+source_mailaddress = 'yourgmailaccount@gmail.com'
+dest_mailaddress = 'yourgmailaccount@gmail.com'
+#You should repeat source and dest mail address for the sake of easeness, but you can change it as required
+
+# Remote VPN Target
+vpn_probe_target = "192.168.0.1"
+#This is the IP address for your primary and private internal VPN Server itself, change it accordingly
+
+#API Atlassian General Settings
+api_token = "{your API token}"
+page_id = "{your Atlassian page ID}"
+
+# Cloudflare API credentials
+CF_API_TOKEN = '{your recent API Token created in Cloudflare}'
+
+# Cloudflare Zone ID and DNS record information
+ZONE_ID = 'your just found DNS zone ID for the domain you're using it'
+DNS_RECORD_NAME = 'raspberry.example.com'
+DNS_RECORD_ID = 'your just found DNS record ID for the raspberry fqdn domain name you'll use it for raspberry'
+
+# SSH settings
+SSH_USER = 'ssh user you have setup for External SSH Server'
+SSH_SERVER = 'server.example.com'
+SSH_OPTIONS = '-M 0 -f -N -R 2220:localhost:22 -R 5910:localhost:5900 '
+#This SSH Options are exposing SSH with external port 2220 and VNC with external port 5910, taking in mind local VNC port is 5900, sometimes it can be 5901, 5902, etc...
+#Check it which is yours VNC raspberry/local device local port - IF you'll expose VNC for External GUI remote access
+#You can change the exposed ports to something mor suitable for you, here they are 2220 for SSH and 5910 for VNC
+
+SSH_KEY_PASSWORD='ssh key password you have setup for External SSH Server'
+#This is the password for SSH KEY, not the SSH USER PASSWORD, we won't be using SSH USER PASSWORD for Login
+
+KEY_FILE = '/home/user/.ssh/idrsa'
+#The location along filename for your SSH PRIVATE KEY you'll use and have added to known hosts in External SSH Server
+
+SSH_PORT = 22
+#The exposed SSH Server port, SSH standard is 22
+
+#SSH SERVER
+SSH_SERVER_FILENAME = "current_rasp_ip.txt"
+#SSH Server you read this file that's going to be WRITTEN over SSH connection from Raspberry/local device to SSH Server, this file will contain the raspberry tunnel ip address, so SSH Server knows where to ping it back to verify externally if Raspberry is indeed connected to Primary VPN Server
+
+ssh_server_filename_directory = "/home/user/CALLHOME_SSH_SERVER"
+#The place where you write the above file over SSH connection in the External SSH Server
 ```
 
 Settings associated with SSH Server are available at<br>
