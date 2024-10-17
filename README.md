@@ -280,16 +280,34 @@ a) Log into your Cloudflare account
 b) Go to Websites/example.com
 c) On far right you'll see your Zone ID record
 
-3) Create three DNS Type A records without DNS proxy and TTL 5min in your Cloudflare account with associated FQDN domain
+3) Create three DNS Type A records without DNS proxy and TTL 5min in your Cloudflare account with associated FQDN domain.
+After create, we'll edit each of those just to create an audit log for later purpose
 a) raspberry.example.com for VPN Tunnel Raspberry IP device
+edit for any IP address value
 b) server.example.com for External SSH device
+edit for any IP address value
 c) hub.example.com for External SSH device
+edit for any IP address value
 d) Log into your Cloudflare account
 e) On left sidebar menu, go to Manage account/Audit log
-f) Expand recent audit logs for DNS changes and grab DNS record ID for the respective added DNS records
+f) Expand recent audit logs for DNS changes and grab DNS record ID for the respective added DNS records.
+The DNS record ID will be simply called "id"
+Example
+{
+  "content": "1.1.1.2",
+  "data": {},
+  "id": "your_dns_record_id",
+  "name": "hub.example.com",
+  "proxied": false,
+  "settings": {},
+  "ttl": 300,
+  "type": "A",
+  "zone_id": "your_dns_zone_id",
+  "zone_name": "example.com"
+}
 https://community.cloudflare.com/t/cannot-find-record-id/326344
 Don't misundertook zone id with dns record id
-
+4) Clone and/or download this repository (callhome) under desired folder in your local linux device, here in our example, a raspberry device.
 
 ```
 
