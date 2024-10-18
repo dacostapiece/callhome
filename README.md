@@ -261,17 +261,21 @@ killall autossh
 ```
 <h1>STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT</h1>
 
-```bash
-1) Get you API Token ID from in your Cloudflare account with associated FQDN domain
-a) Go to:
+<h2>Raspberry/Local Linux Device</h2>
+
+1) Get you API Token ID from in your Cloudflare account with associated FQDN domain<br>
+a) Create or log to your Cloudflare account
+b) Associate or used an already associated FQDN domain in your Cloudflare account
+Here exemplified by: example.com
+c) Go to:
 https://dash.cloudflare.com/profile/api-tokens/
-b) Select Create Token in API Tokens
-c) Choose Edit Zone DNS and click on Use Template
-d) Choose permissions Zone/DNS/Edit
-e) Choose resources Include/Specific zone/example.com
-f) Continue to summary
-g) Create Token
-h) Copy token
+d) Select Create Token in API Tokens
+e) Choose Edit Zone DNS and click on Use Template
+f) Choose permissions Zone/DNS/Edit
+g) Choose resources Include/Specific zone/example.com
+h) Continue to summary
+i) Create Token
+j) Copy token
 
 https://developers.cloudflare.com/fundamentals/setup/find-account-and-zone-ids
 https://developers.cloudflare.com/fundamentals/api/get-started/create-token
@@ -297,6 +301,7 @@ e) On left sidebar menu, go to Manage account/Audit log
 f) Expand recent audit logs for DNS changes and grab DNS record ID for raspberry.example.com.
 The DNS record ID will be simply called "id"
 Example
+```bash
 {
   "content": "1.1.1.2",
   "data": {},
@@ -309,6 +314,7 @@ Example
   "zone_id": "your_dns_zone_id",
   "zone_name": "example.com"
 }
+```
 https://community.cloudflare.com/t/cannot-find-record-id/326344
 Don't misundertook zone id with dns record id
 4) You can use any SMTP Server to sending our own E-mail notifications. In our scenario we're going to an Gmail account
@@ -386,19 +392,26 @@ callback_ssh_component_id
 
 a) Click on Components
 b) Here you can Add component - if you haven't on Startup Atlassian account Wizard and follow previous formentioned steps
-c) There two "builtin" Components, you can delete them, they are the for example purposes
+c) There are two "builtin" Components, you can delete them, they are the for example purposes
 d) Click on OpenVPN Outbound Raspberry Device component
 d.1) You'll be able to grab this Component ID from the URL formatting, here exampled by:
 https://manage.statuspage.io/pages/{your page id}/components/{your current component id}/edit
 d.2) Or going down on the page, next to Component API ID and copying it, take a note.
 Here a table so you can follow along and do not get confused by.
-
+[TABLE]
 
 You'll repeat this process to get all four Component IDs.
 
 8) Clone and/or download this repository (callhome) under desired folder in your local linux device, here in our example, a raspberry device.
 If downloaded, remember unzip its folder
+```bash
+unzip file.zip -d /path/to/destination
+```
 a) Take note of the complete full path from this repository - you can call "pwd" inside the directory to get its full path location
+```bash
+pwd
+/home/user/callhome
+```
 
 9) Setup SSH Settings for Remote Access IN Raspberry
 a) For Raspberry, the most easy is
@@ -409,7 +422,7 @@ e) On Interfaces tab, toggle ON for SSH
 IF Available On Interfaces tab, toggle ON for VNC for remote GUI access
 IF VNC option doesnt show, google it how to enable VNC or if you dont want, just ignore VNC step
 f) SSH user and password creds are the same you setup (or standard?) for raspberry device
-```
+
 
 IF YOUR LOCAL DEVICE is not a Raspberry PI, here an example to setup SSH Server for Kali Linux.<br> 
 If SSH isn't already enable on your local device, please google it how to enable it<br>
@@ -420,30 +433,55 @@ sudo apt-get install ssh
 sudo systemctl enable ssh
 sudo service ssh start
 ```
-
+<h2>External SSH Server</h2>
 10) Setup SSH Settings for External SSH Server<br>
 Jump to this topic on Callhome SSH Server repository readme.md<br> 
 https://github.com/dacostapiece/callhome_ssh_server<br>
 
-11) Setup SSH Keys for SSH Reverse Tunnel between Raspberry and External SSH Server
+Here an example to setup SSH Server for Kali Linux.<br> 
+If SSH isn't already enable on your local device, please google it how to enable it<br>
+
+```bash
+sudo apt-get update
+sudo apt-get install ssh
+sudo systemctl enable ssh
+sudo service ssh start
+```
+
+11) Allow SSH Public Key Authentication
+a) Edit sshd_config settings file
+Usually at
+/etc/ssh/sshd_config
+```bash
+sudo nano /etc/ssh/sshd_config
+```
+#sudo if root is required on your SSH Server Linux Distro - Kali Linux does require
+b) Find line PubAuthenticationKey, uncomment if necessary (remove #) and set it to yes
+c) Find line PasswordAuthentication, uncomment if necessary (remove #) and set it to no - DO IT if password ssh access should be disabled or ignore this step
+
+<h2>Raspberry/Local Linux Device</h2>
+
+12) Setup SSH Keys for SSH Reverse Tunnel between Raspberry and External SSH Server
+Commands are shown below
 a) Call ssh key generator
-b) Enter file name with full path or hit enter to maintain default
-If you type a desired name for ssh key pair, but you don't specify full path directory, key pair will be saved on the current directory
+If you type a desired name for ssh key pair, but you don't specify full path directory, key pair will be saved on the current directory your user is at
 You can type "pwd" to check current full path directory
-c) Enter SSH key password, you hit enter, no password will be set, for sake of current project, please set a password and take note
+
+b) Enter file name with full path or hit enter to maintain default
+c) Enter SSH key password, if you hit enter with blank password, no password will be set, for sake of current project, please set a password and take note
 d) Repeat password if it was entered before
+<b>Notes</b>
 Key with .pub - public key
 Key without extension - private key
 
-
+<b>Commands</b>
+ed25519 or preferable encryption algorihtm for SSH Key
 ```bash
-a)
 ssh-keygen -t ed25519
-#ed25519 or preferable encryption algorihtm for SSH Key
 ```
 
-12) Shared SSH public key to External SSH Server
-Do it once you already have setup and SSH creds for External SSH Server
+13) Share SSH public key to External SSH Server
+Do it once you already have setup and SSH creds for External SSH Server (steps 10 and 11 from here)
 ```bash
 ssh-copy-id -i /path/to/custom_key.pub username@remote_server
 ```
@@ -451,20 +489,24 @@ If ssh-copy-id is unavailable, cat your file.pub (SSH Key public key) content an
 /home/user/.ssh/authorized_keys
 If this file doesn't exist, create it on External SSH Server
 You can test this authentication
-a) Enable SSH Agent with Environment Variable
-b) Add desired PRIVATE KEY file here exampled by "keyfile"
-c) Enter password if the SSH Key was password encrypted
-d) Try SSH into External SSH Server passing the private key already (From SSH-Agent)
+Most simple and manual SSH Key test
+a) Flag -i indicate private key location followed by username and reachable External SSH Server address
+```bash
+ssh -i /home/user/.ssh/keyfile user@server.example.com
+//enter your SSH key password, if password key was set before
+```
+SSH Key test with SSH Agent
+b) Enable SSH Agent with Environment Variable
+c) Add desired PRIVATE KEY file here exampled by "keyfile"
+d) Enter password if the SSH Key was password encrypted
+e) Try SSH into External SSH Server passing the private key already (From SSH-Agent)
 ```bash
 eval "$(ssh-agent -s)"
 ssh-add /home/user/.ssh/keyfile
-ssh kali@server.example.com
+ssh user@server.example.com
 ```
 
-```bash
-
-13) Create an .env file using template below inside your download repository folder (Raspberry/Linux local side)
-```
+14) Create an .env file using template below inside your download repository folder (Raspberry/Linux local side)
 
 <b>.ENV file template</b><br>
 ```bash
