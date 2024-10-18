@@ -511,7 +511,7 @@ ssh user@server.example.com
 <b>.ENV file template</b><br>
 ```bash
 #.env
-
+#remove { } brackets whenever they appear here, they are just pointing you should paste your ID/API Token
 # Mail settings
 mailserver = 'smtp.gmail.com'
 smtpport = 587
