@@ -534,9 +534,11 @@ page_id = "{your Atlassian page ID}"
 CF_API_TOKEN = '{your recent API Token created in Cloudflare}'
 
 # Cloudflare Zone ID and DNS record information
-ZONE_ID = 'your just found DNS zone ID for the domain you're using it'
+ZONE_ID = 'abcdefghijklmnopqrstuvwxyz'
+#your just found DNS zone ID for the domain you're using it'
 DNS_RECORD_NAME = 'raspberry.example.com'
-DNS_RECORD_ID = 'your just found DNS record ID for the raspberry fqdn domain name you'll use it for raspberry'
+DNS_RECORD_ID = 'abcdefghijklmnopqrstuvwxyz'
+#your just found DNS record ID for the raspberry fqdn domain name you'll use it for raspberry
 
 # SSH settings
 SSH_USER = 'ssh user you have setup for External SSH Server'
