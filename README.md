@@ -614,15 +614,20 @@ Refresh and validate it
 ```bash
 source ~/.bashrc
 echo $PATH
-
 ```
 16) Set OpenVPN
+```bash
+sudo apt install openvpn
+```
+Test it, connect to it and ping it the private VPN internal address
+```bash
+ sudo openvpn --config callhome.ovpn --auth-user-pass pass.txt
+```
 
 17) If you haven't so far, go start setting up External SSH Server
 https://github.com/dacostapiece/callhome_ssh_server<br>
 
 16) Test APIs
-17) Test OpenVPN
 18) Test SSH
 
 19) Enabling services
