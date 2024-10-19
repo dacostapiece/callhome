@@ -589,7 +589,36 @@ c) requests
 d) pip
 e) autossh
 
-15) If you haven't so far, go start setting up External SSH Server
+Install pip
+```bash
+sudo apt install python3-pip
+```
+Install autossh
+```bash
+sudo apt install autossh
+```
+Install libraries
+pip has to be installed as previous step, so you can move on command below
+```bash
+pip3 install ping3 python-dotenv requests
+```
+Fix PATH for dotenv and ping3
+```bash
+nano ~/.bashrc
+```
+Add this to end of file
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
+Refresh and validate it
+```bash
+source ~/.bashrc
+echo $PATH
+
+```
+16) Set OpenVPN
+
+17) If you haven't so far, go start setting up External SSH Server
 https://github.com/dacostapiece/callhome_ssh_server<br>
 
 16) Test APIs
