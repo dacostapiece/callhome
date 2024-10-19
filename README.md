@@ -616,10 +616,18 @@ source ~/.bashrc
 echo $PATH
 ```
 16) Set OpenVPN
+a) Install OpenVPN client
 ```bash
 sudo apt install openvpn
 ```
-Test it, connect to it and ping it the private VPN internal address
+b) Download you file.ovpn OpenVPN profile given by VPN Server administrator and/or yourself
+c) Create your OpenVPN credential file, here as pass.txt
+```bash
+username or domain\username
+password
+```
+
+d) Test it, connect to it and ping it the private VPN internal address
 ```bash
  sudo openvpn --config callhome.ovpn --auth-user-pass pass.txt
 ```
