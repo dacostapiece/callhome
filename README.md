@@ -572,7 +572,8 @@ c) SSH_SERVER_FILENAME
 
 Everything else you'll need to update according to your environment.
 
-Adjust config settings (Raspberry/Linux local side)
+15) Adjust config settings (Raspberry/Linux local side)
+config.py file
 a) raspberry_vpn_component_id
 b) remote_ssh_server_component_id
 
@@ -581,7 +582,7 @@ https://github.com/dacostapiece/callhome_ssh_server<br>
 If you "local device" is Windows, there's a project for that available at<br>
 https://github.com/dacostapiece/callhome_windows<br>
 
-14) Enabling python libraries
+16) Enabling python libraries
 a) ping3
 b) python-dotenv
 c) requests
