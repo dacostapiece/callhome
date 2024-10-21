@@ -758,11 +758,41 @@ sudo nano /etc/systemd/system/vpnstatuspanel.service
 ```
 
 22) Enabling cron jobs
+To create/edit cronjobs, type 
+```bash
+crontab -e
+```
+ - then select your text editor (when crontab -e is called at first time), i am more familiar with nano
+
 a) autossh_script.py
+a.1) Adjust your user and script path following sample below
+```bash
+*/5 * * * * /usr/bin/python /home/user/callhome/autossh_script.py >>/tmp/autossh_script.job.log 2>&1
+```
+
 b) sync_services_scripts.sh
+b.1) Adjust your user and script path following sample below
+```bash
+0 * * * * /home/user/callhome/sync_services_scripts.sh >>/tmp/sync_services_scripts.log 2>&1
+```
+
 c) updated_interfaces.py
+c.1) Adjust your user and script path following sample below
+```bash
+*/5 * * * * /usr/bin/python /home/user/callhome/updated_interfaces.py >>/tmp/updated_interfaces_cron.log 2>&1
+```
+
 d) update_tun0_ipname.py
+d.1) Adjust your user and script path following sample below
+```bash
+*/5 * * * * /usr/bin/python /home/user/callhome/update_tun0_ipname.py >> /tmp/update_tun0_ipname.log 2>&1
+```
+
 e) update_status_panel.py
+e.1) Adjust your user and script path following sample below
+```bash
+*/5 * * * * /usr/bin/python /home/user/callhome/update_status_panel.py >> /tmp/update_status_panel.log 2>&1
+```
 
 <h1>TROUBLESHOOTING</h1>
 <b>Test API communication with Atlassian</b>b<br>
