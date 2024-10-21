@@ -636,16 +636,128 @@ d) Test it, connect to it and ping it the private VPN internal address
 https://github.com/dacostapiece/callhome_ssh_server<br>
 
 16) Test APIs
+a) More below on troubleshooting you have sample and example for testing API Communication with Cloudflare and Atlassian 
 18) Test SSH
+a) Steps 9 to 14 allow you to test SSH connection from Raspberry to External SSH Server
+b) You can locally test if Raspberry is accepting SSH connections or not
 
-19) Enabling services
+20) Enabling services
 a) autossh.service
-b) myip.service
-c) ovpnscript.service
-d) updatedns.service
-e) vpnstatuspanel.service
+a.1) Adjust your user and script path following sample below
+Sample script
+```bash
+[Unit]
+Description=AutoSSH Tunnel Service
+After=network.target
 
-20) Enabling cron jobs
+[Service]
+ExecStartPre=/bin/sleep 30
+Type=forking
+ExecStart=/home/user/callhome/autossh_script.py
+Restart=always
+User=user
+WorkingDirectory=/user/dacosta/callhome
+
+[Install]
+WantedBy=multi-user.target
+```
+a.2) Save this settings following this command
+```bash
+sudo nano /etc/systemd/system/autossh.service
+```
+
+b) myip.service
+b.1) Adjust your user and script path following sample below
+Sample script
+```bash
+[Unit]
+Description=My Script
+
+[Service]
+ExecStartPre=/bin/sleep 30
+ExecStart=/home/user/callhome/myip_script.sh
+Restart=on-failure
+StartLimitBurst=6
+RestartSec=60
+User=user
+WorkingDirectory=/home/user/callhome
+[Install]
+WantedBy=multi-user.target
+```
+b.2) Save this settings following this command
+```bash
+sudo nano /etc/systemd/system/myip.service
+```
+
+c) ovpnscript.service
+c.1) Adjust your user and script path following sample below
+Sample script
+```bash
+[Unit]
+Description=OpenVPN Script - Persistance
+
+[Service]
+ExecStart=/home/user/callhome/openvpn_script.sh
+Restart=always
+User=user
+
+[Install]
+WantedBy=multi-user.target
+```
+c.2) Save this settings following this command
+```bash
+sudo nano /etc/systemd/system/ovpnscript.service
+```
+
+d) updatedns.service
+d.1) Adjust your user and script path following sample below
+Sample script
+```bash
+[Unit]
+Description=My Script
+
+[Service]
+ExecStartPre=/bin/sleep 30
+ExecStart=/home/user/callhome/update_tun0_ipname.py
+Restart=on-failure
+StartLimitBurst=3
+RestartSec=30
+User=user
+
+[Install]
+WantedBy=multi-user.target
+```
+d.2) Save this settings following this command
+```bash
+sudo nano /etc/systemd/system/updatedns.service
+```
+
+e) vpnstatuspanel.service
+e.1) Adjust your user and script path following sample below
+Sample script
+```bash
+[Unit]
+Description=My Script
+After=network.target
+
+[Service]
+ExecStartPre=/bin/sleep 30
+ExecStart=/home/user/callhome/update_status_panel.py
+Restart=on-failure
+StartLimitBurst=3
+RestartSec=30
+User=user
+WorkingDirectory=/home/user/CALLHOME
+
+[Install]
+WantedBy=multi-user.target
+```
+e.2) Save this settings following this command
+```bash
+sudo nano /etc/systemd/system/vpnstatuspanel.service
+```
+
+22) Enabling cron jobs
 a) autossh_script.py
 b) sync_services_scripts.sh
 c) updated_interfaces.py
