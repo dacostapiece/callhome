@@ -653,9 +653,8 @@ d) update_tun0_ipname.py
 e) update_status_panel.py
 
 <h1>TROUBLESHOOTING</h1>
-<b>SAMPLE SIMPLE CURL</b><br>
-<b>So you can test API communication with Atlassian</b>b<br>
-
+<b>Test API communication with Atlassian</b>b<br>
+Create incident, replace abde for you Component ID<br>
 ```bash
 curl https://api.statuspage.io/v1/pages/{page_id}/incidents \
   -H "Authorization: OAuth {api_token}" \
@@ -663,19 +662,18 @@ curl https://api.statuspage.io/v1/pages/{page_id}/incidents \
   -d "incident[name]=Teste Component" \
   -d "incident[status]=investigating" \
   -d "incident[body]=Testando componentes" \
-  -d "incident[component_ids][]={component id}" \
-  -d "incident[component_ids][]={component id2}" \
-  -d "incident[components][{component id}]=major_outage" \
-  -d "incident[components][{component id}2]=major_outage"
+  -d "incident[component_ids][]=abcdefghijklmnopqrstuvwxyz" \
+  -d "incident[component_ids][]=zyxwvutsrqponmlkjihgfedcba" \
+  -d "incident[components][abcdefghijklmnopqrstuvwxyz]=major_outage" \
+  -d "incident[components][zyxwvutsrqponmlkjihgfedcba]=major_outage"
 ```
 
 <b>SAMPLE SIMPLE CURL</b><br>
-<b>So you can test API communication with Cloudflare</b>b<br>
+<b>Test API communication with Cloudflare</b>b<br>
 
 ```bash
-
 curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
-     -H "Authorization: Bearer {Cloudflare API Token}" \
+     -H "Authorization: Bearer abcdefghijklmnopqrstuvwxyz" \
      -H "Content-Type:application/json"
 ```
-Remember to replace values between brackets { } for your correspondinds IDs.
+Remember to replace values between brackets abcdefghijklmnopqrstuvwxyz/zyxwvutsrqponmlkjihgfedcba for your correspondinds IDs/APIs.
