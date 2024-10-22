@@ -642,6 +642,17 @@ a) Steps 9 to 14 allow you to test SSH connection from Raspberry to External SSH
 b) You can locally test if Raspberry is accepting SSH connections or not
 
 20) Enabling services
+Overall services handling - for each service - example
+```bash
+sudo systemctl enable autossh.service 
+sudo systemctl start autossh.service 
+sudo systemctl status autossh.service
+sudo systemctl stop autossh.service 
+sudo systemctl disable autossh.service 
+sudo systemctl daemon-reload 
+```
+
+
 a) autossh.service
 a.1) Adjust your user and script path following sample below
 Sample script
@@ -656,7 +667,7 @@ Type=forking
 ExecStart=/home/user/callhome/autossh_script.py
 Restart=always
 User=user
-WorkingDirectory=/user/dacosta/callhome
+WorkingDirectory=/home/user/callhome
 
 [Install]
 WantedBy=multi-user.target
@@ -664,6 +675,12 @@ WantedBy=multi-user.target
 a.2) Save this settings following this command
 ```bash
 sudo nano /etc/systemd/system/autossh.service
+```
+a.3) Setup services
+```bash
+sudo systemctl enable autossh.service 
+sudo systemctl start autossh.service 
+sudo systemctl status autossh.service
 ```
 
 b) myip.service
@@ -688,6 +705,13 @@ b.2) Save this settings following this command
 ```bash
 sudo nano /etc/systemd/system/myip.service
 ```
+b.3) Setup services
+```bash
+sudo systemctl enable myip.service 
+sudo systemctl start myip.service 
+sudo systemctl status myip.service
+```
+
 
 c) ovpnscript.service
 c.1) Adjust your user and script path following sample below
@@ -707,6 +731,12 @@ WantedBy=multi-user.target
 c.2) Save this settings following this command
 ```bash
 sudo nano /etc/systemd/system/ovpnscript.service
+```
+c.3) Setup services
+```bash
+sudo systemctl enable ovpnscript.service 
+sudo systemctl start ovpnscript.service
+sudo systemctl status ovpnscript.service
 ```
 
 d) updatedns.service
@@ -730,6 +760,12 @@ WantedBy=multi-user.target
 d.2) Save this settings following this command
 ```bash
 sudo nano /etc/systemd/system/updatedns.service
+```
+d.3) Setup services
+```bash
+sudo systemctl enable updatedns.service 
+sudo systemctl start updatedns.service
+sudo systemctl status updatedns.service
 ```
 
 e) vpnstatuspanel.service
@@ -755,6 +791,12 @@ WantedBy=multi-user.target
 e.2) Save this settings following this command
 ```bash
 sudo nano /etc/systemd/system/vpnstatuspanel.service
+```
+e.3) Setup services
+```bash
+sudo systemctl enable vpnstatuspanel.service 
+sudo systemctl start vpnstatuspanel.service
+sudo systemctl status vpnstatuspanel.service
 ```
 
 22) Enabling cron jobs
