@@ -73,7 +73,7 @@ This script holds overall settings for the project that aren't sensitive
 This script holds overall settings for the project that are sensitive 
 <b>.env isn't syncing to this github repo, remember creating it, there's a template in the how to guide in following sections.</b><br>
 
-<b>CREATE_INCIDENT_VPN.py</b><br>
+<b>CREATE_INCIDENT_VPN.PY</b><br>
 This script will create an incident in Atlassian Status Panel, if a failure condition is met.
 
 <b>DNS.PY</b><br>
@@ -176,11 +176,16 @@ Example - repeat this process or call chmod +x *.py/chmod +x *.sh on the folder 
 ```bash
 chmod +x /home/dacosta/CALLHOME/openvpn_script.sh
 ```
+<b>WRITEANDREADIP.PY</b><br>
+This script will read an existing file and it will write it to a file.<br>
 
 <b>HOW SCRIPTS ARE CALLED?</b><br>
 Some scripts are call by cronjobs, because they required recurring calls, some scripts are run by service, it runs on device startup or only once and other scripts are simply called by others scripts in chain.
 
 <b>CRONJOBS</b><br>
+<h2>[DIAGRAM OVERVIEW]</h2>
+<img src="https://github.com/user-attachments/assets/7753ec31-0ae4-47c9-9e1d-f7f67be8f7d8" />
+
 To create/edit cronjobs, type 
 ```bash
 crontab -e
@@ -194,37 +199,57 @@ sudo crontab -e
 
 to call cronjobs as root user (not required for our current scripts)
 
+<h1>Setting All Cronjobs at Once</h1>
+Just copy and paste all below - correct user and repository names accordingly to your environment previously.
+```bash
+*/5 * * * * /usr/bin/python /home/user/callhome/autossh_script.py >>/tmp/autossh_script.job.log 2>&1
+0 * * * * /home/user/callhome/sync_services_scripts.sh >>/tmp/sync_services_scripts.log 2>&1
+*/5 * * * * /usr/bin/python /home/user/callhome/updated_interfaces.py >>/tmp/updated_interfaces_cron.log 2>&1
+*/5 * * * * /usr/bin/python /home/user/CALLHOME/update_tun0_ipname.py >> /tmp/update_tun0_ipname.log 2>&1
+*/5 * * * * /usr/bin/python /home/user/CALLHOME/update_status_panel.py >> /tmp/update_status_panel.log 2>&1
+```
+
+<b>AUTOSSH_SCRIPT_PY CRONJOB</b><br>
+This is script is responsible to start and maintain an SSH connection to an outside server here called server.example.com<br>
+Through this connection Raspberry/Linux local device will connect to and exposed its own SSH service (terminal access) and VNC (graphical access)<br>
+This script runs as a service to make it "available" since startup and runs as a job, because it was a bit nasty creating a persistance with this running solely as service.<br>
+```bash
+*/5 * * * * /usr/bin/python /home/user/callhome/autossh_script.py >>/tmp/autossh_script.job.log 2>&1
+```
+
+<b>SYNC_SERVICES_SCRIPTS.SH CRONJOB</b><br>
+I've just created a job that runs every hour to sync services settings in /etc/systemd/system/<br>
+It basically grabs each service content and copies to a similar file inside Github repo folder to allow project syncness.<br>
+```bash
+0 * * * * /home/user/callhome/sync_services_scripts.sh >>/tmp/sync_services_scripts.log 2>&1
+```
+
+<b>UPDATED_INTERFACES_PY CRONJOB</b><br>
+myip.py scripts tell us on startup what are the at the moment associated IP addresses for WIRED, WLAN and Tunnel VPN for Raspberry device, but what<br> if the device reboots or changes any of those IP addresses somehow? This script grabs current network scenario and compares to a previous file<br> having prior network configuration, if there's any change, this scripts sends out an e-mail advising us what has changed.<br>
+```bash
+*/5 * * * * /usr/bin/python /home/user/callhome/updated_interfaces.py >>/tmp/updated_interfaces_cron.log 2>&1
+```
+
 <b>UPDATE_TUN0_IPNAME.PY CRONJOB</b><br>
 Update FQDN with current IP address at every 5min. It runs as regular raspberry user<br>
 Error outputs are appended to file tmp/update_tun0_ipname.log<br>
 ```bash
-*/5 * * * * /usr/bin/python /home/dacosta/CALLHOME/update_tun0_ipname.py >> /tmp/update_tun0_ipname.log 2>&1
+*/5 * * * * /usr/bin/python /home/user/CALLHOME/update_tun0_ipname.py >> /tmp/update_tun0_ipname.log 2>&1
 ```
-
-<b>UPDATE_STATUS_PANEL.PY</b><br>
+<b>UPDATE_STATUS_PANEL.PY CRONJOB</b><br>
 Run script to check VPN connection and update status panel accordingly every 05 min.
 ```bash
-*/5 * * * * /usr/bin/python /home/dacosta/CALLHOME/update_status_panel.py >> /tmp/update_status_panel.log 2>&1
+*/5 * * * * /usr/bin/python /home/user/CALLHOME/update_status_panel.py >> /tmp/update_status_panel.log 2>&1
 ```
 Troubleshoot or check cronjob run status in here /tmp/update_status_panel.log<br>
 Rememeber to update this with your local path /home/user/folder/update_status_panel.py<br>
 You can use "which python" to see where is the full path for python binary<br>
 For me is /usr/bin/python
 
-<b>UPDATED_INTERFACES_PY</b><br>
-myip.py scripts tell us on startup what are the at the moment associated IP addresses for WIRED, WLAN and Tunnel VPN for Raspberry device, but what<br> if the device reboots or changes any of those IP addresses somehow? This script grabs current network scenario and compares to a previous file<br> having prior network configuration, if there's any change, this scripts sends out an e-mail advising us what has changed.<br>
-
-<b>SYNC_SERVICES_SCRIPTS.SH</b><br>
-I've just created a job that runs every hour to sync services settings in /etc/systemd/system/<br>
-It basically grabs each service content and copies to a similar file inside Github repo folder to allow project syncness.<br>
-```bash
-cat /etc/systemd/system/myip.service >/home/dacosta/CALLHOME/SERVICES/myip.service
-```
-
-<b>WRITEANDREADIP.PY</b><br>
-This script will read an existing file and it will write it to a file.<br>
-
 <b>SERVICES</b><br>
+<h2>[DIAGRAM OVERVIEW]</h2>
+<img src="https://github.com/user-attachments/assets/25f3e19e-61f7-4d39-9847-18c4723344ab"/>
+
 At least in Raspberry PI, services files/settings are store in /etc/systemd/system <br>
 
 How to add a service?<br>
@@ -279,23 +304,17 @@ Backup connection method - a plan B method to persist remote access to raspberry
 <b>SSH KEYS</b><br>
 Autossh requires ssh keys to be set in order to work.
 
-<b>CREATE SERVICE</b><br>
-```bash
-sudo nano /etc/systemd/system/autossh.service
-```
 This service script is save under SERVICES/autossh.service in this repo
-```bash
-sudo systemctl enable autossh
-sudo systemctl start autossh
-```
+
 Stopping an autossh instance manually
 ```bash
 sudo systemctl stop  autossh
 killall autossh
 ```
-<h1>STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT</h1>
 
-<h2>Raspberry/Local Linux Device</h2>
+<b>More instructions in how to handle autossh service among others, below</b>
+
+<h1>STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT</h1>
 
 1) Get you API Token ID from in your Cloudflare account with associated FQDN domain<br>
 a) Create or log to your Cloudflare account
