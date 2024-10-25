@@ -9,7 +9,25 @@
 6) Improve SSH habdling in SSH External Server - handle stale processes
 7) Create an Install script
 
-The idea is to called these scripts after a device connects to VPN Server to advertises its tun interface IP address over email.
+<h2>OBJECTIVE</h2>
+Imagine you need a remoted connected device, here called Raspberry/Local Linux device which, through this device you are able to reach things<br> through it for networking troubleshooting, pentesting, monitoring and etc... on the remote network.<br>
+
+1) How do you remote connect to this device?<br>
+2) This remote connection has an independent backup for remote access?<br>
+3) How do i know current device IP addresses? If i am remote or local next to it, how to connect over LAN, WLAN or VPN? Does this info updates<br> whenever any of these IP addresses changes?<br>
+4) How do you from two different perspectives knows if this setup/services are available?<br>
+
+With this project, you will connect it back to a device that's remotely plugged in a network, this settings will:<br> 
+1) Send mail notification with device's WLAN, LAN, VPN IP addresses on startup and at every IP address change;<br>
+2) Device will connect over VPN and SSH connection with two different independent sites and expose to us its SSH and VNC ports for remote access<br>
+3) This project allows us to monitor these two connections from Raspberry to VPN Server and External SSH Server, as well as monitor connections<br> from a External SSH Server if VPN and SSH connections back to Raspberry device are working<br>
+4) This monitoring will advise us over e-mail notification and with an External and third independent Web Status panel, so we can open this<br> panel and see it right away if any of ours services are working or not<br>
+5) This project will update frequently a Fully Qualified Domain Name (FQDN) to expose a fixed way to connect to the device - so we don't need<br> to update our client settings for connections for VNC/SSH connections whenever VPN IP address changes<br>
+6) As long as the device and you are connected to same VPN Server OR the device and you are connected to the same SSH Server - you will be able<br> to remotely reach this device.<br>
+<br><b>Basically having a persistance way to reach the remote network through this device.</b><br>
+
+[DIAGRAM OVERVIEW]
+
 
 <b>AUTOSSH.PY</b><br>
 This is script is responsible to start and maintain an SSH connection to an outside server here called server.example.com<br>
@@ -863,3 +881,429 @@ curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
      -H "Content-Type:application/json"
 ```
 Remember to replace values between brackets abcdefghijklmnopqrstuvwxyz/zyxwvutsrqponmlkjihgfedcba for your correspondinds IDs/APIs.
+
+<h1>CALLHOME_SSH_SERVER</h1>
+<h1>NOVA</h1>
+
+<b>RFE</b><br>
+1) Clean code
+2) Iterate loop only on associated components IDs - VPN Checks VPNs Incidents related, SSH  Checks SSH Incidents related, and so on.
+3) Improve SSH habdling in SSH External Server - handle stale processes
+4) Create a Install script
+
+
+<h2>SETTINGS FOR EXTERNAL SSH SERVER</h2>
+This project holds settings for External SSH Server to be set along "callhome" project or "callhome windows" project for Windows OS
+CALLHOME
+https://github.com/dacostapiece/callhome/
+
+CALLHOME WINDOWS
+https://github.com/dacostapiece/callhome_windows
+
+<b>OPENVPN.SH</b><br>
+Script run openvpn - passing creds already
+We have set up a service ovpnscript.service that calls openvpn_script.sh which is basically sending out in terminal a command line to establish a SSLVPN connection with a remote VPN Server - here called by reference purpose hub.example.com
+Note: Here on the External SSH Server - we connect to the same VPN Server as Raspberry/Linux local device, so we can monitor if Raspberry/Linux local device itself is REACHABLE or not.
+
+```bash
+sudo openvpn --config /home/user/folder/file.ovpn --auth-user-pass /home/user/folder/pass.txt
+```
+
+You should have your own OpenVPN Server, so you can retrieve *.ovpn OpenVPN profile file as long as credentials for this VPN connection.
+
+<b>PASS.TXT</b><br>
+OpenVPN Creds - format<br>
+domain\username or username<br>
+password
+
+<b>*.ovpn and pass.txt are't syncing to this github repo, remember creating them (creds file and grabbing your corresponding OVPN file), store in the desired folder, prefarable callhome folder and rename openvpn_script.sh.</b><br>
+
+<b>UPDATE STATUS PANEL</b><br>
+<br>
+<b>UPDATE_STATUS_PANEL_SSH_SERVER.PY</b><br>
+https://examplepanel.statuspage.io/ <br>
+This script will  will check if <br>
+1) tun0 (VPN) is available and if we are able to ping a remote vpn target, in our configuration it's pinging VPN Gateway private IP address, so not only we ensure VPN is active, but it's also working properly and <br>
+2) Checks if SSH Server is reachable, here in the example - server.example.com. <br>
+It's basically checking if primary connection over VPN and secondary connection over SSH are working from the perspective of Raspberry/Linux local device.
+
+The main goal is having a way to check wether VPN is working or not over a Status Web panel as well as triggering email alerts about failure incidents and restored services by Atlassian Status Panel.
+
+You'll have to setup an account on Atlassian Status panel, it's free, to have this feature working.
+
+<b>Logics</b><br>
+VPN<br>
+A) If VPN is working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's any, solve that incident, VPN is working.<br>
+B) If VPN is not working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's any, just keep it, VPN is not working.<br>
+C) If VPN is not working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's none, create an incident, VPN is not working.<br>
+D) If VPN is working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's none, do nothing, VPN is working.<br>
+
+SSH<br>
+This script follows same logic for SSH service.<br>
+
+This scripts runs on startup with vpnstatuspanel.service<br>
+And runs every 05min as cronjob<br>
+
+<b>CHECK_INCIDENT_STATUS_SSH_SERVER.PY</b><br>
+This script will retrieve will check if there's any existing unresolved incidents for VPN (connection against Raspberry device over VPN) in Atlassian Status Panel, save the JSON API response to a file and return component id (which service the incident is associated with) and incident id, if there's any
+This script follows same logic for SSH service (connection against Raspberry device over SSH Reverse Tunnel).
+
+<b>CREATE_INCIDENT_SSH_SERVER.PY</b><br>
+This script will create an incident in Atlassian Status Panel, if a failure condition is met.
+
+<b>CONFIG_SSH_SERVER.PY</b><br>
+This script has all required settings to be adjusted, except by sensitive information settings in .ENV file.
+
+<b>SSH_HANDLER.PY</b><br>
+This script will check every hour if there SSH connections above a specified limit number, if there is, it will log hour, number of connections and reboot External SSH Server for cleanup.
+
+<b>TUNNEL_CONNECTION_SSH_SERVER.PY</b><br>
+This script will check if VPN (connection against Raspberry device over VPN) or SSH (connection against Raspberry device over SSH Reverse Tunnel) is available.
+
+<b>UPDATE_INCIDENT_VPN_SSH_SERVER.PY</b><br>
+This script will update an existing incident to solve it in Atlassian Status Panel, if a failure no longer exists. VPN or SSH service.
+
+Give permission for files to be run<br>
+Example - repeat this process or call chmod +x *.py/chmod +x *.sh on the folder where scripts are stored.<br>
+```bash
+chmod +x /home/user/folder/openvpn_script.sh
+```
+
+<b>HOW SCRIPTS ARE CALLED?</b><br>
+Some scripts are call by cronjobs, because they required recurring calls, some scripts are run by service, it runs on device startup or only once and other scripts are simply called by others scripts in chain.
+
+<b>CRONJOBS</b><br>
+To create/edit cronjobs, type 
+```bash
+crontab -e
+```
+ - then select your text editor (when crontab -e is called at first time), i am more familiar with nano
+
+type 
+```bash
+sudo crontab -e
+```
+
+to call cronjobs as root user (not required for our current scripts)
+
+<b>UPDATE_STATUS_PANEL.PY</b><br>
+Run script to check VPN connection and update status panel accordingly every 05 min.
+```bash
+*/5 * * * * /usr/bin/python /home/dacosta/CALLHOME/update_status_panel.py >> /tmp/update_status_panel.log 2>&1
+```
+Troubleshoot or check cronjob run status in here /tmp/update_status_panel.log<br>
+Rememeber to update this with your local path /home/user/folder/update_status_panel.py<br>
+You can use "which python" to see where is the full path for python binary<br>
+For me is /usr/bin/python
+
+<b>SYNC_SERVICES_SCRIPTS.SH</b><br>
+I've just created a job that runs every hour to sync services settings in /etc/systemd/system/<br>
+It basically grabs each service content and copies to a similar file inside Github repo folder to allow project syncness.<br>
+```bash
+cat /etc/systemd/system/myip.service >/home/user/folder/SERVICES/myip.service
+
+```
+
+<b>SERVICES</b><br>
+At least in Raspberry PI, services files/settings are store in /etc/systemd/system <br>
+
+How to add a service?<br>
+```bash
+sudo nano /etc/systemd/system/service_filename
+```
+I am used to create files with .service extension, like ovpnscript.service<br>
+
+<b>MANIPULATING SERVICES AFTER CREATION/UPDATE</b><br>
+EXAMPLES<br>
+```bash
+sudo systemctl enable ovpnscript.service 
+sudo systemctl start ovpnscript.service 
+sudo systemctl status ovpnscript.service
+sudo systemctl stop ovpnscript.service 
+sudo systemctl disable ovpnscript.service 
+sudo systemctl daemon-reload 
+```
+
+1) //enable service after file creation
+2) //start service
+3) //check service status
+4) //stop service
+5) //disable service
+6) //when changes are applied to service file, it'll be requested to update is daemon
+
+Note: If VPN is connected by this service and you stop it, it will be same as closing a running program.<br>
+
+<b>OVPNSCRIPT.SERVICE</b><br>
+File ovpnscript.service<br>
+The service will start right away, it will call openvpn_script.sh, always run and it will be run as regular user.<br>
+
+<b>__pycache__</b><br>
+Codes are syncing to a place where codes are actually running, this folder is generated from python running. This folder is set to not sync with Github.
+
+<b>VPNSTATUSPANEL.SERVICE</b><br>
+File vpnstatuspanel.service<br>
+The service will wait 30 seconds before start, it will call update_status_panel.py, it will restart on failure, but only three times, it won't try to run after this. Service will fail as an example, if the VPN isn't connected yet. The service will delay 30 seconds before trying again and it will run as regular user. Here we set the WorkingDirectory - not sure if it's required.<br>
+
+Backup connection method - a plan B method to persist remote access to raspberry over internet, in case, vpn fails
+
+<b>SSH KEYS</b><br>
+Autossh requires ssh keys to be set in order to work.
+
+<h1>STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT</h1>
+
+<h2>External SSH Server - Linux Device</h2>
+
+1) Clone and/or download this repository (callhome) under desired folder in your local linux device, here in our example, a raspberry device.
+If downloaded, remember unzip its folder
+```bash
+unzip file.zip -d /path/to/destination
+```
+a) Take note of the complete full path from this repository - you can call "pwd" inside the directory to get its full path location
+b) I recommend you rename whatever name this folder repository is to callhome_ssh_server
+```bash
+pwd
+/home/user/callhome_ssh_server
+```
+
+2) Setup SSH Settings for External SSH Server<br>
+
+Here an example to setup SSH Server for Kali Linux.<br> 
+If SSH isn't already enable on your local device, please google it how to enable it<br>
+
+```bash
+sudo apt-get update
+sudo apt-get install ssh
+sudo systemctl enable ssh
+sudo service ssh start
+```
+
+2) Allow SSH Public Key Authentication
+a) Edit sshd_config settings file
+Usually at
+/etc/ssh/sshd_config
+```bash
+sudo nano /etc/ssh/sshd_config
+```
+#sudo if root is required on your SSH Server Linux Distro - Kali Linux does require
+b) Find line PubAuthenticationKey, uncomment if necessary (remove #) and set it to yes
+c) Find line PasswordAuthentication, uncomment if necessary (remove #) and set it to no - DO IT if password ssh access should be disabled or ignore this step
+
+3) Create an .env file using template below inside your download repository folder (External SSH Server side)
+
+<b>.ENV file template</b><br>
+```bash
+#.env
+#remove { } brackets whenever they appear here, they are just pointing you should paste your ID/API Token
+
+#IT MUST MATCH SAME FILENAME FROM RASPBERRY DEVICE
+remote_ip_address_filename = "current_rasp_ip.txt"
+
+#API Atlassian General Settings
+api_token = "{your API token}"
+page_id = "{your Atlassian page ID}"
+
+# SSH SERVER settings
+PORT_TO_CHECK = '2220'
+SSH_TUNNEL_ADDRESS = 'localhost'
+
+#SSH SERVER
+SSH_SERVER_FILENAME = "current_rasp_ip.txt"
+ssh_server_filename_directory = "/home/user/CALLHOME_SSH_SERVER"
+```
+You can follow steps on README.md file from repository callhome/callhome_windows to know how to retrieve your Atlassian info
+https://github.com/dacostapiece/callhome/
+https://github.com/dacostapiece/callhome_windows/
+
+Which settings you can leave as it is .ENV file? (at least in most cases)
+a) PORT_TO_CHECK
+b) SSH_TUNNEL_ADDRESS
+c) SSH_SERVER_FILENAME
+
+Everything else you'll need to update according to your environment.
+
+4) Adjust config settings (External SSH Server side)
+config_ssh_server.py file
+a) callback_vpn_component_id
+b) callback_ssh_component_id
+
+Settings associated with Raspberry/Linux local device are available at<br>
+https://github.com/dacostapiece/callhome<br>
+If you "local device" is Windows, there's a project for that available at<br>
+https://github.com/dacostapiece/callhome_windows<br>
+
+5) Enabling python libraries
+a) ping3
+b) python-dotenv
+c) requests
+d) pip
+e) autossh
+
+Install pip
+```bash
+sudo apt update
+sudo apt install python3-pip
+```
+Install libraries
+pip has to be installed as previous step, so you can move on command below
+```bash
+pip3 install ping3 python-dotenv requests
+```
+Note: For Kali Linux, we had to make following change in order to ping3 work properly
+```bash
+sudo nano /etc/sysctl.conf
+```
+Then add to bottom file
+```bash
+net.ipv4.ping_group_range = 0 2147483647
+```
+Refresh it
+```bash
+sudo sysctl -p
+```
+
+Fix PATH for dotenv and ping3
+```bash
+nano ~/.bashrc
+```
+Add this to end of file
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
+Refresh and validate it
+```bash
+source ~/.bashrc
+echo $PATH
+```
+5) Set OpenVPN
+a) Install OpenVPN client
+```bash
+sudo apt install openvpn
+```
+b) Download you file.ovpn OpenVPN profile given by VPN Server administrator and/or yourself
+c) Create your OpenVPN credential file, here as pass.txt
+```bash
+username or domain\username
+password
+```
+d) Test it, connect to it and ping it the private VPN internal address
+```bash
+ sudo openvpn --config callhome.ovpn --auth-user-pass pass.txt
+```
+e) Allow users in sudo to run without password prompt
+In order to call openvpn, we use sudo (in Kali Linux, Raspberry doesnt prompt it), but we can't pass kali's password when running openvpn as service
+```bash
+sudo apt install -y kali-grant-root && sudo dpkg-reconfigure kali-grant-root
+```
+Reference: https://www.kali.org/docs/general-use/sudo/
+
+
+17) If you haven't so far, go start setting up Raspberry/Linux local device
+https://github.com/dacostapiece/callhome<br>
+Or
+For Windows OS
+https://github.com/dacostapiece/callhome_windows<br>
+
+16) Test APIs
+a) More below on troubleshooting you have sample and example for testing API Communication with Cloudflare and Atlassian 
+18) Test SSH
+a) If Raspberry device is already connect to here with SSH and it's exposing its ports, you can:
+If you are following standard suggested settings
+```bash
+ssh -p 2220 user@localhost
+```
+b) You can locally test if External SSH Server is accepting SSH connections or not
+
+19) Enabling services
+Overall services handling - for each service - example
+```bash
+sudo systemctl enable openvpn.service 
+sudo systemctl start openvpn.service
+sudo systemctl status openvpn.service
+sudo systemctl stop openvpn.service
+sudo systemctl disable openvpn.service 
+sudo systemctl daemon-reload 
+```
+
+a) openvpn.service
+a.1) Adjust your user and script path following sample below
+Sample script
+```bash
+[Unit]
+Description=OpenVPN Script - Persistance
+
+[Service]
+ExecStartPre=/bin/sleep 10
+ExecStart=/home/user/callhome_ssh_server/openvpn.sh
+Restart=always
+User=user
+
+[Install]
+WantedBy=multi-user.target
+```
+a.2) Save this settings following this command
+```bash
+sudo nano /etc/systemd/system/openvpn.service
+```
+a.3) Setup services
+```bash
+sudo systemctl enable openvpn.service 
+sudo systemctl start openvpn.service
+sudo systemctl status openvpn.service
+```
+
+21) Enabling cron jobs
+To create/edit cronjobs, type 
+```bash
+crontab -e
+```
+ - then select your text editor (when crontab -e is called at first time), i am more familiar with nano
+
+You can use "which python" to see where is the full path for python binary<br>
+For me is /usr/bin/python
+
+a) ssh_handler.py
+a.1) Adjust your user and script path following sample below
+```bash
+0 * * * * /usr/bin/python /home/user/callhome_ssh_server/ssh_handler.py >> /tmp/ssh_handler_job.log 2>&1
+```
+
+b) sync_services_scripts.sh
+b.1) Adjust your user and script path following sample below
+```bash
+0 * * * * /home/user/callhome_ssh_server/sync_services_scripts.sh >>/tmp/sync_services_scripts.log 2>&1
+```
+
+c) update_status_panel_ssh_server.py
+b.1) Adjust your user and script path following sample below
+```bash
+*/5 * * * * /usr/bin/python /home/user/callhome_ssh_server/update_status_panel_ssh_server.py >> /tmp/update_status_panel_ssh_server.log 2>&1
+```
+
+<h1>TROUBLESHOOTING</h1>
+<b>SAMPLE SIMPLE CURL</b><br>
+<b>So you can test API communication with Atlassian</b>b<br>
+
+```bash
+curl https://api.statuspage.io/v1/pages/{page_id}/incidents \
+  -H "Authorization: OAuth {api_token}" \
+  -X POST \
+  -d "incident[name]=Teste Component" \
+  -d "incident[status]=investigating" \
+  -d "incident[body]=Testando componentes" \
+  -d "incident[component_ids][]={component id}" \
+  -d "incident[component_ids][]={component id2}" \
+  -d "incident[components][{component id}]=major_outage" \
+  -d "incident[components][{component id}2]=major_outage"
+```
+
+<b>SAMPLE SIMPLE CURL</b><br>
+<b>So you can test API communication with Cloudflare</b>b<br>
+
+```bash
+
+curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
+     -H "Authorization: Bearer {Cloudflare API Token}" \
+     -H "Content-Type:application/json"
+```
+Remember to replace values between brackets { } for your correspondinds IDs.
+
