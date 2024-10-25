@@ -103,8 +103,12 @@ password
 <b>SENDMAIL.PY</b><br>
 This script works as a module called by myip.py and updated_interfaces.py which will send out an email with WIRED, WLAN and TUNNEL VPN addresses along with whole IFCONFIG in mail body message.
 
-<b>UPDATE STATUS PANEL</b><br>
-<br>
+<b>SYNC_SERVICES_SCRIPTS.SH</b><br>
+I've just created a job that runs every hour to sync services settings from /etc/systemd/system/ to /home/user/repo/SERVICES/
+
+<b>TUNNEL_CONNECTION.py</b><br>
+This script will check if VPN or SSH is available.
+
 <b>UPDATE_STATUS_PANEL.PY</b><br>
 https://dacostapiece.statuspage.io/ <br>
 This script will  will check if <br>
@@ -129,8 +133,6 @@ This script follows same logic for SSH service.<br>
 This scripts runs on startup with vpnstatuspanel.service<br>
 And runs every 05min as cronjob<br>
 
-<b>TUNNEL_CONNECTION.py</b><br>
-This script will check if VPN or SSH is available.
 
 <b>UPDATE_INCIDENT_VPN.py</b><br>
 This script will update an existing incident to solve it in Atlassian Status Panel, if a failure no longer exists. VPN or SSH service.
