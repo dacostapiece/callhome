@@ -32,6 +32,7 @@ through it for networking troubleshooting, pentesting, monitoring and etc... on 
 <h2>[DIAGRAM OVERVIEW]</h2>
 <img src="https://github.com/user-attachments/assets/0e7b65ea-4098-4dcd-8dbd-b4738ccd8ed5" />
 
+<h2>FILES DESCRIPTION</h2>
 <b>AUTOSSH.PY</b><br>
 This is script is responsible to start and maintain an SSH connection to an outside server here called server.example.com<br>
 Through this connection Raspberry/Linux local device will connect to and exposed its own SSH service (terminal access) and VNC (graphical access)<br>
@@ -68,8 +69,22 @@ This script follows same logic for SSH service.
 <b>CONFIG.PY</b><br>
 This script holds overall settings for the project that aren't sensitive 
 
+<b>.ENV</b><br>
+This script holds overall settings for the project that are sensitive 
+<b>.env isn't syncing to this github repo, remember creating it, there's a template in the how to guide in following sections.</b><br>
+
 <b>CREATE_INCIDENT_VPN.py</b><br>
 This script will create an incident in Atlassian Status Panel, if a failure condition is met.
+
+<b>DNS.PY</b><br>
+This file tests my Raspberry device capability of DNS resolution. It's a punctual need for my environment, you can ignore it.<br>
+
+<b>FIXNAMESERVERS.SH</b><br>
+This scripts fixes my Raspberry device DNS settings every hour, my home router messes it up, i believe it's due to IPv6 advertisement or some sickness like this, pinpoint root cause was pretty annoying, so i work around of it, please ignore this file.<br>
+If you feel like using it, it requires root privileges. It's out of this project scope.
+
+<b>.GITIGNORE</b><br>
+This file holds which files and folders shoud not be syncing to github repo.<br>
 
 <b>MYIP.PY</b><br>
 This script will retrieve tun0 ip address from Raspberry/Remote Linux device and send out an e-mail with WIRED, WLAN and TUNNEL VPN addresses along with whole IFCONFIG in mail body message.
@@ -98,7 +113,10 @@ OpenVPN Creds - format<br>
 domain\username or username<br>
 password
 
-<b>*.ovpn and pass.txt are't syncing to this github repo, remember creating them (creds file and grabbing your corresponding OVPN file), store in the desired folder, prefarable callhome folder and rename openvpn_script.sh.</b><br>
+<b>*.OVPN</b><br>
+Your OpenVPN profile file. It's used to connect to hub.example.com
+
+<b>*.ovpn and pass.txt aren't syncing to this github repo, remember creating them (creds file and grabbing your corresponding OVPN file), store in the desired folder, prefarable callhome folder and rename openvpn_script.sh.</b><br>
 
 <b>SENDMAIL.PY</b><br>
 This script works as a module called by myip.py and updated_interfaces.py which will send out an email with WIRED, WLAN and TUNNEL VPN addresses along with whole IFCONFIG in mail body message.
@@ -108,6 +126,12 @@ I've just created a job that runs every hour to sync services settings from /etc
 
 <b>TUNNEL_CONNECTION.py</b><br>
 This script will check if VPN or SSH is available.
+
+<b>UPDATED_INTERFACES_PY</b><br>
+myip.py scripts tell us on startup what are the at the moment associated IP addresses for WIRED, WLAN and Tunnel VPN for Raspberry device, but what<br> if the device reboots or changes any of those IP addresses somehow? This script grabs current network scenario and compares to a previous file<br> having prior network configuration, if there's any change, this scripts sends out an e-mail advising us what has changed.<br>
+
+<b>UPDATE_INCIDENT_VPN.py</b><br>
+This script will update an existing incident to solve it in Atlassian Status Panel, if a failure no longer exists. VPN or SSH service.
 
 <b>UPDATE_STATUS_PANEL.PY</b><br>
 https://dacostapiece.statuspage.io/ <br>
@@ -133,10 +157,6 @@ This script follows same logic for SSH service.<br>
 This scripts runs on startup with vpnstatuspanel.service<br>
 And runs every 05min as cronjob<br>
 
-
-<b>UPDATE_INCIDENT_VPN.py</b><br>
-This script will update an existing incident to solve it in Atlassian Status Panel, if a failure no longer exists. VPN or SSH service.
-
 <b>UPDATE_TUN0_IPNAME.PY</b><br>
 This script will retrieve tun0 IP address and update a FQDN in Cloudflare through API, so we can always reach it back the device over VPN without<br>
 needing to know its current IP address, neither updating clients settings like SSH, VNC, etc...<br>
@@ -144,32 +164,7 @@ In this example is <b>raspberry.example.com</b><br>
 This scripts runs on startup with updatedns.service<br>
 And runs every 05min as cronjob<br>
 
-Cloudflare Nameserver and API services for free are compatible with this project, you can just create an account and move or register an FQDN<br> domain and associate to Cloudflare nameservers before moving on. Do not enable Cloudflare DNS proxy for DNS records that will be used within this project. <br>
-
-Create/Find your Cloudflare API Token<br>
-1) Log to your Cloudflare account<br>
-2) Manage Account<br>
-3) Acocunt API Tokens<br>
-4) Create API Token with Edit DNS Zone permissions<br>
-https://developers.cloudflare.com/fundamentals/api/get-started/create-token/<br>
-
-Find your Cloudflare Zone ID<br>
-Log to you Cloudflare account, access the Site/Domain you want to manipulate, account and zone id will be at the right column near bottom <br>
-https://developers.cloudflare.com/fundamentals/setup/find-account-and-zone-ids/<br>
-
-Find your Cloudflare DNS Record ID<br>
-Create/Update the DNS Record you will want to manipulate through Cloudflare API in Cloudflare's Web dashboard<br>
-"Outside site/domain panel, the place where you land just after login, go to Manage Account/Audit log<br>
-Open audit logs, the DNS Record ID will be shown in the log, just click on the name far right to expand the log line<br>
-So if just created a DNS record or updated an existing one, audit logs will show them right in top of audit logs, you can expand that information to retrieve DNS Record ID.
-https://community.cloudflare.com/t/cannot-find-record-id/326344<br>
-
-Other references about Cloudflare settings<br>
-https://developers.cloudflare.com/fundamentals/api/get-started/create-token/<br>
-https://dash.cloudflare.com/profile/api-tokens<br>
-https://developers.cloudflare.com/api/operations/dns-records-for-a-zone-patch-dns-record<br>
-
-Give permission for files to be run<br>
+<b>Give permission for files to be run</b><br>
 Example - repeat this process or call chmod +x *.py/chmod +x *.sh on the folder where scripts are stored.<br>
 ```bash
 chmod +x /home/dacosta/CALLHOME/openvpn_script.sh
