@@ -464,13 +464,16 @@ d.2) Or going down on the page, next to Component API ID and copying it, take a 
 Here a table so you can follow along and do not get confused by.<br>
 <h2>[TABLE]</h2>
 <b>Component IDs below are just samples, you'll have your own</b>
-| **Component Name**                      | **Component Variable**          | **Component ID**      |
+
+```bash
+| **Component Name**                      | **Component Variable**           | **Component ID**       |
 | --------------------------------------- | -------------------------------- | ---------------------- |
 | OpenVPN Outbound Raspberry Device       | `raspberry_vpn_component_id`     | `abcdefghijklm`        |
 | SSH Tunnel Outbound Raspberry Device    | `remote_ssh_server_component_id` | `nopqrstuvwxyz`        |
-| External OpenVPN Raspberry Device Check | `callback_vpn_component_id`      | `zyxwvutsrqponm`        |
-| External SSH Tunnel Raspberry Device Check | `callback_ssh_component_id`   | `lkjihgfedcba`        |
+| External OpenVPN Raspberry Device Check | `callback_vpn_component_id`      | `zyxwvutsrqponm`       |
+| External SSH Tunnel Raspberry Device Check | `callback_ssh_component_id`   | `lkjihgfedcba`         |
 
+```
 
 You'll repeat this process to get all four Component IDs.
 
