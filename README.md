@@ -914,8 +914,9 @@ e.1) Adjust your user and script path following sample below
 ```
 
 <h1>TROUBLESHOOTING</h1><br>
-<b>Test API communication with Atlassian</b>b<br>
+<b>Test API communication with Atlassian</b><br>
 Create incident, replace abde for you Component ID<br>
+
 ```bash
 curl https://api.statuspage.io/v1/pages/{page_id}/incidents \
   -H "Authorization: OAuth {api_token}" \
@@ -947,7 +948,6 @@ Remember to replace values between brackets abcdefghijklmnopqrstuvwxyz/zyxwvutsr
 2) Iterate loop only on associated components IDs - VPN Checks VPNs Incidents related, SSH  Checks SSH Incidents related, and so on.<br>
 3) Improve SSH habdling in SSH External Server - handle stale processes<br>
 4) Create a Install script<br>
-
 
 <h2>SETTINGS FOR EXTERNAL SSH SERVER</h2>
 This project holds settings for External SSH Server to be set along "callhome" project or "callhome windows" project for Windows OS
