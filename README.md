@@ -317,43 +317,43 @@ killall autossh
 <h1>STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT</h1>
 
 1) Get you API Token ID from in your Cloudflare account with associated FQDN domain<br>
-a) Create or log to your Cloudflare account
-b) Associate or used an already associated FQDN domain in your Cloudflare account
-Here exemplified by: example.com
-c) Go to:
-https://dash.cloudflare.com/profile/api-tokens/
-d) Select Create Token in API Tokens
-e) Choose Edit Zone DNS and click on Use Template
-f) Choose permissions Zone/DNS/Edit
-g) Choose resources Include/Specific zone/example.com
-h) Continue to summary
-i) Create Token
-j) Copy token
+a) Create or log to your Cloudflare account<br>
+b) Associate or used an already associated FQDN domain in your Cloudflare account<br>
+Here exemplified by: example.com<br>
+c) Go to:<br>
+https://dash.cloudflare.com/profile/api-tokens/<br>
+d) Select Create Token in API Tokens<br>
+e) Choose Edit Zone DNS and click on Use Template<br>
+f) Choose permissions Zone/DNS/Edit<br>
+g) Choose resources Include/Specific zone/example.com<br>
+h) Continue to summary<br>
+i) Create Token<br>
+j) Copy token<br>
 
-https://developers.cloudflare.com/fundamentals/setup/find-account-and-zone-ids
-https://developers.cloudflare.com/fundamentals/api/get-started/create-token
-https://dash.cloudflare.com/profile/api-tokens
+https://developers.cloudflare.com/fundamentals/setup/find-account-and-zone-ids<br>
+https://developers.cloudflare.com/fundamentals/api/get-started/create-token<br>
+https://dash.cloudflare.com/profile/api-tokens<br>
 
-2) Get your DNS Zone ID in your Cloudflare account with associated FQDN domain
-a) Log into your Cloudflare account
-b) Go to Websites/example.com
-c) On far right you'll see your Zone ID record
+2) Get your DNS Zone ID in your Cloudflare account with associated FQDN domain<br>
+a) Log into your Cloudflare account<br>
+b) Go to Websites/example.com<br>
+c) On far right you'll see your Zone ID record<br>
 
-3) Create three DNS Type A records without DNS proxy and TTL 5min in your Cloudflare account with associated FQDN domain.
-a) raspberry.example.com for VPN Tunnel Raspberry IP device
-You can set whatever IPv4 address, just for sake of creation of this DNS record
-After create, we'll edit it just to create an audit log for later purpose
-b) server.example.com for External SSH device
-Set External SSH Server Public IP address for this DNS record
-<b>Note:</b> You can create and associate a FQDN for you External SSH Server Public IP address or use an existing FQDN for it
-c) hub.example.com for VPN Server
-Set VPN Server Public IP address for this DNS record
-<b>Note:</b> You can create and associate a FQDN for you VPN Server Public IP address or use an existing FQDN for it
-d) Log into your Cloudflare account
-e) On left sidebar menu, go to Manage account/Audit log
-f) Expand recent audit logs for DNS changes and grab DNS record ID for raspberry.example.com.
-The DNS record ID will be simply called "id"
-Example
+3) Create three DNS Type A records without DNS proxy and TTL 5min in your Cloudflare account with associated FQDN domain.<br>
+a) raspberry.example.com for VPN Tunnel Raspberry IP device<br>
+You can set whatever IPv4 address, just for sake of creation of this DNS record<br>
+After create, we'll edit it just to create an audit log for later purpose<br>
+b) server.example.com for External SSH device<br>
+Set External SSH Server Public IP address for this DNS record<br>
+<b>Note:</b> You can create and associate a FQDN for you External SSH Server Public IP address or use an existing FQDN for it<br>
+c) hub.example.com for VPN Server<br>
+Set VPN Server Public IP address for this DNS record<br>
+<b>Note:</b> You can create and associate a FQDN for you VPN Server Public IP address or use an existing FQDN for it<br>
+d) Log into your Cloudflare account<br>
+e) On left sidebar menu, go to Manage account/Audit log<br>
+f) Expand recent audit logs for DNS changes and grab DNS record ID for raspberry.example.com.<br>
+The DNS record ID will be simply called "id"<br>
+Example<br>
 ```bash
 {
   "content": "1.1.1.2",
@@ -368,89 +368,99 @@ Example
   "zone_name": "example.com"
 }
 ```
-https://community.cloudflare.com/t/cannot-find-record-id/326344
-Don't misundertook zone id with dns record id
-4) You can use any SMTP Server to sending our own E-mail notifications. In our scenario we're going to an Gmail account
-a) Create a new or login to your existing Gmail account
-b) After validation or creation of new Gmail account, go to
-https://myaccount.google.com/apppasswords
-c) Give it a name and click on create
-d) The generated app password will popup to you, this password will be used in our script to authenticate and send e-mails using our Gmail account
-e) You can always go back to same link and delete the password app if desired.
+https://community.cloudflare.com/t/cannot-find-record-id/326344<br>
+<b>Don't misundertook zone id with dns record id</b><br>
+4) You can use any SMTP Server to sending our own E-mail notifications. In our scenario we're going to an Gmail account<br>
+a) Create a new or login to your existing Gmail account<br>
+b) After validation or creation of new Gmail account, go to<br>
+https://myaccount.google.com/apppasswords<br>
+c) Give it a name and click on create<br>
+d) The generated app password will popup to you, this password will be used in our script<br> 
+to authenticate and send e-mails using our Gmail account<br>
+e) You can always go back to same link and delete the password app if desired.<br>
+<br>
+5) Setting up your Status Page panel from Atlassian<br>
+a) Go to https://www.atlassian.com/software/statuspage<br>
+b) Create your free account<br>
+c) Choose subdomain name in your Atlassian account<br>
+Example<br>
+examplepanel.atlassian.net<br>
+Click next if possible, THIS IS NOT you Status Panel page, it's something else under the Umbrella of Atlassian/Jira cloud services<br>
+d) It may be requested (currently it's for new accounts) a component creation in a setup wizard<br>
+We're going to need four components, here they are:<br>
+<br>
+<b>OpenVPN Outbound Raspberry Device</b><br>
+Description: The primary VPN connection from Raspberry device to HUB VPN Gateway<br>
+<br>
+<b>SSH Tunnel Outbound Raspberry Device</b><br>
+Description:The secondary VPN connection over SSH Tunnel from Raspberry device to External SSH Server.<br>
+<br>
+<b>External OpenVPN Raspberry Device Check</b><br>
+Description: This component checks externally from SSH Server if VPN connection to Raspberry is working. <br>
+It will connect to same VPN HUB device and try pinging Raspberry current tunnel IP address.<br>
 
-5) Setting up your Status Page panel from Atlassian
-a) Go to https://www.atlassian.com/software/statuspage
-b) Create your free account
-c) Choose subdomain name in your Atlassian account
-Example
-examplepanel.atlassian.net
-Click next if possible, THIS IS NOT you Status Panel page, it's something else under the Umbrella of Atlassian/Jira cloud services
-d) It may be requested (currently it's for new accounts) a component creation in a setup wizard
-We're going to need four components, here they are:
+<b>External SSH Tunnel Raspberry Device Check</b><br>
+Description: This component checks externally from SSH Server <br>
+if the callback SSH Tunnel connection to Raspberry is working. It will try to connect to Raspberry SSH Service.<br>
 
-<b>OpenVPN Outbound Raspberry Device</b>
-Description: The primary VPN connection from Raspberry device to HUB VPN Gateway
+If requested, you don't need to setup a Component group. <br>
+You can leave as it is or play with it later on as pleased. This project doesn't use Component group.<br>
 
-<b>SSH Tunnel Outbound Raspberry Device</b>
-Description:The secondary VPN connection over SSH Tunnel from Raspberry device to External SSH Server.
+If Components wouldn't be requested at the new account startup, you'll need to setup them later.<br>
 
-<b>External OpenVPN Raspberry Device Check</b>
-Description: This component checks externally from SSH Server if VPN connection to Raspberry is working. It will connect to same VPN HUB device and try pinging Raspberry current tunnel IP address.
+e) In the current situation, after four components were added, just click Next<br>
+f) Upload a Status Panel image logo or click Next, you can add it later on<br>
+g) Setup e-mail to receive UPs and Downs regarding your components/services - click Send test email<br>
+For me it didn't workout sending out a test email through Atlassian new account wizard. <br>
+When i first used Status Page, i added manually on own.<br>
+While writing this doc, i've just realized admin notification from Atlassian Status Panel <br>
+it seems to have two different approaches.<br>
+g.1) Remind admins of ongoing incident - standard every 3, 6, 12 and 24 hours <br> 
+This notification will be sent to e-mail account associated to your Atlassian account<br>
+g.2) For our project and to receive at the moment incident notification from Atlassian, <br>
+you have to subsbribe it. You can choose whatever e-mail account you might like receiving those email notifications.<br>
+We suggest you use the recent created Gmail account or any e-mail address that it's supposed to receive those notifications<br>
+g.3) Subscribing to your own Status Panel, click on View status page<br>
+g.4) In our example, it opens up page: https://examplepanel.statuspage.io/<br>
+g.5) Select Subscribe to Updates<br>
+g.6) Enter your e-mail address - i haven't tested other subscription options like x.com - you can try it later<br>
+g.7) Go to your e-mail account, open up Confirm you subscription mail message and click on Confirm<br>
+g.8) You'll be redirected to Status Panel page with an advise that confirmation was sucessful<br>
+g.9) There you go, anytime an incident occurs or get its clear, you'll receive an e-mail message.<br>
+<br>
+6) Get your API Token and Page ID for Atlassian Status Panel<br>
+a) Go to Upper right "power" button and click it for change Settings<br>
+b) Select API info<br>
+c) Create key - give it a name - you call it whatever you like, i suggest "Callhome"<br>
+d) Take note of your API Key for Atlassian Status Panel<br>
+e) On same page you'll have down below the page next to Page IDs, your Page ID, take a note of it<br>
+<br>
+h) Invite a team member - it suggests you to do it, i haven't done. I'll suggest you to skip it for now, click Next.<br>
+i) Save and exit to conclude Wizard<br>
+j) On Status Page, click on Activate your page and select FREE plan, confirm role based warning telling you Free plan doesn't <br>
+we wont need it<br>
 
-<b>External SSH Tunnel Raspberry Device Check</b>
-Description: This component checks externally from SSH Server if the callback SSH Tunnel connection to Raspberry is working. It will try to connect to Raspberry SSH Service.
+7) Get your Component IDs in Atlassian Status Page<br>
+We'll retrieve four Component IDs, two for the Raspberry/Linux local device and two for the External SSH Server<br>
 
-If requested, you don't need to setup a Component group. You can leave as it is or play with it later on as pleased. This project doesn't use Component group.
+Their variables we'll update them accordingly later in config code<br>
 
-If Components wouldn't be requested at the new account startup, you'll need to setup them later.
+<b>Raspberry/Linux local device</b><br>
+raspberry_vpn_component_id<br>
+remote_ssh_server_component_id<br>
 
-e) In the current situation, after four components were added, just click Next
-f) Upload a Status Panel image logo or click Next, you can add it later on
-g) Setup e-mail to receive UPs and Downs regarding your components/services - click Send test email
-For me it didn't workout sending out a test email through Atlassian new account wizard. When i first used Status Page, i added manually on own.
-While writing this doc, i've just realized admin notification from Atlassian Status Panel it seems to have two different approaches.
-g.1) Remind admins of ongoing incident - standard every 3, 6, 12 and 24 hours - this notification will be sent to e-mail account associated to your Atlassian account
-g.2) For our project and to receive at the moment incident notification from Atlassian, you have to subsbribe it. You can choose whatever e-mail account you might like receiving those email notifications. We suggest you use the recent created Gmail account or any e-mail address that it's supposed to receive those notifications
-g.3) Subscribing to your own Status Panel, click on View status page
-g.4) In our example, it opens up page: https://examplepanel.statuspage.io/
-g.5) Select Subscribe to Updates
-g.6) Enter your e-mail address - i haven't tested other subscription options like x.com - you can try it later
-g.7) Go to your e-mail account, open up Confirm you subscription mail message and click on Confirm
-g.8) You'll be redirected to Status Panel page with an advise that confirmation was sucessful
-g.9) There you go, anytime an incident occurs or get its clear, you'll receive an e-mail message.
+<b>External SSH Server</b><br>
+callback_vpn_component_id<br>
+callback_ssh_component_id<br>
 
-6) Get your API Token and Page ID for Atlassian Status Panel
-a) Go to Upper right "power" button and click it for change Settings
-b) Select API info
-c) Create key - give it a name - you call it whatever you like, i suggest "Callhome"
-d) Take note of your API Key for Atlassian Status Panel
-e) On same page you'll have down below the page next to Page IDs, your Page ID, take a note of it
-
-h) Invite a team member - it suggests you to do it, i haven't done. I'll suggest you to skip it for now, click Next.
-i) Save and exit to conclude Wizard
-j) On Status Page, click on Activate your page and select FREE plan, confirm role based warning telling you Free plan doesn't - we wont need it
-
-7) Get your Component IDs in Atlassian Status Page
-We'll retrieve four Component IDs, two for the Raspberry/Linux local device and two for the External SSH Server
-
-Their variables we'll update them accordingly later in config code
-
-<b>Raspberry/Linux local device</b>
-raspberry_vpn_component_id
-remote_ssh_server_component_id
-
-<b>External SSH Server</b>
-callback_vpn_component_id
-callback_ssh_component_id
-
-a) Click on Components
-b) Here you can Add component - if you haven't on Startup Atlassian account Wizard and follow previous formentioned steps
-c) There are two "builtin" Components, you can delete them, they are the for example purposes
-d) Click on OpenVPN Outbound Raspberry Device component
-d.1) You'll be able to grab this Component ID from the URL formatting, here exampled by:
-https://manage.statuspage.io/pages/{your page id}/components/{your current component id}/edit
-d.2) Or going down on the page, next to Component API ID and copying it, take a note.
-Here a table so you can follow along and do not get confused by.
+a) Click on Components<br>
+b) Here you can Add component - if you haven't on Startup Atlassian account Wizard and follow previous formentioned steps<br>
+c) There are two "builtin" Components, you can delete them, they are the for example purposes<br>
+d) Click on OpenVPN Outbound Raspberry Device component<br>
+d.1) You'll be able to grab this Component ID from the URL formatting, here exampled by:<br>
+https://manage.statuspage.io/pages/{your page id}/components/{your current component id}/edit<br>
+d.2) Or going down on the page, next to Component API ID and copying it, take a note.<br>
+Here a table so you can follow along and do not get confused by.<br>
 [TABLE]
 
 You'll repeat this process to get all four Component IDs.
