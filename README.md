@@ -61,6 +61,16 @@ This scripts runs on startup with autossh.service<br>
 And runs every 05min as cronjob<br>
 Logs for this script are stored in /tmp/autossh_script.log
 
+<b>CHECK_INCIDENT_STATUS.PY</b><br>
+This script will retrieve will check if there's any existing unresolved incidents for VPN in Atlassian Status Panel, save the JSON API response to a file and return component id (which service the incident is associated with) and incident id, if there's any
+This script follows same logic for SSH service.
+
+<b>CONFIG.PY</b><br>
+This script holds overall settings for the project that aren't sensitive 
+
+<b>CREATE_INCIDENT_VPN.py</b><br>
+This script will create an incident in Atlassian Status Panel, if a failure condition is met.
+
 <b>MYIP.PY</b><br>
 This script will retrieve tun0 ip address from Raspberry/Remote Linux device and send out an e-mail with WIRED, WLAN and TUNNEL VPN addresses along with whole IFCONFIG in mail body message.
 
@@ -118,13 +128,6 @@ This script follows same logic for SSH service.<br>
 
 This scripts runs on startup with vpnstatuspanel.service<br>
 And runs every 05min as cronjob<br>
-
-<b>CHECK_INCIDENT_STATUS.PY</b><br>
-This script will retrieve will check if there's any existing unresolved incidents for VPN in Atlassian Status Panel, save the JSON API response to a file and return component id (which service the incident is associated with) and incident id, if there's any
-This script follows same logic for SSH service.
-
-<b>CREATE_INCIDENT_VPN.py</b><br>
-This script will create an incident in Atlassian Status Panel, if a failure condition is met.
 
 <b>TUNNEL_CONNECTION.py</b><br>
 This script will check if VPN or SSH is available.
