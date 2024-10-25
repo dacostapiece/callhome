@@ -475,7 +475,8 @@ Here a table so you can follow along and do not get confused by.<br>
 
 You'll repeat this process to get all four Component IDs.
 
-8) Clone and/or download this repository (callhome) under desired folder in your local linux device, here in our example, a raspberry device.
+8) Clone and/or download this repository (callhome) under desired folder in your local linux device, here in our example, <br>
+a raspberry device.
 If downloaded, remember unzip its folder
 ```bash
 unzip file.zip -d /path/to/destination
@@ -486,18 +487,18 @@ pwd
 /home/user/callhome
 ```
 
-9) Setup SSH Settings for Remote Access IN Raspberry
-a) For Raspberry, the most easy is
-b) Access it over GUI in virtual machine/HDMI monitor
-c) Click on Raspberry icon upper left/Preferences
-d) Click on Raspberry PI Configuration
-e) On Interfaces tab, toggle ON for SSH
-IF Available On Interfaces tab, toggle ON for VNC for remote GUI access
-IF VNC option doesnt show, google it how to enable VNC or if you dont want, just ignore VNC step
-f) SSH user and password creds are the same you setup (or standard?) for raspberry device
+9) Setup SSH Settings for Remote Access IN Raspberry<br>
+a) For Raspberry, the most easy is<br>
+b) Access it over GUI in virtual machine/HDMI monitor<br>
+c) Click on Raspberry icon upper left/Preferences<br>
+d) Click on Raspberry PI Configuration<br>
+e) On Interfaces tab, toggle ON for SSH<br>
+IF Available On Interfaces tab, toggle ON for VNC for remote GUI access<br>
+IF VNC option doesnt show, google it how to enable VNC or if you dont want, just ignore VNC step<br>
+f) SSH user and password creds are the same you setup (or standard?) for raspberry device<br>
+<br>
 
-
-IF YOUR LOCAL DEVICE is not a Raspberry PI, here an example to setup SSH Server for Kali Linux.<br> 
+IF <b>YOUR LOCAL DEVICE</b> is not a Raspberry PI, here an example to setup SSH Server for Kali Linux.<br> 
 If SSH isn't already enable on your local device, please google it how to enable it<br>
 
 ```bash
@@ -508,7 +509,7 @@ sudo service ssh start
 ```
 <h2>External SSH Server</h2>
 10) Setup SSH Settings for External SSH Server<br>
-Jump to this topic on Callhome SSH Server repository readme.md<br> 
+Callhome SSH Server repository<br>
 https://github.com/dacostapiece/callhome_ssh_server<br>
 
 Here an example to setup SSH Server for Kali Linux.<br> 
@@ -528,58 +529,61 @@ Usually at
 ```bash
 sudo nano /etc/ssh/sshd_config
 ```
-#sudo if root is required on your SSH Server Linux Distro - Kali Linux does require
-b) Find line PubAuthenticationKey, uncomment if necessary (remove #) and set it to yes
-c) Find line PasswordAuthentication, uncomment if necessary (remove #) and set it to no - DO IT if password ssh access should be disabled or ignore this step
+#sudo if root is required on your SSH Server Linux Distro - Kali Linux does require<br>
+b) Find line PubAuthenticationKey, uncomment if necessary (remove #) and set it to yes<br>
+c) Find line PasswordAuthentication, uncomment if necessary (remove #) and set it to no<br>
+<b>DO IT</b> if password ssh access should be disabled or ignore this step
 
 <h2>Raspberry/Local Linux Device</h2>
 
-12) Setup SSH Keys for SSH Reverse Tunnel between Raspberry and External SSH Server
-Commands are shown below
-a) Call ssh key generator
-If you type a desired name for ssh key pair, but you don't specify full path directory, key pair will be saved on the current directory your user is at
-You can type "pwd" to check current full path directory
+12) Setup SSH Keys for SSH Reverse Tunnel between Raspberry and External SSH Server<br>
+Commands are shown below<br>
+a) Call ssh key generator<br>
+If you type a desired name for ssh key pair, but you don't specify full path directory, <br>
+key pair will be saved on the current directory your user is at<br>
+You can type "pwd" to check current full path directory<br>
 
-b) Enter file name with full path or hit enter to maintain default
-c) Enter SSH key password, if you hit enter with blank password, no password will be set, for sake of current project, please set a password and take note
-d) Repeat password if it was entered before
-<b>Notes</b>
-Key with .pub - public key
-Key without extension - private key
+b) Enter file name with full path or hit enter to maintain default<br>
+c) Enter SSH key password, if you hit enter with blank password, no password will be set, <br>
+for sake of current project, please set a password and take note<br>
+d) Repeat password if it was entered before<br>
+<b>Notes</b><br>
+Key with .pub - public key<br>
+Key without extension - private key<br>
 
-<b>Commands</b>
+<b>Commands</b><br>
 ed25519 or preferable encryption algorihtm for SSH Key
 ```bash
 ssh-keygen -t ed25519
 ```
 
-13) Share SSH public key to External SSH Server
-Do it once you already have setup and SSH creds for External SSH Server (steps 10 and 11 from here)
+13) Share SSH public key to External SSH Server<br>
+Do it once you already have setup and SSH creds for External SSH Server (steps 10 and 11 from here)<br>
 ```bash
 ssh-copy-id -i /path/to/custom_key.pub username@remote_server
 ```
 If ssh-copy-id is unavailable, cat your file.pub (SSH Key public key) content and save it at on External SSH Server<br>
-/home/user/.ssh/authorized_keys
-If this file doesn't exist, create it on External SSH Server
-You can test this authentication
-Most simple and manual SSH Key test
-a) Flag -i indicate private key location followed by username and reachable External SSH Server address
+/home/user/.ssh/authorized_keys<br>
+If this file doesn't exist, create it on External SSH Server<br>
+You can test this authentication<br>
+Most simple and manual SSH Key test<br>
+a) Flag -i indicate private key location followed by username and reachable External SSH Server address<br>
 ```bash
 ssh -i /home/user/.ssh/keyfile user@server.example.com
 //enter your SSH key password, if password key was set before
 ```
-SSH Key test with SSH Agent
-b) Enable SSH Agent with Environment Variable
-c) Add desired PRIVATE KEY file here exampled by "keyfile"
-d) Enter password if the SSH Key was password encrypted
-e) Try SSH into External SSH Server passing the private key already (From SSH-Agent)
+SSH Key test with SSH Agent<br>
+b) Enable SSH Agent with Environment Variable<br>
+c) Add desired PRIVATE KEY file here exampled by "keyfile"<br>
+d) Enter password if the SSH Key was password encrypted<br>
+e) Try SSH into External SSH Server passing the private key already (From SSH-Agent)<br>
 ```bash
 eval "$(ssh-agent -s)"
 ssh-add /home/user/.ssh/keyfile
 ssh user@server.example.com
 ```
 
-14) Create an .env file using template below inside your download repository folder (Raspberry/Linux local side)
+14) Create an .env file using template below inside your download repository folder (Raspberry/Linux local side)<br>
 
 <b>.ENV file template</b><br>
 ```bash
@@ -638,29 +642,29 @@ ssh_server_filename_directory = "/home/user/CALLHOME_SSH_SERVER"
 #The place where you write the above file over SSH connection in the External SSH Server
 ```
 
-Which settings you can leave as it is .ENV file? (at least in most cases)
-a) SSH_OPTIONS
-b) SSH_PORT
-c) SSH_SERVER_FILENAME
+Which settings you can leave as it is .ENV file? (at least in most cases)<br>
+a) SSH_OPTIONS<br>
+b) SSH_PORT<br>
+c) SSH_SERVER_FILENAME<br>
 
-Everything else you'll need to update according to your environment.
+Everything else you'll need to update according to your environment.<br>
 
-15) Adjust config settings (Raspberry/Linux local side)
-config.py file
-a) raspberry_vpn_component_id
-b) remote_ssh_server_component_id
+15) Adjust config settings (Raspberry/Linux local side)<br>
+config.py file<br>
+a) raspberry_vpn_component_id<br>
+b) remote_ssh_server_component_id<br>
 
 Settings associated with SSH Server are available at<br>
 https://github.com/dacostapiece/callhome_ssh_server<br>
 If you "local device" is Windows, there's a project for that available at<br>
 https://github.com/dacostapiece/callhome_windows<br>
 
-16) Enabling python libraries
-a) ping3
-b) python-dotenv
-c) requests
-d) pip
-e) autossh
+16) Enabling python libraries<br>
+a) ping3<br>
+b) python-dotenv<br>
+c) requests<br>
+d) pip<br>
+e) autossh<br>
 
 Install pip
 ```bash
@@ -688,12 +692,12 @@ Refresh and validate it
 source ~/.bashrc
 echo $PATH
 ```
-16) Set OpenVPN
+16) Set OpenVPN<br>
 a) Install OpenVPN client
 ```bash
 sudo apt install openvpn
 ```
-b) Download you file.ovpn OpenVPN profile given by VPN Server administrator and/or yourself
+b) Download you file.ovpn OpenVPN profile given by VPN Server administrator and/or yourself<br>
 c) Create your OpenVPN credential file, here as pass.txt
 ```bash
 username or domain\username
@@ -705,16 +709,16 @@ d) Test it, connect to it and ping it the private VPN internal address
  sudo openvpn --config callhome.ovpn --auth-user-pass pass.txt
 ```
 
-17) If you haven't so far, go start setting up External SSH Server
+17) If you haven't so far, go start setting up External SSH Server<br>
 https://github.com/dacostapiece/callhome_ssh_server<br>
 
-16) Test APIs
-a) More below on troubleshooting you have sample and example for testing API Communication with Cloudflare and Atlassian 
-18) Test SSH
-a) Steps 9 to 14 allow you to test SSH connection from Raspberry to External SSH Server
-b) You can locally test if Raspberry is accepting SSH connections or not
+16) Test APIs<br>
+a) More below on troubleshooting you have sample and example for testing API Communication with Cloudflare and Atlassian <br>
+18) Test SSH<br>
+a) Steps 9 to 14 allow you to test SSH connection from Raspberry to External SSH Server<br>
+b) You can locally test if Raspberry is accepting SSH connections or not<br>
 
-20) Enabling services
+20) Enabling services<br>
 Overall services handling - for each service - example
 ```bash
 sudo systemctl enable autossh.service 
@@ -726,8 +730,8 @@ sudo systemctl daemon-reload
 ```
 
 
-a) autossh.service
-a.1) Adjust your user and script path following sample below
+a) autossh.service<br>
+a.1) Adjust your user and script path following sample below<br>
 Sample script
 ```bash
 [Unit]
@@ -756,7 +760,7 @@ sudo systemctl start autossh.service
 sudo systemctl status autossh.service
 ```
 
-b) myip.service
+b) myip.service<br>
 b.1) Adjust your user and script path following sample below
 Sample script
 ```bash
@@ -786,7 +790,7 @@ sudo systemctl status myip.service
 ```
 
 
-c) ovpnscript.service
+c) ovpnscript.service<br>
 c.1) Adjust your user and script path following sample below
 Sample script
 ```bash
@@ -812,7 +816,7 @@ sudo systemctl start ovpnscript.service
 sudo systemctl status ovpnscript.service
 ```
 
-d) updatedns.service
+d) updatedns.service<br>
 d.1) Adjust your user and script path following sample below
 Sample script
 ```bash
@@ -841,7 +845,7 @@ sudo systemctl start updatedns.service
 sudo systemctl status updatedns.service
 ```
 
-e) vpnstatuspanel.service
+e) vpnstatuspanel.service<br>
 e.1) Adjust your user and script path following sample below
 Sample script
 ```bash
@@ -872,44 +876,44 @@ sudo systemctl start vpnstatuspanel.service
 sudo systemctl status vpnstatuspanel.service
 ```
 
-22) Enabling cron jobs
+22) Enabling cron jobs<br>
 To create/edit cronjobs, type 
 ```bash
 crontab -e
 ```
- - then select your text editor (when crontab -e is called at first time), i am more familiar with nano
+ - then select your text editor (when crontab -e is called at first time), i am more familiar with nano<br>
 
-a) autossh_script.py
+a) autossh_script.py<br>
 a.1) Adjust your user and script path following sample below
 ```bash
 */5 * * * * /usr/bin/python /home/user/callhome/autossh_script.py >>/tmp/autossh_script.job.log 2>&1
 ```
 
-b) sync_services_scripts.sh
+b) sync_services_scripts.sh<br>
 b.1) Adjust your user and script path following sample below
 ```bash
 0 * * * * /home/user/callhome/sync_services_scripts.sh >>/tmp/sync_services_scripts.log 2>&1
 ```
 
-c) updated_interfaces.py
+c) updated_interfaces.py<br>
 c.1) Adjust your user and script path following sample below
 ```bash
 */5 * * * * /usr/bin/python /home/user/callhome/updated_interfaces.py >>/tmp/updated_interfaces_cron.log 2>&1
 ```
 
-d) update_tun0_ipname.py
+d) update_tun0_ipname.py<br>
 d.1) Adjust your user and script path following sample below
 ```bash
 */5 * * * * /usr/bin/python /home/user/callhome/update_tun0_ipname.py >> /tmp/update_tun0_ipname.log 2>&1
 ```
 
-e) update_status_panel.py
+e) update_status_panel.py<br>
 e.1) Adjust your user and script path following sample below
 ```bash
 */5 * * * * /usr/bin/python /home/user/callhome/update_status_panel.py >> /tmp/update_status_panel.log 2>&1
 ```
 
-<h1>TROUBLESHOOTING</h1>
+<h1>TROUBLESHOOTING</h1><br>
 <b>Test API communication with Atlassian</b>b<br>
 Create incident, replace abde for you Component ID<br>
 ```bash
@@ -939,16 +943,16 @@ Remember to replace values between brackets abcdefghijklmnopqrstuvwxyz/zyxwvutsr
 <h1>NOVA</h1>
 
 <b>RFE</b><br>
-1) Clean code
-2) Iterate loop only on associated components IDs - VPN Checks VPNs Incidents related, SSH  Checks SSH Incidents related, and so on.
-3) Improve SSH habdling in SSH External Server - handle stale processes
-4) Create a Install script
+1) Clean code<br>
+2) Iterate loop only on associated components IDs - VPN Checks VPNs Incidents related, SSH  Checks SSH Incidents related, and so on.<br>
+3) Improve SSH habdling in SSH External Server - handle stale processes<br>
+4) Create a Install script<br>
 
 
 <h2>SETTINGS FOR EXTERNAL SSH SERVER</h2>
 This project holds settings for External SSH Server to be set along "callhome" project or "callhome windows" project for Windows OS
-CALLHOME
-https://github.com/dacostapiece/callhome/
+CALLHOME<br>
+https://github.com/dacostapiece/callhome/<br>
 
 CALLHOME WINDOWS
 https://github.com/dacostapiece/callhome_windows
