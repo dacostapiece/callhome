@@ -2,22 +2,25 @@
 <h2>Raspberry /Linux Local device</h2>
 <b>RFE</b><br>
 1) Enable hotspot if no LAN or WLAN is unavailable (No known WLAN creds and/or range reachable)<br>
-2) Handle multiple interfaces from single type - two VPNs, more than one ETH, etc...
-3) Start Webserver to receive SSID and password creds to login to neighbouring SSID
-4) Clean code
-5) Iterate loop only on associated components IDs - VPN Checks VPNs Incidents related, SSH  Checks SSH Incidents related, and so on.
-6) Improve SSH habdling in SSH External Server - handle stale processes
-7) Create an Install script
+2) Handle multiple interfaces from single type - two VPNs, more than one ETH, etc...<br>
+3) Start Webserver to receive SSID and password creds to login to neighbouring SSID<br>
+4) Clean code<br>
+5) Iterate loop only on associated components IDs<br>
+VPN Checks VPNs Incidents related, SSH  Checks SSH Incidents related, and so on.<br>
+6) Improve SSH habdling in SSH External Server - handle stale processes<br>
+7) Create an Install script<br>
 
 <h2>OBJECTIVE</h2>
-Imagine you need a remoted connected device, here called Raspberry/Local Linux device which, through this device you are able to reach things<br> through it for networking troubleshooting, pentesting, monitoring and etc... on the remote network.<br>
+<b>Imagine you need a remoted connected device, here called Raspberry/Local Linux device which, <br>
+through this device you are able to reach things<br> 
+through it for networking troubleshooting, pentesting, monitoring and etc... on the remote network.<br></b>
 
 1) How do you remote connect to this device?<br>
 2) This remote connection has an independent backup for remote access?<br>
 3) How do i know current device IP addresses? If i am remote or local next to it, how to connect over LAN, WLAN or VPN? Does this info updates<br> whenever any of these IP addresses changes?<br>
 4) How do you from two different perspectives knows if this setup/services are available?<br>
 
-With this project, you will connect it back to a device that's remotely plugged in a network, this settings will:<br> 
+<b>With this project, you will connect it back to a device that's remotely plugged in a network, this settings will:</b><br> 
 1) Send mail notification with device's WLAN, LAN, VPN IP addresses on startup and at every IP address change;<br>
 2) Device will connect over VPN and SSH connection with two different independent sites and expose to us its SSH and VNC ports for remote access<br>
 3) This project allows us to monitor these two connections from Raspberry to VPN Server and External SSH Server, as well as monitor connections<br> from a External SSH Server if VPN and SSH connections back to Raspberry device are working<br>
