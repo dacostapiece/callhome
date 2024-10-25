@@ -29,7 +29,8 @@ through it for networking troubleshooting, pentesting, monitoring and etc... on 
 6) As long as the device and you are connected to same VPN Server OR the device and you are connected to the same SSH Server - you will be able<br> to remotely reach this device.<br>
 <br><b>Basically having a persistance way to reach the remote network through this device.</b><br>
 
-[DIAGRAM OVERVIEW]
+<h2>[DIAGRAM OVERVIEW]</h2>
+![callhome_overview drawio](https://github.com/user-attachments/assets/0e7b65ea-4098-4dcd-8dbd-b4738ccd8ed5)
 
 
 <b>AUTOSSH.PY</b><br>
