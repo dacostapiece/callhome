@@ -30,8 +30,7 @@ through it for networking troubleshooting, pentesting, monitoring and etc... on 
 <br><b>Basically having a persistance way to reach the remote network through this device.</b><br>
 
 <h2>[DIAGRAM OVERVIEW]</h2>
-![callhome_overview drawio](https://github.com/user-attachments/assets/0e7b65ea-4098-4dcd-8dbd-b4738ccd8ed5)
-
+<img src="https://github.com/user-attachments/assets/0e7b65ea-4098-4dcd-8dbd-b4738ccd8ed5" />
 
 <b>AUTOSSH.PY</b><br>
 This is script is responsible to start and maintain an SSH connection to an outside server here called server.example.com<br>
