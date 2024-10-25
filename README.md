@@ -99,6 +99,9 @@ Shell script that waits 30 secs after reboot (as it's set as startup service) to
 
 myip.service, myip_script.sh and myip.py has the goal to tell us by sending out an email on startup what are the available IP addresses for remote access into raspberry device.
 
+<b>__pycache__</b><br>
+Codes are syncing to a place where codes are actually running, this folder is generated from python running. This folder is set to not sync with Github.
+
 <b>OPENVPN_SCRIPT.SH</b><br>
 Script run openvpn - passing creds already
 We have set up a service ovpnscript.service that calls openvpn_script.sh which is basically sending out in terminal a command line to establish a SSLVPN connection with a remote VPN Server - here called by reference purpose hub.example.com  
@@ -121,10 +124,14 @@ Your OpenVPN profile file. It's used to connect to hub.example.com
 <b>SENDMAIL.PY</b><br>
 This script works as a module called by myip.py and updated_interfaces.py which will send out an email with WIRED, WLAN and TUNNEL VPN addresses along with whole IFCONFIG in mail body message.
 
+<b>SEND_CURRENT_RASP_IP.PY</b><br>
+This script will recover current Raspberry device IP address for Tunnel VPN and a create a file in SSH Server, <br>
+another script will read this file in the SSH Server and knows which IP address to ping it back to test "Callback VPN" connection from SSH Server to Raspberry itself<br>
+
 <b>SYNC_SERVICES_SCRIPTS.SH</b><br>
 I've just created a job that runs every hour to sync services settings from /etc/systemd/system/ to /home/user/repo/SERVICES/
 
-<b>TUNNEL_CONNECTION.py</b><br>
+<b>TUNNEL_CONNECTION.PY</b><br>
 This script will check if VPN or SSH is available.
 
 <b>UPDATED_INTERFACES_PY</b><br>
@@ -212,8 +219,10 @@ I've just created a job that runs every hour to sync services settings in /etc/s
 It basically grabs each service content and copies to a similar file inside Github repo folder to allow project syncness.<br>
 ```bash
 cat /etc/systemd/system/myip.service >/home/dacosta/CALLHOME/SERVICES/myip.service
-
 ```
+
+<b>WRITEANDREADIP.PY</b><br>
+This script will read an existing file and it will write it to a file.<br>
 
 <b>SERVICES</b><br>
 At least in Raspberry PI, services files/settings are store in /etc/systemd/system <br>
@@ -244,6 +253,11 @@ sudo systemctl daemon-reload
 
 Note: If VPN is connected by this service and you stop it, it will be same as closing a running program.<br>
 
+<b>AUTOSSH.SERVICE</b><br>
+File autossh.service<br>
+The service will wait 30 seconds before start, it will call autossh_script.py, it will restart always. 
+This service is forking so is able to call the script, runs autossh command and leave it in the background.<br>
+
 <b>MYIP.SERVICE</b><br>
 File myip.service<br>
 The service will wait 30 seconds before start, it will call myip_script.sh, it will restart on failure, but only six times, it won't try to run after this. Service will fail as an example, if the VPN isn't connected yet. The service will delay 60 seconds before trying again and it will as run regular user.<br>
@@ -255,9 +269,6 @@ The service will start right away, it will call openvpn_script.sh, always run an
 <b>UPDATEDNS.SERVICE</b><br>
 File updatedns.service<br>
 The service will wait 30 seconds before start, it will call update_tun0_ipname.py, it will restart on failure, but only three times, it won't try to run after this. Service will fail as an example, if the VPN isn't connected yet. The service will delay 30 seconds before trying again and it will run as regular user.<br>
-
-<b>__pycache__</b><br>
-Codes are syncing to a place where codes are actually running, this folder is generated from python running. This folder is set to not sync with Github.
 
 <b>VPNSTATUSPANEL.SERVICE</b><br>
 File vpnstatuspanel.service<br>
