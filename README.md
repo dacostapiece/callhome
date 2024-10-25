@@ -201,6 +201,7 @@ to call cronjobs as root user (not required for our current scripts)
 
 <h1>Setting All Cronjobs at Once</h1>
 Just copy and paste all below - correct user and repository names accordingly to your environment previously.
+
 ```bash
 */5 * * * * /usr/bin/python /home/user/callhome/autossh_script.py >>/tmp/autossh_script.job.log 2>&1
 0 * * * * /home/user/callhome/sync_services_scripts.sh >>/tmp/sync_services_scripts.log 2>&1
