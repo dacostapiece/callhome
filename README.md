@@ -1,3 +1,5 @@
+<h1>CALLHOME</h1>
+<h2>Raspberry /Linux Local device</h2>
 <b>RFE</b><br>
 1) Enable hotspot if no LAN or WLAN is unavailable (No known WLAN creds and/or range reachable)<br>
 2) Handle multiple interfaces from single type - two VPNs, more than one ETH, etc...
@@ -5,7 +7,7 @@
 4) Clean code
 5) Iterate loop only on associated components IDs - VPN Checks VPNs Incidents related, SSH  Checks SSH Incidents related, and so on.
 6) Improve SSH habdling in SSH External Server - handle stale processes
-7) Create a Install script
+7) Create an Install script
 
 The idea is to called these scripts after a device connects to VPN Server to advertises its tun interface IP address over email.
 
