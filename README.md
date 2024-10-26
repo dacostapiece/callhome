@@ -48,6 +48,7 @@ and reinitiate the autossh process again<br>
 Example<br>
 ssh {user}@{ssh_server} \"echo '{ip_address}' > {remote_path}<br>
 <b>192.168.0.10</b> is an example tunnel ip address<br>
+
 ```bash
 ssh user@server.example.com \"echo '192.168.0.10' > /home/user/folder/current_rasp_ip.txt
 ```
@@ -70,7 +71,7 @@ This script follows same logic for SSH service.
 This script holds overall settings for the project that aren't sensitive 
 
 <b>.ENV</b><br>
-This script holds overall settings for the project that are sensitive 
+This script holds overall settings for the project that are sensitive<br>
 <b>.env isn't syncing to this github repo, remember creating it, there's a template in the how to guide in following sections.</b><br>
 
 <b>CREATE_INCIDENT_VPN.PY</b><br>
@@ -112,9 +113,12 @@ sudo openvpn --config /home/user/folder/file.ovpn --auth-user-pass /home/user/fo
 You should have your own OpenVPN Server, so you can retrieve *.ovpn OpenVPN profile file as long as credentials for this VPN connection.
 
 <b>PASS.TXT</b><br>
-OpenVPN Creds - format<br>
-domain\username or username<br>
+
+```bash
+OpenVPN Creds - format
+domain\username or username
 password
+```
 
 <b>*.OVPN</b><br>
 Your OpenVPN profile file. It's used to connect to hub.example.com
@@ -135,17 +139,19 @@ I've just created a job that runs every hour to sync services settings from /etc
 This script will check if VPN or SSH is available.
 
 <b>UPDATED_INTERFACES_PY</b><br>
-myip.py scripts tell us on startup what are the at the moment associated IP addresses for WIRED, WLAN and Tunnel VPN for Raspberry device, but what<br> if the device reboots or changes any of those IP addresses somehow? This script grabs current network scenario and compares to a previous file<br> having prior network configuration, if there's any change, this scripts sends out an e-mail advising us what has changed.<br>
+myip.py scripts tell us on startup what are the at the moment associated IP addresses for <b>WIRED, WLAN and Tunnel VPN</b> for Raspberry device, but what<br> if the device reboots or changes any of those IP addresses somehow? This script grabs current network scenario and compares to a previous file<br> having prior network configuration, if there's any change, this scripts sends out an e-mail advising us what has changed.<br>
 
 <b>UPDATE_INCIDENT_VPN.py</b><br>
-This script will update an existing incident to solve it in Atlassian Status Panel, if a failure no longer exists. VPN or SSH service.
+This script will update an existing incident to solve it in Atlassian Status Panel, if a failure no longer exists. <b>VPN or SSH service</b>.
 
 <b>UPDATE_STATUS_PANEL.PY</b><br>
 https://dacostapiece.statuspage.io/ <br>
-This script will  will check if <br>
-1) tun0 (VPN) is available and if we are able to ping a remote vpn target, in our configuration it's pinging VPN Gateway private IP address, so not only we ensure VPN is active, but it's also working properly and <br>
+This script will  will check IF <br>
+1) tun0 (VPN) is available and if we are able to ping a remote vpn target, in our configuration<br>
+it's pinging VPN Gateway private IP address, so not only we ensure VPN is active, but it's also working properly and <br>
 2) Checks if SSH Server is reachable, here in the example - server.example.com. <br>
-It's basically checking if primary connection over VPN and secondary connection over SSH are working from the perspective of Raspberry/Linux local device.
+It's basically checking if primary connection over VPN and secondary connection over<br>
+SSH are working from the perspective of Raspberry/Linux local device.<br>
 
 The main goal is having a way to check wether VPN is working or not over a Status Web panel as well as triggering email alerts about failure incidents and restored services by Atlassian Status Panel.
 
@@ -153,20 +159,26 @@ You'll have to setup an account on Atlassian Status panel, it's free, to have th
 
 <b>Logics</b><br>
 VPN<br>
-A) If VPN is working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's any, solve that incident, VPN is working.<br>
-B) If VPN is not working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's any, just keep it, VPN is not working.<br>
-C) If VPN is not working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's none, create an incident, VPN is not working.<br>
-D) If VPN is working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, if there's none, do nothing, VPN is working.<br>
+A) If VPN is working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, 
+if there's any, solve that incident, VPN is working.<br>
+B) If VPN is not working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service,<br>
+if there's any, just keep it, VPN is not working.<br>
+C) If VPN is not working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, <br>
+if there's none, create an incident, VPN is not working.<br>
+D) If VPN is working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, <br>
+if there's none, do nothing, VPN is working.<br>
 
-SSH<br>
+<b>SSH></b><br>
 This script follows same logic for SSH service.<br>
 
 This scripts runs on startup with vpnstatuspanel.service<br>
 And runs every 05min as cronjob<br>
 
 <b>UPDATE_TUN0_IPNAME.PY</b><br>
-This script will retrieve tun0 IP address and update a FQDN in Cloudflare through API, so we can always reach it back the device over VPN without<br>
+This script will retrieve tun0 IP address and update a FQDN in Cloudflare through API, <br>
+so we can always reach it back the device over VPN without<br>
 needing to know its current IP address, neither updating clients settings like SSH, VNC, etc...<br>
+
 In this example is <b>raspberry.example.com</b><br>
 This scripts runs on startup with updatedns.service<br>
 And runs every 05min as cronjob<br>
@@ -179,10 +191,11 @@ chmod +x /home/dacosta/CALLHOME/openvpn_script.sh
 <b>WRITEANDREADIP.PY</b><br>
 This script will read an existing file and it will write it to a file.<br>
 
-<b>HOW SCRIPTS ARE CALLED?</b><br>
-Some scripts are call by cronjobs, because they required recurring calls, some scripts are run by service, it runs on device startup or only once and other scripts are simply called by others scripts in chain.
+<h2>HOW SCRIPTS ARE CALLED?</h2>
+Some scripts are call by cronjobs, because they required recurring calls, some scripts are run by service, <br>
+it runs on device startup or only once and other scripts are simply called by others scripts in chain.
 
-<b>CRONJOBS</b><br>
+<h2>CRONJOBS</h2>
 <h2>[DIAGRAM OVERVIEW]</h2>
 <img src="https://github.com/user-attachments/assets/7753ec31-0ae4-47c9-9e1d-f7f67be8f7d8" />
 
@@ -226,7 +239,10 @@ It basically grabs each service content and copies to a similar file inside Gith
 ```
 
 <b>UPDATED_INTERFACES_PY CRONJOB</b><br>
-myip.py scripts tell us on startup what are the at the moment associated IP addresses for WIRED, WLAN and Tunnel VPN for Raspberry device, but what<br> if the device reboots or changes any of those IP addresses somehow? This script grabs current network scenario and compares to a previous file<br> having prior network configuration, if there's any change, this scripts sends out an e-mail advising us what has changed.<br>
+myip.py scripts tell us on startup what are the at the moment associated IP addresses for <b>WIRED, WLAN and Tunnel VPN </b>for Raspberry device, but what if the device reboots or changes any of those IP addresses somehow? This script grabs current network scenario and <br>
+compares to a previous file having prior network configuration, if there's any change, this scripts sends out an e-mail <br>
+advising us what has changed.<br>
+
 ```bash
 */5 * * * * /usr/bin/python /home/user/callhome/updated_interfaces.py >>/tmp/updated_interfaces_cron.log 2>&1
 ```
@@ -242,18 +258,18 @@ Run script to check VPN connection and update status panel accordingly every 05 
 ```bash
 */5 * * * * /usr/bin/python /home/user/CALLHOME/update_status_panel.py >> /tmp/update_status_panel.log 2>&1
 ```
-Troubleshoot or check cronjob run status in here /tmp/update_status_panel.log<br>
-Rememeber to update this with your local path /home/user/folder/update_status_panel.py<br>
+<b>Troubleshoot or check cronjob run status in here /tmp/update_status_panel.log<br>
+Rememeber to update this with your local path /home/user/folder/update_status_panel.py<br></b>
 You can use "which python" to see where is the full path for python binary<br>
 For me is /usr/bin/python
 
-<b>SERVICES</b><br>
+<h2>SERVICES</h2>
 <h2>[DIAGRAM OVERVIEW]</h2>
 <img src="https://github.com/user-attachments/assets/25f3e19e-61f7-4d39-9847-18c4723344ab"/>
 
 At least in Raspberry PI, services files/settings are store in /etc/systemd/system <br>
 
-How to add a service?<br>
+<b>How to add a service?</b><br>
 ```bash
 sudo nano /etc/systemd/system/service_filename
 ```
@@ -270,14 +286,15 @@ sudo systemctl disable ovpnscript.service
 sudo systemctl daemon-reload 
 ```
 
-1) //enable service after file creation
-2) //start service
-3) //check service status
-4) //stop service
-5) //disable service
-6) //when changes are applied to service file, it'll be requested to update is daemon
+<b>What does it each do above?</b>
+1) enable service after file creation
+2) start service
+3) check service status
+4) stop service
+5) disable service
+6) when changes are applied to service file, it'll be requested to update is daemon
 
-Note: If VPN is connected by this service and you stop it, it will be same as closing a running program.<br>
+<b>Note:</b> If VPN is connected by this service and you stop it, it will be same as closing a running program.<br>
 
 <b>AUTOSSH.SERVICE</b><br>
 File autossh.service<br>
@@ -346,10 +363,14 @@ You can set whatever IPv4 address, just for sake of creation of this DNS record<
 After create, we'll edit it just to create an audit log for later purpose<br>
 b) server.example.com for External SSH device<br>
 Set External SSH Server Public IP address for this DNS record<br>
+
 <b>Note:</b> You can create and associate a FQDN for you External SSH Server Public IP address or use an existing FQDN for it<br>
+
 c) hub.example.com for VPN Server<br>
 Set VPN Server Public IP address for this DNS record<br>
+
 <b>Note:</b> You can create and associate a FQDN for you VPN Server Public IP address or use an existing FQDN for it<br>
+
 d) Log into your Cloudflare account<br>
 e) On left sidebar menu, go to Manage account/Audit log<br>
 f) Expand recent audit logs for DNS changes and grab DNS record ID for raspberry.example.com.<br>
@@ -371,10 +392,12 @@ Example<br>
 ```
 https://community.cloudflare.com/t/cannot-find-record-id/326344<br>
 <b>Don't misundertook zone id with dns record id</b><br>
+
 4) You can use any SMTP Server to sending our own E-mail notifications. In our scenario we're going to an Gmail account<br>
 a) Create a new or login to your existing Gmail account<br>
 b) After validation or creation of new Gmail account, go to<br>
 https://myaccount.google.com/apppasswords<br>
+
 c) Give it a name and click on create<br>
 d) The generated app password will popup to you, this password will be used in our script<br> 
 to authenticate and send e-mails using our Gmail account<br>
@@ -384,8 +407,10 @@ e) You can always go back to same link and delete the password app if desired.<b
 a) Go to https://www.atlassian.com/software/statuspage<br>
 b) Create your free account<br>
 c) Choose subdomain name in your Atlassian account<br>
-Example<br>
+
+<b>Example</b><br>
 examplepanel.atlassian.net<br>
+
 Click next if possible, THIS IS NOT you Status Panel page, it's something else under the Umbrella of Atlassian/Jira cloud services<br>
 d) It may be requested (currently it's for new accounts) a component creation in a setup wizard<br>
 We're going to need four components, here they are:<br>
@@ -404,10 +429,10 @@ It will connect to same VPN HUB device and try pinging Raspberry current tunnel 
 Description: This component checks externally from SSH Server <br>
 if the callback SSH Tunnel connection to Raspberry is working. It will try to connect to Raspberry SSH Service.<br>
 
-If requested, you don't need to setup a Component group. <br>
+<i>If requested, you don't need to setup a Component group. <br>
 You can leave as it is or play with it later on as pleased. This project doesn't use Component group.<br>
 
-If Components wouldn't be requested at the new account startup, you'll need to setup them later.<br>
+If Components wouldn't be requested at the new account startup, you'll need to setup them later.<br></i>
 
 e) In the current situation, after four components were added, just click Next<br>
 f) Upload a Status Panel image logo or click Next, you can add it later on<br>
@@ -416,6 +441,7 @@ For me it didn't workout sending out a test email through Atlassian new account 
 When i first used Status Page, i added manually on own.<br>
 While writing this doc, i've just realized admin notification from Atlassian Status Panel <br>
 it seems to have two different approaches.<br>
+
 g.1) Remind admins of ongoing incident - standard every 3, 6, 12 and 24 hours <br> 
 This notification will be sent to e-mail account associated to your Atlassian account<br>
 g.2) For our project and to receive at the moment incident notification from Atlassian, <br>
@@ -441,6 +467,7 @@ i) Save and exit to conclude Wizard<br>
 j) On Status Page, click on Activate your page and select FREE plan, confirm role based warning telling you Free plan doesn't <br>
 we wont need it<br>
 
+
 7) Get your Component IDs in Atlassian Status Page<br>
 We'll retrieve four Component IDs, two for the Raspberry/Linux local device and two for the External SSH Server<br>
 
@@ -459,7 +486,11 @@ b) Here you can Add component - if you haven't on Startup Atlassian account Wiza
 c) There are two "builtin" Components, you can delete them, they are the for example purposes<br>
 d) Click on OpenVPN Outbound Raspberry Device component<br>
 d.1) You'll be able to grab this Component ID from the URL formatting, here exampled by:<br>
-https://manage.statuspage.io/pages/{your page id}/components/{your current component id}/edit<br>
+
+```bash
+https://manage.statuspage.io/pages/{your page id}/components/{your current component id}/edit
+```
+
 d.2) Or going down on the page, next to Component API ID and copying it, take a note.<br>
 Here a table so you can follow along and do not get confused by.<br>
 <h2>[TABLE]</h2>
@@ -482,6 +513,7 @@ If downloaded, remember unzip its folder
 unzip file.zip -d /path/to/destination
 ```
 a) Take note of the complete full path from this repository - you can call "pwd" inside the directory to get its full path location
+
 ```bash
 pwd
 /home/user/callhome
@@ -511,6 +543,7 @@ sudo service ssh start
 10) Setup SSH Settings for External SSH Server<br>
 Callhome SSH Server repository<br>
 https://github.com/dacostapiece/callhome_ssh_server<br>
+<br>
 
 Here an example to setup SSH Server for Kali Linux.<br> 
 If SSH isn't already enable on your local device, please google it how to enable it<br>
@@ -529,15 +562,18 @@ Usually at
 ```bash
 sudo nano /etc/ssh/sshd_config
 ```
-#sudo if root is required on your SSH Server Linux Distro - Kali Linux does require<br>
-b) Find line PubAuthenticationKey, uncomment if necessary (remove #) and set it to yes<br>
-c) Find line PasswordAuthentication, uncomment if necessary (remove #) and set it to no<br>
+<b>sudo if root is required on your SSH Server Linux Distro - Kali Linux does require<br></b>
+
+b) Find line <b>PubAuthenticationKey</b>, uncomment if necessary (remove #) and set it to yes<br>
+c) Find line <b>PasswordAuthentication</b>, uncomment if necessary (remove #) and set it to no<br>
+
 <b>DO IT</b> if password ssh access should be disabled or ignore this step
 
 <h2>Raspberry/Local Linux Device</h2>
 
 12) Setup SSH Keys for SSH Reverse Tunnel between Raspberry and External SSH Server<br>
 Commands are shown below<br>
+
 a) Call ssh key generator<br>
 If you type a desired name for ssh key pair, but you don't specify full path directory, <br>
 key pair will be saved on the current directory your user is at<br>
@@ -547,6 +583,7 @@ b) Enter file name with full path or hit enter to maintain default<br>
 c) Enter SSH key password, if you hit enter with blank password, no password will be set, <br>
 for sake of current project, please set a password and take note<br>
 d) Repeat password if it was entered before<br>
+
 <b>Notes</b><br>
 Key with .pub - public key<br>
 Key without extension - private key<br>
@@ -564,10 +601,13 @@ ssh-copy-id -i /path/to/custom_key.pub username@remote_server
 ```
 If ssh-copy-id is unavailable, cat your file.pub (SSH Key public key) content and save it at on External SSH Server<br>
 /home/user/.ssh/authorized_keys<br>
+
 If this file doesn't exist, create it on External SSH Server<br>
 You can test this authentication<br>
 Most simple and manual SSH Key test<br>
+
 a) Flag -i indicate private key location followed by username and reachable External SSH Server address<br>
+
 ```bash
 ssh -i /home/user/.ssh/keyfile user@server.example.com
 //enter your SSH key password, if password key was set before
@@ -656,6 +696,7 @@ b) remote_ssh_server_component_id<br>
 
 Settings associated with SSH Server are available at<br>
 https://github.com/dacostapiece/callhome_ssh_server<br>
+
 If you "local device" is Windows, there's a project for that available at<br>
 https://github.com/dacostapiece/callhome_windows<br>
 
@@ -1317,6 +1358,16 @@ crontab -e
 
 You can use "which python" to see where is the full path for python binary<br>
 For me is /usr/bin/python
+
+<h1>Setting All Cronjobs at Once</h1>
+Just copy and paste all below - correct user and repository names accordingly to your environment previously.
+
+```bash
+0 * * * * /usr/bin/python /home/user/callhome_ssh_server/ssh_handler.py >> /tmp/ssh_handler_job.log 2>&1
+0 * * * * /home/user/callhome_ssh_server/sync_services_scripts.sh >>/tmp/sync_services_scripts.log 2>&1
+*/5 * * * * /usr/bin/python /home/user/callhome_ssh_server/update_status_panel_ssh_server.py >> /tmp/update_status_panel_ssh_server.log 2>&1
+```
+
 
 a) ssh_handler.py
 a.1) Adjust your user and script path following sample below
