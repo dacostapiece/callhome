@@ -944,38 +944,6 @@ e.1) Adjust your user and script path following sample below
 */5 * * * * /usr/bin/python /home/user/callhome/update_status_panel.py >> /tmp/update_status_panel.log 2>&1
 ```
 
-<h1>TROUBLESHOOTING</h1><br>
-<b>Test API communication with Atlassian</b><br>
-Create incident, replace abde for you Component ID<br>
-
-```bash
-curl https://api.statuspage.io/v1/pages/{page_id}/incidents \
-  -H "Authorization: OAuth {api_token}" \
-  -X POST \
-  -d "incident[name]=Teste Component" \
-  -d "incident[status]=investigating" \
-  -d "incident[body]=Testando componentes" \
-  -d "incident[component_ids][]=abcdefghijklmnopqrstuvwxyz" \
-  -d "incident[component_ids][]=zyxwvutsrqponmlkjihgfedcba" \
-  -d "incident[components][abcdefghijklmnopqrstuvwxyz]=major_outage" \
-  -d "incident[components][zyxwvutsrqponmlkjihgfedcba]=major_outage"
-```
-
-<b>SAMPLE SIMPLE CURL</b><br>
-<b>Test API communication with Cloudflare</b>b<br>
-
-```bash
-curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
-     -H "Authorization: Bearer abcdefghijklmnopqrstuvwxyz" \
-     -H "Content-Type:application/json"
-```
-
-Remember to replace values between brackets for your correspondinds IDs/APIs.
-
-```bash
-abcdefghijklmnopqrstuvwxyz/zyxwvutsrqponmlkjihgfedcba 
-```
-
 <h1>CALLHOME_SSH_SERVER</h1>
 <h1>NOVA</h1>
 
@@ -997,14 +965,15 @@ abcdefghijklmnopqrstuvwxyz/zyxwvutsrqponmlkjihgfedcba
 This project holds settings for External SSH Server to be set along "callhome" project or "callhome windows" project for Windows OS
 <b>CALLHOME</b><br>
 https://github.com/dacostapiece/callhome/<br>
-
+<br>
 <b>CALLHOME WINDOWS</b><br>
 https://github.com/dacostapiece/callhome_windows
 
 <h2>FILES DESCRIPTION SSH SERVER</h2>
 
 <b>CHECK_INCIDENT_STATUS_SSH_SERVER.PY</b><br>
-This script will retrieve will check if there's any existing unresolved incidents for VPN (connection against Raspberry device over VPN) in Atlassian Status Panel, save the JSON API response to a file and return component id (which service the incident is associated with) and incident id, if there's any
+This script will retrieve will check if there's any existing unresolved incidents for VPN (connection against Raspberry device over VPN) in<br> Atlassian Status Panel, save the JSON API response to a file and return component id (which service the incident is associated with) <br>
+and incident id, if there's any
 This script follows same logic for SSH service (connection against Raspberry device over SSH Reverse Tunnel).
 
 <b>CONFIG_SSH_SERVER.PY</b><br>
@@ -1015,8 +984,10 @@ This script will create an incident in Atlassian Status Panel, if a failure cond
 
 <b>OPENVPN.SH</b><br>
 Script run openvpn - passing creds already<br>
-We have set up a service ovpnscript.service that calls openvpn_script.sh which is basically sending out in terminal a command line to establish a SSLVPN connection with a remote VPN Server - here called by reference purpose hub.example.com
-Note: Here on the External SSH Server - we connect to the same VPN Server as Raspberry/Linux local device, so we can monitor if Raspberry/Linux local device itself is REACHABLE or not.
+We have set up a service ovpnscript.service that calls openvpn_script.sh which is basically sending out in terminal a command line <br>
+to establish a SSLVPN connection with a remote VPN Server - here called by reference purpose hub.example.com<br>
+Note: Here on the External SSH Server - we connect to the same VPN Server as Raspberry/Linux local device, so we can monitor <br>
+if Raspberry/Linux local device itself is REACHABLE or not.
 
 ```bash
 sudo openvpn --config /home/user/folder/file.ovpn --auth-user-pass /home/user/folder/pass.txt
@@ -1379,9 +1350,9 @@ b.1) Adjust your user and script path following sample below
 */5 * * * * /usr/bin/python /home/user/callhome_ssh_server/update_status_panel_ssh_server.py >> /tmp/update_status_panel_ssh_server.log 2>&1
 ```
 
-<h1>TROUBLESHOOTING</h1>
-<b>SAMPLE SIMPLE CURL</b><br>
-<b>So you can test API communication with Atlassian</b>b<br>
+<h1>TROUBLESHOOTING</h1><br>
+<b>Test API communication with Atlassian</b><br>
+Create incident, replace abde for you Component ID<br>
 
 ```bash
 curl https://api.statuspage.io/v1/pages/{page_id}/incidents \
@@ -1390,20 +1361,25 @@ curl https://api.statuspage.io/v1/pages/{page_id}/incidents \
   -d "incident[name]=Teste Component" \
   -d "incident[status]=investigating" \
   -d "incident[body]=Testando componentes" \
-  -d "incident[component_ids][]={component id}" \
-  -d "incident[component_ids][]={component id2}" \
-  -d "incident[components][{component id}]=major_outage" \
-  -d "incident[components][{component id}2]=major_outage"
+  -d "incident[component_ids][]=abcdefghijklmnopqrstuvwxyz" \
+  -d "incident[component_ids][]=zyxwvutsrqponmlkjihgfedcba" \
+  -d "incident[components][abcdefghijklmnopqrstuvwxyz]=major_outage" \
+  -d "incident[components][zyxwvutsrqponmlkjihgfedcba]=major_outage"
 ```
 
 <b>SAMPLE SIMPLE CURL</b><br>
-<b>So you can test API communication with Cloudflare</b>b<br>
+<b>Test API communication with Cloudflare</b>b<br>
 
 ```bash
-
 curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
-     -H "Authorization: Bearer {Cloudflare API Token}" \
+     -H "Authorization: Bearer abcdefghijklmnopqrstuvwxyz" \
      -H "Content-Type:application/json"
 ```
-Remember to replace values between brackets { } for your correspondinds IDs.
+
+Remember to replace values between brackets for your correspondinds IDs/APIs.
+
+```bash
+abcdefghijklmnopqrstuvwxyz/zyxwvutsrqponmlkjihgfedcba 
+```
+
 
