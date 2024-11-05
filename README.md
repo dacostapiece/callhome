@@ -510,7 +510,7 @@ https://github.com/dacostapiece/callhome_ssh_server<br>
 <br>
 
 Here an example to setup SSH Server for Kali Linux.<br> 
-If SSH isn't already enable on your local device, please google it how to enable it<br>
+If SSH Server isn't already enabled on your local device, please google it how to enable it<br>
 
 ```bash
 sudo apt-get update
@@ -530,8 +530,7 @@ sudo nano /etc/ssh/sshd_config
 
 b) Find line <b>PubAuthenticationKey</b>, uncomment if necessary (remove #) and set it to yes<br>
 c) Find line <b>PasswordAuthentication</b>, uncomment if necessary (remove #) and set it to no<br>
-
-<b>DO IT</b> if password ssh access should be disabled or ignore this step
+<b>Disable Password Authentication</b> if password ssh access should not be available or ignore this step
 
 <h2>Raspberry/Local Linux Device</h2>
 
@@ -564,19 +563,23 @@ Do it once you already have setup and SSH creds for External SSH Server (steps 1
 ssh-copy-id -i /path/to/custom_key.pub username@remote_server
 ```
 If ssh-copy-id is unavailable, cat your file.pub (SSH Key public key) content and save it at on External SSH Server<br>
-/home/user/.ssh/authorized_keys<br>
+
+```bash
+/home/user/.ssh/authorized_keys
+```
 
 If this file doesn't exist, create it on External SSH Server<br>
 You can test this authentication<br>
-Most simple and manual SSH Key test<br>
+<b>Most simple and manual SSH Key test</b><br>
 
 a) Flag -i indicate private key location followed by username and reachable External SSH Server address<br>
 
 ```bash
 ssh -i /home/user/.ssh/keyfile user@server.example.com
-//enter your SSH key password, if password key was set before
 ```
-SSH Key test with SSH Agent<br>
+//enter your SSH key password, if password key was set before<br>
+
+<b>SSH Key test with SSH Agent</b><br>
 b) Enable SSH Agent with Environment Variable<br>
 c) Add desired PRIVATE KEY file here exampled by "keyfile"<br>
 d) Enter password if the SSH Key was password encrypted<br>
@@ -697,7 +700,7 @@ Refresh and validate it
 source ~/.bashrc
 echo $PATH
 ```
-16) Set OpenVPN<br>
+17) Set OpenVPN<br>
 a) Install OpenVPN client
 ```bash
 sudo apt install openvpn
@@ -714,16 +717,16 @@ d) Test it, connect to it and ping it the private VPN internal address
  sudo openvpn --config callhome.ovpn --auth-user-pass pass.txt
 ```
 
-17) If you haven't so far, go start setting up External SSH Server<br>
+18) If you haven't setup your <b>External SSH Server</b> so far, go start setting it up!</br>
 https://github.com/dacostapiece/callhome_ssh_server<br>
 
-16) Test APIs<br>
+19) Test APIs<br>
 a) More below on troubleshooting you have sample and example for testing API Communication with Cloudflare and Atlassian <br>
-18) Test SSH<br>
+20) Test SSH<br>
 a) Steps 9 to 14 allow you to test SSH connection from Raspberry to External SSH Server<br>
 b) You can locally test if Raspberry is accepting SSH connections or not<br>
 
-20) Enabling services<br>
+21) Enabling services<br>
 Overall services handling - for each service - example
 ```bash
 sudo systemctl enable autossh.service 
@@ -907,6 +910,9 @@ Just copy and paste all below - correct user and repository names accordingly to
 */5 * * * * /usr/bin/python /home/user/CALLHOME/update_tun0_ipname.py >> /tmp/update_tun0_ipname.log 2>&1
 */5 * * * * /usr/bin/python /home/user/CALLHOME/update_status_panel.py >> /tmp/update_status_panel.log 2>&1
 ```
+
+<h3>Setting One at Time</h3>
+If you have setup all at once, you can skip next steps<br>
 a) autossh_script.py<br>
 a.1) Adjust your user and script path following sample below
 ```bash
