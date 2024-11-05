@@ -200,65 +200,28 @@ it runs on device startup or only once and other scripts are simply called by ot
 <h2>[DIAGRAM OVERVIEW]</h2>
 <img src="https://github.com/user-attachments/assets/7753ec31-0ae4-47c9-9e1d-f7f67be8f7d8" />
 
-To create/edit cronjobs, type 
-```bash
-crontab -e
-```
- - then select your text editor (when crontab -e is called at first time), i am more familiar with nano
-
-type 
-```bash
-sudo crontab -e
-```
-
-to call cronjobs as root user (not required for our current scripts)
-
-<h1>Setting All Cronjobs at Once</h1>
-Just copy and paste all below - correct user and repository names accordingly to your environment previously.
-
-```bash
-*/5 * * * * /usr/bin/python /home/user/callhome/autossh_script.py >>/tmp/autossh_script.job.log 2>&1
-0 * * * * /home/user/callhome/sync_services_scripts.sh >>/tmp/sync_services_scripts.log 2>&1
-*/5 * * * * /usr/bin/python /home/user/callhome/updated_interfaces.py >>/tmp/updated_interfaces_cron.log 2>&1
-*/5 * * * * /usr/bin/python /home/user/CALLHOME/update_tun0_ipname.py >> /tmp/update_tun0_ipname.log 2>&1
-*/5 * * * * /usr/bin/python /home/user/CALLHOME/update_status_panel.py >> /tmp/update_status_panel.log 2>&1
-```
-
 <b>AUTOSSH_SCRIPT_PY CRONJOB</b><br>
 This is script is responsible to start and maintain an SSH connection to an outside server here called server.example.com<br>
 Through this connection Raspberry/Linux local device will connect to and exposed its own SSH service (terminal access) and VNC (graphical access)<br>
 This script runs as a service to make it "available" since startup and runs as a job, because it was a bit nasty creating a persistance with this running solely as service.<br>
-```bash
-*/5 * * * * /usr/bin/python /home/user/callhome/autossh_script.py >>/tmp/autossh_script.job.log 2>&1
-```
 
 <b>SYNC_SERVICES_SCRIPTS.SH CRONJOB</b><br>
 I've just created a job that runs every hour to sync services settings in /etc/systemd/system/<br>
 It basically grabs each service content and copies to a similar file inside Github repo folder to allow project syncness.<br>
-```bash
-0 * * * * /home/user/callhome/sync_services_scripts.sh >>/tmp/sync_services_scripts.log 2>&1
-```
 
 <b>UPDATED_INTERFACES_PY CRONJOB</b><br>
 myip.py scripts tell us on startup what are the at the moment associated IP addresses for <b>WIRED, WLAN and Tunnel VPN </b>for Raspberry device, but what if the device reboots or changes any of those IP addresses somehow? This script grabs current network scenario and <br>
 compares to a previous file having prior network configuration, if there's any change, this scripts sends out an e-mail <br>
 advising us what has changed.<br>
 
-```bash
-*/5 * * * * /usr/bin/python /home/user/callhome/updated_interfaces.py >>/tmp/updated_interfaces_cron.log 2>&1
-```
 
 <b>UPDATE_TUN0_IPNAME.PY CRONJOB</b><br>
 Update FQDN with current IP address at every 5min. It runs as regular raspberry user<br>
 Error outputs are appended to file tmp/update_tun0_ipname.log<br>
-```bash
-*/5 * * * * /usr/bin/python /home/user/CALLHOME/update_tun0_ipname.py >> /tmp/update_tun0_ipname.log 2>&1
-```
+
 <b>UPDATE_STATUS_PANEL.PY CRONJOB</b><br>
 Run script to check VPN connection and update status panel accordingly every 05 min.
-```bash
-*/5 * * * * /usr/bin/python /home/user/CALLHOME/update_status_panel.py >> /tmp/update_status_panel.log 2>&1
-```
+
 <b>Troubleshoot or check cronjob run status in here /tmp/update_status_panel.log<br>
 Rememeber to update this with your local path /home/user/folder/update_status_panel.py<br></b>
 You can use "which python" to see where is the full path for python binary<br>
@@ -923,8 +886,27 @@ To create/edit cronjobs, type
 ```bash
 crontab -e
 ```
- - then select your text editor (when crontab -e is called at first time), i am more familiar with nano<br>
+ - then select your text editor (when crontab -e is called at first time), i am more familiar with nano
 
+type 
+```bash
+sudo crontab -e
+```
+
+to call cronjobs as root user (not required for our current scripts)<br>
+Then select your text editor (when crontab -e is called at first time), i am more familiar with nano<br>
+<br>
+
+<h1>Setting All Cronjobs at Once</h1>
+Just copy and paste all below - correct user and repository names accordingly to your environment previously.
+
+```bash
+*/5 * * * * /usr/bin/python /home/user/callhome/autossh_script.py >>/tmp/autossh_script.job.log 2>&1
+0 * * * * /home/user/callhome/sync_services_scripts.sh >>/tmp/sync_services_scripts.log 2>&1
+*/5 * * * * /usr/bin/python /home/user/callhome/updated_interfaces.py >>/tmp/updated_interfaces_cron.log 2>&1
+*/5 * * * * /usr/bin/python /home/user/CALLHOME/update_tun0_ipname.py >> /tmp/update_tun0_ipname.log 2>&1
+*/5 * * * * /usr/bin/python /home/user/CALLHOME/update_status_panel.py >> /tmp/update_status_panel.log 2>&1
+```
 a) autossh_script.py<br>
 a.1) Adjust your user and script path following sample below
 ```bash
