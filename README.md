@@ -30,7 +30,7 @@ Does this info updates whenever any of these IP addresses changes?<br>
 6) As long as the device and you are connected to same VPN Server OR the device and you are connected to the same SSH Server - you will be <br>able to remotely reach this device.<br>
 <br><b>Basically having a persistance way to reach the remote network through this device.</b><br>
 
-<h2>[##DIAGRAM OVERVIEW]</h2>
+<h2>##[DIAGRAM OVERVIEW]</h2>
 <img src="https://github.com/user-attachments/assets/dea8d28e-2cf5-4d25-9319-7fe015105d34" />
 
 <h2>FILES DESCRIPTION</h2>
@@ -197,7 +197,7 @@ Some scripts are call by cronjobs, because they required recurring calls, some s
 it runs on device startup or only once and other scripts are simply called by others scripts in chain.
 
 <h2>CRONJOBS</h2>
-<h2>[DIAGRAM OVERVIEW CRONJOBS]</h2>
+<h2>##[DIAGRAM OVERVIEW CRONJOBS]</h2>
 <img src="https://github.com/user-attachments/assets/7753ec31-0ae4-47c9-9e1d-f7f67be8f7d8" />
 
 <b>AUTOSSH_SCRIPT_PY CRONJOB</b><br>
@@ -228,7 +228,7 @@ You can use "which python" to see where is the full path for python binary<br>
 For me is /usr/bin/python
 
 <h2>SERVICES</h2>
-<h2>[DIAGRAM OVERVIEW SERVICES]</h2>
+<h2>##[DIAGRAM OVERVIEW SERVICES]</h2>
 <img src="https://github.com/user-attachments/assets/25f3e19e-61f7-4d39-9847-18c4723344ab"/>
 
 At least in Raspberry PI, services files/settings are store in /etc/systemd/system <br>
