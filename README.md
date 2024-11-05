@@ -31,7 +31,7 @@ Does this info updates whenever any of these IP addresses changes?<br>
 <br><b>Basically having a persistance way to reach the remote network through this device.</b><br>
 
 <h2>[DIAGRAM OVERVIEW]</h2>
-<img src="https://github.com/user-attachments/assets/0e7b65ea-4098-4dcd-8dbd-b4738ccd8ed5" />
+<img src="https://github.com/user-attachments/assets/dea8d28e-2cf5-4d25-9319-7fe015105d34" />
 
 <h2>FILES DESCRIPTION</h2>
 <b>AUTOSSH.PY</b><br>
@@ -73,7 +73,7 @@ This script holds overall settings for the project that aren't sensitive
 
 <b>.ENV</b><br>
 This script holds overall settings for the project that are sensitive<br>
-<b>.env isn't syncing to this github repo, remember creating it, there's a template in the how to guide in following sections.</b><br>
+<b>.env isn't syncing to this github repo, remember creating it, there's a template in the "how to guide" in following sections.</b><br>
 
 <b>CREATE_INCIDENT_VPN.PY</b><br>
 This script will create an incident in Atlassian Status Panel, if a failure condition is met.
@@ -82,22 +82,22 @@ This script will create an incident in Atlassian Status Panel, if a failure cond
 This file tests my Raspberry device capability of DNS resolution. It's a punctual need for my environment, you can ignore it.<br>
 
 <b>FIXNAMESERVERS.SH</b><br>
-This scripts fixes my Raspberry device DNS settings every hour, my home router messes it up, i believe it's due to IPv6 advertisement or some sickness like this, pinpoint root cause was pretty annoying, so i work around of it, please ignore this file.<br>
-If you feel like using it, it requires root privileges. It's out of this project scope.
+This scripts fixes my Raspberry device DNS settings every hour, my home router messes it up, i believe it's due to IPv6 advertisement or some sickness like this, pinpointing root cause was pretty annoying, so i worked around of it, please ignore this file.<br>
+If you feel like using it, it requires root privileges. It's out of this project scope to show you how.
 
 <b>.GITIGNORE</b><br>
 This file holds which files and folders shoud not be syncing to github repo.<br>
 
 <b>MYIP.PY</b><br>
-This script will retrieve tun0 ip address from Raspberry/Remote Linux device and send out an e-mail with WIRED, WLAN and TUNNEL VPN addresses along with whole IFCONFIG in mail body message.
+This script will retrieve device ip addresses from Raspberry/Remote Linux device and send out an e-mail with WIRED, WLAN and TUNNEL VPN addresses along with whole IFCONFIG in mail body message.
 
 If tun0 has no IP address, it will send out an e-mail with error
 Logs for this script are stored in /tmp/myip.py.log
 
-Code also calls writenadreadip_tunip.py - writeip funcion to write to a file the current tun ip address. This information will be usedfor another python script.
+Code also calls writenadreadip_tunip.py - writeip funcion to write to a file the current tun ip address. This information will be used for another python script later on.
 
 <b>MYIP_SCRIPT.SH</b><br>
-Shell script that waits 30 secs after reboot (as it's set as startup service) to call myip_script.sh and myip.py. I now know i could set up a service to call myip.py, but this is how it was setup, it'll be as is.
+Shell script that waits 30 secs after reboot (as it's set as startup service) to call myip_script.sh and myip.py. I now know i could set up a service to call myip.py directly, but this is how it was setup, it'll be as is.
 
 myip.service, myip_script.sh and myip.py has the goal to tell us by sending out an email on startup what are the available IP addresses for remote access into raspberry device.
 
@@ -105,26 +105,26 @@ myip.service, myip_script.sh and myip.py has the goal to tell us by sending out 
 Codes are syncing to a place where codes are actually running, this folder is generated from python running. This folder is set to not sync with Github.
 
 <b>OPENVPN_SCRIPT.SH</b><br>
-Script run openvpn - passing creds already
+Script run openvpn - passing creds already<br>
 We have set up a service ovpnscript.service that calls openvpn_script.sh which is basically sending out in terminal a command line to establish a SSLVPN connection with a remote VPN Server - here called by reference purpose hub.example.com  
 ```bash
 sudo openvpn --config /home/user/folder/file.ovpn --auth-user-pass /home/user/folder/pass.txt
 ```
 
-You should have your own OpenVPN Server, so you can retrieve *.ovpn OpenVPN profile file as long as credentials for this VPN connection.
+You should have your own OpenVPN Server, so you can retrieve *.ovpn OpenVPN profile file along with its credentials for VPN connection.
 
 <b>PASS.TXT</b><br>
+OpenVPN Creds - format<br>
 
 ```bash
-OpenVPN Creds - format
 domain\username or username
 password
 ```
 
 <b>*.OVPN</b><br>
-Your OpenVPN profile file. It's used to connect to hub.example.com
+Your OpenVPN profile file. It's used for connection to hub.example.com
 
-<b>*.ovpn and pass.txt aren't syncing to this github repo, remember creating them (creds file and grabbing your corresponding OVPN file), store in the desired folder, prefarable callhome folder and rename openvpn_script.sh.</b><br>
+<b>*.ovpn and pass.txt aren't syncing to this github repo, remember creating them (creds file and grabbing your corresponding OVPN file), save 'em in the desired folder, prefarable callhome folder and adjust setting within openvpn_script.sh.</b><br>
 
 <b>SENDMAIL.PY</b><br>
 This script works as a module called by myip.py and updated_interfaces.py which will send out an email with WIRED, WLAN and TUNNEL VPN addresses along with whole IFCONFIG in mail body message.
@@ -147,7 +147,7 @@ This script will update an existing incident to solve it in Atlassian Status Pan
 
 <b>UPDATE_STATUS_PANEL.PY</b><br>
 https://dacostapiece.statuspage.io/ <br>
-This script will  will check IF <br>
+This script will  check <b>IF</b> <br>
 1) tun0 (VPN) is available and if we are able to ping a remote vpn target, in our configuration<br>
 it's pinging VPN Gateway private IP address, so not only we ensure VPN is active, but it's also working properly and <br>
 2) Checks if SSH Server is reachable, here in the example - server.example.com. <br>
@@ -169,7 +169,7 @@ if there's none, create an incident, VPN is not working.<br>
 D) If VPN is working, check if there are existing open incidents in Atlassian Status Panel associated to VPN Service, <br>
 if there's none, do nothing, VPN is working.<br>
 
-<b>SSH></b><br>
+<b>SSH</b><br>
 This script follows same logic for SSH service.<br>
 
 This scripts runs on startup with vpnstatuspanel.service<br>
