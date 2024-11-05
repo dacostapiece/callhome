@@ -7,26 +7,27 @@
 4) Clean code<br>
 5) Iterate loop only on associated components IDs<br>
 VPN Checks VPNs Incidents related, SSH  Checks SSH Incidents related, and so on.<br>
-6) Improve SSH habdling in SSH External Server - handle stale processes<br>
+6) Improve SSH handling in SSH External Server - handle stale processes<br>
 7) Create an Install script<br>
 
 <h2>OBJECTIVE</h2>
-<b>Imagine you need a remoted connected device, here called Raspberry/Local Linux device which, <br>
+<b>Imagine you need to connect to a remote device, and here called Raspberry/Local Linux device which, <br>
 through this device you are able to reach things<br> 
 through it for networking troubleshooting, pentesting, monitoring and etc... on the remote network.<br></b>
 
 1) How do you remote connect to this device?<br>
 2) This remote connection has an independent backup for remote access?<br>
-3) How do i know current device IP addresses? If i am remote or local next to it, how to connect over LAN, WLAN or VPN? Does this info updates<br> whenever any of these IP addresses changes?<br>
-4) How do you from two different perspectives knows if this setup/services are available?<br>
+3) How do i know current device IP addresses? If i am remote or local next to it, how to connect to this device over LAN, WLAN or VPN? <br>
+Does this info updates whenever any of these IP addresses changes?<br>
+4) How do you know from two different perspectives if this device/setup/services are available?<br>
 
 <b>With this project, you will connect it back to a device that's remotely plugged in a network, this settings will:</b><br> 
 1) Send mail notification with device's WLAN, LAN, VPN IP addresses on startup and at every IP address change;<br>
 2) Device will connect over VPN and SSH connection with two different independent sites and expose to us its SSH and VNC ports for remote access<br>
-3) This project allows us to monitor these two connections from Raspberry to VPN Server and External SSH Server, as well as monitor connections<br> from a External SSH Server if VPN and SSH connections back to Raspberry device are working<br>
+3) This project allows us to monitor these two connections from Raspberry to VPN Server and External SSH Server, as well as monitor connections<br> from a External SSH Server if VPN and SSH connections back to Raspberry device are working properly<br>
 4) This monitoring will advise us over e-mail notification and with an External and third independent Web Status panel, so we can open this<br> panel and see it right away if any of ours services are working or not<br>
 5) This project will update frequently a Fully Qualified Domain Name (FQDN) to expose a fixed way to connect to the device - so we don't need<br> to update our client settings for connections for VNC/SSH connections whenever VPN IP address changes<br>
-6) As long as the device and you are connected to same VPN Server OR the device and you are connected to the same SSH Server - you will be able<br> to remotely reach this device.<br>
+6) As long as the device and you are connected to same VPN Server OR the device and you are connected to the same SSH Server - you will be <br>able to remotely reach this device.<br>
 <br><b>Basically having a persistance way to reach the remote network through this device.</b><br>
 
 <h2>[DIAGRAM OVERVIEW]</h2>
