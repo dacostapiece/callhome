@@ -1001,6 +1001,18 @@ https://github.com/dacostapiece/callhome/<br>
 <b>CALLHOME WINDOWS</b><br>
 https://github.com/dacostapiece/callhome_windows
 
+<h2>FILES DESCRIPTION SSH SERVER</h2>
+
+<b>CHECK_INCIDENT_STATUS_SSH_SERVER.PY</b><br>
+This script will retrieve will check if there's any existing unresolved incidents for VPN (connection against Raspberry device over VPN) in Atlassian Status Panel, save the JSON API response to a file and return component id (which service the incident is associated with) and incident id, if there's any
+This script follows same logic for SSH service (connection against Raspberry device over SSH Reverse Tunnel).
+
+<b>CONFIG_SSH_SERVER.PY</b><br>
+This script has all required settings to be adjusted, except by sensitive information settings in .ENV file.
+
+<b>CREATE_INCIDENT_SSH_SERVER.PY</b><br>
+This script will create an incident in Atlassian Status Panel, if a failure condition is met.
+
 <b>OPENVPN.SH</b><br>
 Script run openvpn - passing creds already<br>
 We have set up a service ovpnscript.service that calls openvpn_script.sh which is basically sending out in terminal a command line to establish a SSLVPN connection with a remote VPN Server - here called by reference purpose hub.example.com
@@ -1022,8 +1034,25 @@ password
 
 <b>*.ovpn and pass.txt are't syncing to this github repo, remember creating them (creds file and grabbing your corresponding OVPN file), save 'em in the desired folder, prefarable callhome_ssh_server folder and rename openvpn_script.sh.</b><br>
 
-<b>UPDATE STATUS PANEL</b><br>
-<br>
+<b>SSH_HANDLER.PY</b><br>
+This script will check every hour if there SSH connections above a specified limit number, if there is, it will log hour, number of connections and reboot External SSH Server for cleanup.
+
+<b>SYNC_SERVICES_SCRIPTS.SH</b><br>
+I've just created a job that runs every hour to sync services settings in /etc/systemd/system/<br>
+It basically grabs each service content and copies to a similar file inside Github repo folder to allow project syncness.<br>
+
+<b>TUNNEL_CONNECTION_SSH_SERVER.PY</b><br>
+This script will check if VPN (connection against Raspberry device over VPN) or SSH (connection against Raspberry device over SSH Reverse Tunnel) is available.
+
+<b>UPDATE_INCIDENT_SSH_SERVER.PY</b><br>
+This script will update an existing incident to solve it in Atlassian Status Panel, if a failure no longer exists. VPN or SSH service.
+
+Give permission for files to be run<br>
+Example - repeat this process or call chmod +x *.py/chmod +x *.sh on the folder where scripts are stored.<br>
+```bash
+chmod +x /home/user/folder/openvpn_script.sh
+```
+
 <b>UPDATE_STATUS_PANEL_SSH_SERVER.PY</b><br>
 https://examplepanel.statuspage.io/ <br>
 This script will  will check if <br>
@@ -1048,47 +1077,12 @@ This script follows same logic for SSH service.<br>
 This scripts runs on startup with vpnstatuspanel.service<br>
 And runs every 05min as cronjob<br>
 
-<b>CHECK_INCIDENT_STATUS_SSH_SERVER.PY</b><br>
-This script will retrieve will check if there's any existing unresolved incidents for VPN (connection against Raspberry device over VPN) in Atlassian Status Panel, save the JSON API response to a file and return component id (which service the incident is associated with) and incident id, if there's any
-This script follows same logic for SSH service (connection against Raspberry device over SSH Reverse Tunnel).
-
-<b>CREATE_INCIDENT_SSH_SERVER.PY</b><br>
-This script will create an incident in Atlassian Status Panel, if a failure condition is met.
-
-<b>CONFIG_SSH_SERVER.PY</b><br>
-This script has all required settings to be adjusted, except by sensitive information settings in .ENV file.
-
-<b>SSH_HANDLER.PY</b><br>
-This script will check every hour if there SSH connections above a specified limit number, if there is, it will log hour, number of connections and reboot External SSH Server for cleanup.
-
-<b>TUNNEL_CONNECTION_SSH_SERVER.PY</b><br>
-This script will check if VPN (connection against Raspberry device over VPN) or SSH (connection against Raspberry device over SSH Reverse Tunnel) is available.
-
-<b>UPDATE_INCIDENT_VPN_SSH_SERVER.PY</b><br>
-This script will update an existing incident to solve it in Atlassian Status Panel, if a failure no longer exists. VPN or SSH service.
-
-Give permission for files to be run<br>
-Example - repeat this process or call chmod +x *.py/chmod +x *.sh on the folder where scripts are stored.<br>
-```bash
-chmod +x /home/user/folder/openvpn_script.sh
-```
-
 <b>HOW SCRIPTS ARE CALLED?</b><br>
 Some scripts are call by cronjobs, because they required recurring calls, some scripts are run by service, it runs on device startup or only once and other scripts are simply called by others scripts in chain.
 
 <b>CRONJOBS</b><br>
-To create/edit cronjobs, type 
-```bash
-crontab -e
-```
- - then select your text editor (when crontab -e is called at first time), i am more familiar with nano
-
-type 
-```bash
-sudo crontab -e
-```
-
-to call cronjobs as root user (not required for our current scripts)
+<h2>[DIAGRAM OVERVIER SSH SERVER CRONJOBS]</h2>
+<img src="https://github.com/user-attachments/assets/2d94089f-86de-4361-996f-a2182337175f" />
 
 <b>UPDATE_STATUS_PANEL.PY</b><br>
 Run script to check VPN connection and update status panel accordingly every 05 min.
@@ -1100,13 +1094,6 @@ Rememeber to update this with your local path /home/user/folder/update_status_pa
 You can use "which python" to see where is the full path for python binary<br>
 For me is /usr/bin/python
 
-<b>SYNC_SERVICES_SCRIPTS.SH</b><br>
-I've just created a job that runs every hour to sync services settings in /etc/systemd/system/<br>
-It basically grabs each service content and copies to a similar file inside Github repo folder to allow project syncness.<br>
-```bash
-cat /etc/systemd/system/myip.service >/home/user/folder/SERVICES/myip.service
-
-```
 
 <b>SERVICES</b><br>
 At least in Raspberry PI, services files/settings are store in /etc/systemd/system <br>
