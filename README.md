@@ -969,7 +969,12 @@ curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
      -H "Authorization: Bearer abcdefghijklmnopqrstuvwxyz" \
      -H "Content-Type:application/json"
 ```
-Remember to replace values between brackets abcdefghijklmnopqrstuvwxyz/zyxwvutsrqponmlkjihgfedcba for your correspondinds IDs/APIs.
+
+Remember to replace values between brackets for your correspondinds IDs/APIs.
+
+```bash
+abcdefghijklmnopqrstuvwxyz/zyxwvutsrqponmlkjihgfedcba 
+```
 
 <h1>CALLHOME_SSH_SERVER</h1>
 <h1>NOVA</h1>
@@ -977,19 +982,22 @@ Remember to replace values between brackets abcdefghijklmnopqrstuvwxyz/zyxwvutsr
 <b>RFE</b><br>
 1) Clean code<br>
 2) Iterate loop only on associated components IDs - VPN Checks VPNs Incidents related, SSH  Checks SSH Incidents related, and so on.<br>
-3) Improve SSH habdling in SSH External Server - handle stale processes<br>
+3) Improve SSH handling in SSH External Server - handle stale processes<br>
 4) Create a Install script<br>
+
+<h2>OBJECTIVE</h2>
+insert hyperlink
 
 <h2>SETTINGS FOR EXTERNAL SSH SERVER</h2>
 This project holds settings for External SSH Server to be set along "callhome" project or "callhome windows" project for Windows OS
-CALLHOME<br>
+<b>CALLHOME</b><br>
 https://github.com/dacostapiece/callhome/<br>
 
-CALLHOME WINDOWS
+<b>CALLHOME WINDOWS</b><br>
 https://github.com/dacostapiece/callhome_windows
 
 <b>OPENVPN.SH</b><br>
-Script run openvpn - passing creds already
+Script run openvpn - passing creds already<br>
 We have set up a service ovpnscript.service that calls openvpn_script.sh which is basically sending out in terminal a command line to establish a SSLVPN connection with a remote VPN Server - here called by reference purpose hub.example.com
 Note: Here on the External SSH Server - we connect to the same VPN Server as Raspberry/Linux local device, so we can monitor if Raspberry/Linux local device itself is REACHABLE or not.
 
@@ -1001,10 +1009,13 @@ You should have your own OpenVPN Server, so you can retrieve *.ovpn OpenVPN prof
 
 <b>PASS.TXT</b><br>
 OpenVPN Creds - format<br>
+
+```bash
 domain\username or username<br>
 password
+```
 
-<b>*.ovpn and pass.txt are't syncing to this github repo, remember creating them (creds file and grabbing your corresponding OVPN file), store in the desired folder, prefarable callhome folder and rename openvpn_script.sh.</b><br>
+<b>*.ovpn and pass.txt are't syncing to this github repo, remember creating them (creds file and grabbing your corresponding OVPN file), save 'em in the desired folder, prefarable callhome_ssh_server folder and rename openvpn_script.sh.</b><br>
 
 <b>UPDATE STATUS PANEL</b><br>
 <br>
