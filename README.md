@@ -912,7 +912,8 @@ Just copy and paste all below - correct user and repository names accordingly to
 ```
 
 <h3>Setting One at Time</h3>
-If you have setup all at once, you can skip next steps<br>
+<b>If you have setup all at once, you can skip next steps</b><br>
+<br>
 a) autossh_script.py<br>
 a.1) Adjust your user and script path following sample below
 ```bash
