@@ -1028,7 +1028,7 @@ You should have your own OpenVPN Server, so you can retrieve *.ovpn OpenVPN prof
 OpenVPN Creds - format<br>
 
 ```bash
-domain\username or username<br>
+domain\username or username
 password
 ```
 
@@ -1077,25 +1077,22 @@ This script follows same logic for SSH service.<br>
 This scripts runs on startup with vpnstatuspanel.service<br>
 And runs every 05min as cronjob<br>
 
-<b>HOW SCRIPTS ARE CALLED?</b><br>
-Some scripts are call by cronjobs, because they required recurring calls, some scripts are run by service, it runs on device startup or only once and other scripts are simply called by others scripts in chain.
-
-<b>CRONJOBS</b><br>
-<h2>[DIAGRAM OVERVIER SSH SERVER CRONJOBS]</h2>
-<img src="https://github.com/user-attachments/assets/2d94089f-86de-4361-996f-a2182337175f" />
-
-<b>UPDATE_STATUS_PANEL.PY</b><br>
-Run script to check VPN connection and update status panel accordingly every 05 min.
-```bash
-*/5 * * * * /usr/bin/python /home/dacosta/CALLHOME/update_status_panel.py >> /tmp/update_status_panel.log 2>&1
-```
 Troubleshoot or check cronjob run status in here /tmp/update_status_panel.log<br>
 Rememeber to update this with your local path /home/user/folder/update_status_panel.py<br>
 You can use "which python" to see where is the full path for python binary<br>
 For me is /usr/bin/python
 
+<b>HOW SCRIPTS ARE CALLED?</b><br>
+Some scripts are call by cronjobs, because they required recurring calls, some scripts are run by service, it runs on device startup or only once and other scripts are simply called by others scripts in chain.
 
-<b>SERVICES</b><br>
+<h2>CRONJOBS SSH SERVER</h2>
+<h2>[DIAGRAM OVERVIER SSH SERVER CRONJOBS]</h2>
+<img src="https://github.com/user-attachments/assets/2d94089f-86de-4361-996f-a2182337175f" />
+
+<h2>SERVICES SSH SERVER</h2>
+<h2>[DIAGRAM OVERVIER SSH SERVER SERVICES]</h2>
+<img src="https://github.com/user-attachments/assets/286ce258-ceec-41b8-b68f-991a9ec955f5" />
+
 At least in Raspberry PI, services files/settings are store in /etc/systemd/system <br>
 
 How to add a service?<br>
@@ -1131,16 +1128,7 @@ The service will start right away, it will call openvpn_script.sh, always run an
 <b>__pycache__</b><br>
 Codes are syncing to a place where codes are actually running, this folder is generated from python running. This folder is set to not sync with Github.
 
-<b>VPNSTATUSPANEL.SERVICE</b><br>
-File vpnstatuspanel.service<br>
-The service will wait 30 seconds before start, it will call update_status_panel.py, it will restart on failure, but only three times, it won't try to run after this. Service will fail as an example, if the VPN isn't connected yet. The service will delay 30 seconds before trying again and it will run as regular user. Here we set the WorkingDirectory - not sure if it's required.<br>
-
-Backup connection method - a plan B method to persist remote access to raspberry over internet, in case, vpn fails
-
-<b>SSH KEYS</b><br>
-Autossh requires ssh keys to be set in order to work.
-
-<h1>STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT</h1>
+<h1>##STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT SSH SERVER</h1>
 
 <h2>External SSH Server - Linux Device</h2>
 
@@ -1199,36 +1187,37 @@ SSH_TUNNEL_ADDRESS = 'localhost'
 
 #SSH SERVER
 SSH_SERVER_FILENAME = "current_rasp_ip.txt"
-ssh_server_filename_directory = "/home/user/CALLHOME_SSH_SERVER"
+ssh_server_filename_directory = "/home/user/callhome_ssh_server"
 ```
 You can follow steps on README.md file from repository callhome/callhome_windows to know how to retrieve your Atlassian info
-https://github.com/dacostapiece/callhome/
+https://github.com/dacostapiece/callhome/<br>
 https://github.com/dacostapiece/callhome_windows/
 
-Which settings you can leave as it is .ENV file? (at least in most cases)
-a) PORT_TO_CHECK
-b) SSH_TUNNEL_ADDRESS
-c) SSH_SERVER_FILENAME
+Which settings you can leave as it is .ENV file? (at least in most cases)<br>
+a) PORT_TO_CHECK<br>
+b) SSH_TUNNEL_ADDRESS<br>
+c) SSH_SERVER_FILENAME<br>
 
-Everything else you'll need to update according to your environment.
+Everything else you'll need to update according to your environment.<br>
 
 4) Adjust config settings (External SSH Server side)
-config_ssh_server.py file
-a) callback_vpn_component_id
-b) callback_ssh_component_id
-
+config_ssh_server.py file<br>
+a) callback_vpn_component_id<br>
+b) callback_ssh_component_id<br>
+<br>
 Settings associated with Raspberry/Linux local device are available at<br>
 https://github.com/dacostapiece/callhome<br>
+<br>
 If you "local device" is Windows, there's a project for that available at<br>
 https://github.com/dacostapiece/callhome_windows<br>
 
-5) Enabling python libraries
-a) ping3
-b) python-dotenv
-c) requests
-d) pip
-e) autossh
-
+5) Enabling python libraries<br>
+a) ping3<br>
+b) python-dotenv<br>
+c) requests<br>
+d) pip<br>
+e) autossh<br>
+<br>
 Install pip
 ```bash
 sudo apt update
@@ -1265,13 +1254,15 @@ Refresh and validate it
 source ~/.bashrc
 echo $PATH
 ```
-5) Set OpenVPN
-a) Install OpenVPN client
+5) Set OpenVPN<br>
+a) Install OpenVPN client<br>
+
 ```bash
 sudo apt install openvpn
 ```
-b) Download you file.ovpn OpenVPN profile given by VPN Server administrator and/or yourself
-c) Create your OpenVPN credential file, here as pass.txt
+b) Download you file.ovpn OpenVPN profile given by VPN Server administrator and/or yourself<br>
+c) Create your OpenVPN credential file, here as pass.txt<br>
+
 ```bash
 username or domain\username
 password
@@ -1280,32 +1271,35 @@ d) Test it, connect to it and ping it the private VPN internal address
 ```bash
  sudo openvpn --config callhome.ovpn --auth-user-pass pass.txt
 ```
-e) Allow users in sudo to run without password prompt
+e) Allow users in sudo to run without password prompt<br>
 In order to call openvpn, we use sudo (in Kali Linux, Raspberry doesnt prompt it), but we can't pass kali's password when running openvpn as service
+
 ```bash
 sudo apt install -y kali-grant-root && sudo dpkg-reconfigure kali-grant-root
 ```
 Reference: https://www.kali.org/docs/general-use/sudo/
 
 
-17) If you haven't so far, go start setting up Raspberry/Linux local device
+4) If you haven't so far, go start setting up Raspberry/Linux local device<br>
 https://github.com/dacostapiece/callhome<br>
-Or
-For Windows OS
+Or<br>
+For Windows OS<br>
 https://github.com/dacostapiece/callhome_windows<br>
 
-16) Test APIs
-a) More below on troubleshooting you have sample and example for testing API Communication with Cloudflare and Atlassian 
-18) Test SSH
-a) If Raspberry device is already connect to here with SSH and it's exposing its ports, you can:
-If you are following standard suggested settings
+5) Test APIs<br>
+a) More below on troubleshooting you have sample and example for testing API Communication with Cloudflare and Atlassian <br>
+6) Test SSH<br>
+a) If Raspberry device is already connect to here with SSH and it's exposing its ports, you can:<br>
+If you are following standard suggested settings<br>
+
 ```bash
 ssh -p 2220 user@localhost
 ```
-b) You can locally test if External SSH Server is accepting SSH connections or not
+b) You can locally test if External SSH Server is accepting SSH connections or not<br>
 
-19) Enabling services
+7) Enabling services<br>
 Overall services handling - for each service - example
+
 ```bash
 sudo systemctl enable openvpn.service 
 sudo systemctl start openvpn.service
@@ -1315,9 +1309,10 @@ sudo systemctl disable openvpn.service
 sudo systemctl daemon-reload 
 ```
 
-a) openvpn.service
-a.1) Adjust your user and script path following sample below
+a) openvpn.service<br>
+a.1) Adjust your user and script path following sample below<br>
 Sample script
+
 ```bash
 [Unit]
 Description=OpenVPN Script - Persistance
@@ -1332,28 +1327,32 @@ User=user
 WantedBy=multi-user.target
 ```
 a.2) Save this settings following this command
+
 ```bash
 sudo nano /etc/systemd/system/openvpn.service
 ```
 a.3) Setup services
+
 ```bash
 sudo systemctl enable openvpn.service 
 sudo systemctl start openvpn.service
 sudo systemctl status openvpn.service
 ```
 
-21) Enabling cron jobs
-To create/edit cronjobs, type 
+21) Enabling cron jobs<br>
+To create/edit cronjobs, type
+
 ```bash
 crontab -e
 ```
+
  - then select your text editor (when crontab -e is called at first time), i am more familiar with nano
 
 You can use "which python" to see where is the full path for python binary<br>
-For me is /usr/bin/python
+For me is /usr/bin/python<br>
 
-<h1>Setting All Cronjobs at Once</h1>
-Just copy and paste all below - correct user and repository names accordingly to your environment previously.
+<h1>Setting All Cronjobs at Once SSH Server</h1>
+Just copy and paste all below - correct user and repository names accordingly to your environment previously.<br>
 
 ```bash
 0 * * * * /usr/bin/python /home/user/callhome_ssh_server/ssh_handler.py >> /tmp/ssh_handler_job.log 2>&1
@@ -1362,19 +1361,19 @@ Just copy and paste all below - correct user and repository names accordingly to
 ```
 
 
-a) ssh_handler.py
+a) ssh_handler.py<br>
 a.1) Adjust your user and script path following sample below
 ```bash
 0 * * * * /usr/bin/python /home/user/callhome_ssh_server/ssh_handler.py >> /tmp/ssh_handler_job.log 2>&1
 ```
 
-b) sync_services_scripts.sh
+b) sync_services_scripts.sh<br>
 b.1) Adjust your user and script path following sample below
 ```bash
 0 * * * * /home/user/callhome_ssh_server/sync_services_scripts.sh >>/tmp/sync_services_scripts.log 2>&1
 ```
 
-c) update_status_panel_ssh_server.py
+c) update_status_panel_ssh_server.py<br>
 b.1) Adjust your user and script path following sample below
 ```bash
 */5 * * * * /usr/bin/python /home/user/callhome_ssh_server/update_status_panel_ssh_server.py >> /tmp/update_status_panel_ssh_server.log 2>&1
