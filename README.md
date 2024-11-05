@@ -985,7 +985,7 @@ abcdefghijklmnopqrstuvwxyz/zyxwvutsrqponmlkjihgfedcba
 3) Improve SSH handling in SSH External Server - handle stale processes<br>
 4) Create a Install script<br>
 
-[<h2>OBJECTIVE</h2>](https://github.com/dacostapiece/callhome/blob/main/README.md#objective)
+[**OBJECTIVE**](https://github.com/dacostapiece/callhome/blob/main/README.md#objective)
 
 <h2>SETTINGS FOR EXTERNAL SSH SERVER</h2>
 This project holds settings for External SSH Server to be set along "callhome" project or "callhome windows" project for Windows OS
