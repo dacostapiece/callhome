@@ -507,6 +507,12 @@ sudo service ssh start
 10) Setup SSH Settings for External SSH Server<br>
 Callhome SSH Server repository<br>
 https://github.com/dacostapiece/callhome_ssh_server<br>
+
+<h1>##STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT SSH SERVER</h1>
+
+[See section](https://github.com/dacostapiece/callhome/blob/main/README.md#steps-to-setup-this-project-in-your-environment-ssh-server
+)
+
 <br>
 
 Here an example to setup SSH Server for Kali Linux.<br> 
@@ -559,6 +565,13 @@ ssh-keygen -t ed25519
 
 13) Share SSH public key to External SSH Server<br>
 Do it once you already have setup and SSH creds for External SSH Server (steps 10 and 11 from here)<br>
+
+<h1>##STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT SSH SERVER</h1>
+
+[See section](https://github.com/dacostapiece/callhome/blob/main/README.md#steps-to-setup-this-project-in-your-environment-ssh-server
+)
+
+
 ```bash
 ssh-copy-id -i /path/to/custom_key.pub username@remote_server
 ```
@@ -718,7 +731,13 @@ d) Test it, connect to it and ping it the private VPN internal address
 ```
 
 18) If you haven't setup your <b>External SSH Server</b> so far, go start setting it up!</br>
+Code base<br>
 https://github.com/dacostapiece/callhome_ssh_server<br>
+
+<h1>##STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT SSH SERVER</h1>
+
+[See section](https://github.com/dacostapiece/callhome/blob/main/README.md#steps-to-setup-this-project-in-your-environment-ssh-server
+)
 
 19) Test APIs<br>
 a) More below on troubleshooting you have sample and example for testing API Communication with Cloudflare and Atlassian <br>
@@ -945,7 +964,6 @@ e.1) Adjust your user and script path following sample below
 ```
 
 <h1>CALLHOME_SSH_SERVER</h1>
-<h1>NOVA</h1>
 
 <b>RFE</b><br>
 1) Clean code<br>
@@ -1002,6 +1020,9 @@ OpenVPN Creds - format<br>
 domain\username or username
 password
 ```
+
+<b>__pycache__</b><br>
+Codes are syncing to a place where codes are actually running, this folder is generated from python running. This folder is set to not sync with Github.
 
 <b>*.ovpn and pass.txt are't syncing to this github repo, remember creating them (creds file and grabbing your corresponding OVPN file), save 'em in the desired folder, prefarable callhome_ssh_server folder and rename openvpn_script.sh.</b><br>
 
@@ -1060,6 +1081,22 @@ Some scripts are call by cronjobs, because they required recurring calls, some s
 <h2>[DIAGRAM OVERVIER SSH SERVER CRONJOBS]</h2>
 <img src="https://github.com/user-attachments/assets/2d94089f-86de-4361-996f-a2182337175f" />
 
+<b>SSH_HANDLER.PY CRONJOB</b><br>
+This scripts checks every hour if there above a delimited number of SSH connections in the SSH Server to avoid it pilled up and crash.<br>
+If it reaches a delimited number, the server reboots to clean it up.
+
+<b>SYNC_SERVICES_SCRIPTS.SH CRONJOB</b><br>
+I've just created a job that runs every hour to sync services settings in /etc/systemd/system/<br>
+It basically grabs each service content and copies to a similar file inside Github repo folder to allow project syncness.<br>
+
+<b>UPDATE_STATUS_PANEL_SSH_SERVER.PY CRONJOB</b><br>
+Run script to check VPN connection and update status panel accordingly every 05 min.
+
+<b>Troubleshoot or check cronjob run status in here /tmp/update_status_panel.log<br>
+Rememeber to update this with your local path /home/user/folder/update_status_panel.py<br></b>
+You can use "which python" to see where is the full path for python binary<br>
+For me is /usr/bin/python
+
 <h2>SERVICES SSH SERVER</h2>
 <h2>[DIAGRAM OVERVIER SSH SERVER SERVICES]</h2>
 <img src="https://github.com/user-attachments/assets/286ce258-ceec-41b8-b68f-991a9ec955f5" />
@@ -1095,9 +1132,6 @@ Note: If VPN is connected by this service and you stop it, it will be same as cl
 <b>OVPNSCRIPT.SERVICE</b><br>
 File ovpnscript.service<br>
 The service will start right away, it will call openvpn_script.sh, always run and it will be run as regular user.<br>
-
-<b>__pycache__</b><br>
-Codes are syncing to a place where codes are actually running, this folder is generated from python running. This folder is set to not sync with Github.
 
 <h1>##STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT SSH SERVER</h1>
 
