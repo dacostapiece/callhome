@@ -1,6 +1,9 @@
 <h1>CALLHOME</h1>
+
+<img src="https://github.com/user-attachments/assets/2d309b45-6b8b-4920-9ce2-6b829d2431f0" alt="Image description" width="300" height="300">
+
 <h2>Raspberry /Linux Local device</h2>
-<b>RFE</b><br>
+<h3>RFE</h3>
 1) Enable hotspot if no LAN or WLAN is unavailable (No known WLAN creds and/or range reachable)<br>
 2) Handle multiple interfaces from single type - two VPNs, more than one ETH, etc...<br>
 3) Start Webserver to receive SSID and password creds to login to neighbouring SSID<br>
