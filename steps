@@ -30,7 +30,7 @@ Does this info updates whenever any of these IP addresses changes?<br>
 6) As long as the device and you are connected to same VPN Server OR the device and you are connected to the same SSH Server - you will be <br>able to remotely reach this device.<br>
 <br><b>Basically having a persistance way to reach the remote network through this device.</b><br>
 
-<h2>##[DIAGRAM OVERVIEW]</h2>
+<h2>[DIAGRAM OVERVIEW]</h2>
 <img src="https://github.com/user-attachments/assets/dea8d28e-2cf5-4d25-9319-7fe015105d34" />
 
 <h2>FILES DESCRIPTION</h2>
@@ -197,7 +197,7 @@ Some scripts are call by cronjobs, because they required recurring calls, some s
 it runs on device startup or only once and other scripts are simply called by others scripts in chain.
 
 <h2>CRONJOBS</h2>
-<h2>##[DIAGRAM OVERVIEW CRONJOBS]</h2>
+<h2>[DIAGRAM OVERVIEW CRONJOBS]</h2>
 <img src="https://github.com/user-attachments/assets/7753ec31-0ae4-47c9-9e1d-f7f67be8f7d8" />
 
 <b>AUTOSSH_SCRIPT_PY CRONJOB</b><br>
@@ -228,7 +228,7 @@ You can use "which python" to see where is the full path for python binary<br>
 For me is /usr/bin/python
 
 <h2>SERVICES</h2>
-<h2>##[DIAGRAM OVERVIEW SERVICES]</h2>
+<h2>[DIAGRAM OVERVIEW SERVICES]</h2>
 <img src="https://github.com/user-attachments/assets/25f3e19e-61f7-4d39-9847-18c4723344ab"/>
 
 At least in Raspberry PI, services files/settings are store in /etc/systemd/system <br>
@@ -508,12 +508,10 @@ sudo service ssh start
 Callhome SSH Server repository<br>
 https://github.com/dacostapiece/callhome_ssh_server<br>
 
-<h1>##STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT SSH SERVER</h1>
+<b>STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT SSH SERVER</b><br>
 
 [See section](https://github.com/dacostapiece/callhome/blob/main/README.md#steps-to-setup-this-project-in-your-environment-ssh-server
 )
-
-<br>
 
 Here an example to setup SSH Server for Kali Linux.<br> 
 If SSH Server isn't already enabled on your local device, please google it how to enable it<br>
@@ -566,7 +564,7 @@ ssh-keygen -t ed25519
 13) Share SSH public key to External SSH Server<br>
 Do it once you already have setup and SSH creds for External SSH Server (steps 10 and 11 from here)<br>
 
-<h1>##STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT SSH SERVER</h1>
+<b>STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT SSH SERVER</b><br>
 
 [See section](https://github.com/dacostapiece/callhome/blob/main/README.md#steps-to-setup-this-project-in-your-environment-ssh-server
 )
@@ -674,8 +672,14 @@ config.py file<br>
 a) raspberry_vpn_component_id<br>
 b) remote_ssh_server_component_id<br>
 
-Settings associated with SSH Server are available at<br>
+Scripts/code associated with SSH Server are available at<br>
 https://github.com/dacostapiece/callhome_ssh_server<br>
+
+<b>STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT SSH SERVER</b><br>
+
+[See section](https://github.com/dacostapiece/callhome/blob/main/README.md#steps-to-setup-this-project-in-your-environment-ssh-server
+)
+
 
 If you "local device" is Windows, there's a project for that available at<br>
 https://github.com/dacostapiece/callhome_windows<br>
@@ -734,7 +738,7 @@ d) Test it, connect to it and ping it the private VPN internal address
 Code base<br>
 https://github.com/dacostapiece/callhome_ssh_server<br>
 
-<h1>##STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT SSH SERVER</h1>
+<b>STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT SSH SERVER</b><br>
 
 [See section](https://github.com/dacostapiece/callhome/blob/main/README.md#steps-to-setup-this-project-in-your-environment-ssh-server
 )
@@ -931,7 +935,7 @@ Just copy and paste all below - correct user and repository names accordingly to
 ```
 
 <h3>Setting One at Time</h3>
-<b>If you have setup all at once, you can skip next steps</b><br>
+<b>If you have setup all at once, you can skip next  for Raspberry device</b><br>
 <br>
 a) autossh_script.py<br>
 a.1) Adjust your user and script path following sample below
@@ -980,9 +984,15 @@ e.1) Adjust your user and script path following sample below
 [See section](https://github.com/dacostapiece/callhome/blob/main/README.md#diagram-overview)
 
 <h2>SETTINGS FOR EXTERNAL SSH SERVER</h2>
-This project holds settings for External SSH Server to be set along "callhome" project or "callhome windows" project for Windows OS
+These settings need to be set in External SSH Server along "callhome" project or "callhome windows" project for Windows OS
 <b>CALLHOME</b><br>
 https://github.com/dacostapiece/callhome/<br>
+
+<b>STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT Raspberry Device</b><br>
+
+[See section](https://github.com/dacostapiece/callhome/blob/main/README.md#steps-to-setup-this-project-in-your-environment
+)
+
 <br>
 <b>CALLHOME WINDOWS</b><br>
 https://github.com/dacostapiece/callhome_windows
@@ -1133,7 +1143,7 @@ Note: If VPN is connected by this service and you stop it, it will be same as cl
 File ovpnscript.service<br>
 The service will start right away, it will call openvpn_script.sh, always run and it will be run as regular user.<br>
 
-<h1>##STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT SSH SERVER</h1>
+<h1>STEPS TO SETUP THIS PROJECT IN YOUR ENVIRONMENT SSH SERVER</h1>
 
 <h2>External SSH Server - Linux Device</h2>
 
