@@ -6,6 +6,7 @@ import socket
 import sys
 import logging
 import ping3
+import ipaddress
 from ping3 import ping, errors
 
 #HUB VPN CHECK
@@ -32,6 +33,23 @@ def check_tun0_ip():
 #         time.sleep(1)
 #     return False
 
+def check_ip_address(ip):
+    print("Passed IP value: ", ip)
+    try:
+        # Attempt to create an IPv4 or IPv6 address object
+        ip_obj = ipaddress.ip_address(ip)
+        
+        # Determine if it's IPv4 or IPv6
+        if isinstance(ip_obj, ipaddress.IPv4Address):
+            print("Found IPv4: ", ip)
+            return ip
+        elif isinstance(ip_obj, ipaddress.IPv6Address):
+            print("Found IPv6: ", ip)
+            return ip
+    except ValueError:
+        print("Invalid IP address format olá")
+        return False
+
 #PING3
 def ping_ip(ip, timeout=10):
     #ip = "172.16.113.4"
@@ -39,30 +57,41 @@ def ping_ip(ip, timeout=10):
         # Ensure the IP is a valid string before passing to ping
         if not isinstance(ip, str) or not ip:
             raise ValueError(f"Invalid IP address: {ip}")
+        
+        ipcheck = check_ip_address(ip)
+        #bogus teste below
+        #ipcheck = "IPv4"
+
+        if ipcheck == False:
+            return False
+
         # Send ICMP request and get the response time
         print("\n")
         print("ping ip funcion")
         print("early")
-        print("ip: ", ip)
+        print("ip: ", ipcheck)
         print("RESPONSE TIME BROTHER")
+        
         #pdb.set_trace()
         response_time="Starting Response Time"
         print("response_time: ", response_time)
         #RUNNING IS BREAKING HERE
 
-
-        response_time = ping(ip, timeout=timeout)
+        print("\n")
+        response_time = ping(ipcheck, timeout=timeout)
         print("RESPONSE TIME SISTER")
         print("later")
-        print("ip: ", ip)
+        print("ip: ", ipcheck)
         print("response_time: ", response_time)
+        print("response_time var type: ", type(response_time))
 
-        if response_time is None:
-            print(f"Ping to {ip} failed. No response.")
+        if response_time is None or response_time is False:
+            print(f"Ping to {ipcheck} failed. No response.")
             time.sleep(1)
-            return "Falseano brow"  # Return a proper boolean value
+            return False  # Return a proper boolean value
+            #return "Falseano brow"  # I dont know why i was returning a string Phrase
         else:
-            print(f"Ping to {ip} successful. Response time: {response_time} seconds")
+            print(f"Ping to {ipcheck} successful. Response time: {response_time} seconds")
             return True
 
     except Exception as e:
