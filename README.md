@@ -14,6 +14,10 @@ VPN Checks VPNs Incidents related, SSH  Checks SSH Incidents related, and so on.
 7) Create an Install script<br>
 8) Log to file whole script run to output walkthrough for more practical troubleshooting<br>
 When script is run in terminal, almost every interaction and logics are printed on the screen, so it helps troubleshoot problems.<br>
+9) Allow users to sync their local code with our github repo without breaking their codes - sync github has generic specific settings<br> 
+(username, passwords, etc...)<br>
+I guess i can handle this by moving mutable settings from config file to env, since .env doesnt sync.
+
 
 <h2>OBJECTIVE</h2>
 <b>Imagine you need to connect to a remote device, and here called Raspberry/Local Linux device which, <br>
