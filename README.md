@@ -12,6 +12,8 @@
 VPN Checks VPNs Incidents related, SSH  Checks SSH Incidents related, and so on.<br>
 6) Improve SSH handling in SSH External Server - handle stale processes<br>
 7) Create an Install script<br>
+8) Log to file whole script run to output walkthrough for more practical troubleshooting<br>
+When script is run in terminal, almost every interaction and logics are printed on the screen, so it helps troubleshoot problems.<br>
 
 <h2>OBJECTIVE</h2>
 <b>Imagine you need to connect to a remote device, and here called Raspberry/Local Linux device which, <br>
@@ -1429,4 +1431,21 @@ Remember to replace values between brackets for your correspondinds IDs/APIs.
 abcdefghijklmnopqrstuvwxyz/zyxwvutsrqponmlkjihgfedcba 
 ```
 
+<b>Why code is malfunctioning somewhere?</b><br>
+When you call update_status_panel.py from terminal using -i flag for interactive mode
 
+```bash
+python -i update_status_panel.py
+python -i update_status_panel_ssh_server.py
+```
+
+You can view almost every interaction and logics from this project, since they are printed on the screen, so it helps troubleshoot problems.<br>
+There are two distinct scripts above, since you'd have to troubleshoot code separately from callhome raspberry device and in external ssh server.<br>
+Script for Windows callhome has same name as raspberry device.<br>
+Interactive mode is use to allow you query variables in the "running mode", note you'll be able to retrieve only values from out of functions,<br>
+if clauses variables.<br>
+To play with variables that are inside functions and/or if clauses, you can use <i>pdb.set_trace()</i><br>
+To use <i>pdb.set_trace()</i>, you just need to write <i>"pdb.set_trace()"</i> wherever in the code you are having problems,<br>
+so you can stop running code in the interactive at this point and play with "nearby" variables.<br>
+You need to import pdb library to use <i>pdb.set_trace()</i>. Most scripts within this script have it already.<br>
+Google <i>pdb.set_trace()</i> to know how to play with it properly.
