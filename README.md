@@ -17,7 +17,7 @@ When script is run in terminal, almost every interaction and logics are printed 
 9) Allow users to sync their local code with our github repo without breaking their codes - sync github has generic specific settings<br> 
 (username, passwords, etc...)<br>
 I guess i can handle this by moving mutable settings from config file to env, since .env doesnt sync.
-
+10) Review Logging
 
 <h2>OBJECTIVE</h2>
 <b>Imagine you need to connect to a remote device, and here called Raspberry/Local Linux device which, <br>
