@@ -87,7 +87,7 @@ This script holds overall settings for the project that are sensitive<br>
 <b>CREATE_INCIDENT_VPN.PY</b><br>
 This script will create an incident in Atlassian Status Panel, if a failure condition is met.
 
-<b>DNS.PY</b><br>
+<b>DNS_TEST.PY</b><br>
 This file tests my Raspberry device capability of DNS resolution. It's a punctual need for my environment, you can ignore it.<br>
 
 <b>FIXNAMESERVERS.SH</b><br>
