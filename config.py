@@ -95,11 +95,10 @@ update_tun0_ipname_logfile = "/tmp/update_tun0_ipname.log"
 myip_script_logfile = "/tmp/myip_script.log"
 myip_script_folder_script = "/home/dacosta/CALLHOME/myip.py"
 openvpn_logfile = "/tmp/openvpn_script.log"
-#openvpn_script_profile = os.getenv('OPENVPN_CONFIG_PATH')
-#openvpn_script_auth = os.getenv('AUTH_PASS_PATH')
-openvpn_script_profile = "/home/dacosta/CALLHOME/hub.ovpn"
-openvpn_script_auth = "/home/dacosta/CALLHOME/pass.txt"
-
+# openvpn_script_profile = os.getenv('OPENVPN_CONFIG_PATH')
+# openvpn_script_auth = os.getenv('AUTH_PASS_PATH')
+# # openvpn_script_profile = "/home/dacosta/CALLHOME/hub.ovpn"
+# openvpn_script_auth = "/home/dacosta/CALLHOME/pass.txt"
 
 #SERVICES BACKUP PATH
 myip_service_path = "/home/dacosta/CALLHOME/SERVICES/myip.service"

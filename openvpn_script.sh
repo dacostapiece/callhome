@@ -1,9 +1,6 @@
 #!/bin/bash
+# Load environment variables from .env file
+source /home/dacosta/CALLHOME/.env
 
-# Extract paths from config.py
-logfile_path=$(python -c "import config; print(config.openvpn_logfile)")
-profile_path=$(python -c "import config; print(config.openvpn_script_profile)")
-auth_path=$(python -c "import config; print(config.openvpn_script_auth)")
-
-exec &>>$logfile_path
-sudo openvpn --config $profile_path --auth-user-pass $auth_path
+exec &>>/tmp/openvpn_script.log
+sudo openvpn --config /home/dacosta/CALLHOME/hub.ovpn --auth-user-pass /home/dacosta/CALLHOME/pass.txt
