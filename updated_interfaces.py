@@ -5,9 +5,10 @@ import sys
 from sendmail import send_mail_my_ip_is_updated, send_mail_vpn_failed
 import re
 from writeandreadip_tunip import writeip
+from config import updated_interfaces_logfile, updated_interfaces_ifconfig_file
 
-LOG_FILE = "/tmp/updated_interfaces.py.log"
-IFCONFIG_FILE = "/home/dacosta/CALLHOME/ipadd.txt"
+LOG_FILE = updated_interfaces_logfile
+IFCONFIG_FILE = updated_interfaces_ifconfig_file
 
 #PHY INTERFACES TO LOOK FOR
 interfaceETH_String = 'eth\\d+'

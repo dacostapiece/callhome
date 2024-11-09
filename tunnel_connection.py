@@ -1,6 +1,6 @@
 import subprocess
 import time
-from config import vpn_probe_target, ssh_server, ssh_port
+from config import vpn_probe_target, ssh_server, ssh_port, tunnelconnection_ssh
 import re
 import socket
 import sys
@@ -153,7 +153,7 @@ def check_ssh_connection():
     ssh_server_ip = resolve_dns(ssh_server)
 
     # Open the log file for writing (append mode to keep all output)
-    log_file = '/tmp/tunnel_connection_ssh_script.log'
+    log_file = tunnelconnection_ssh
 
      # Check if the SSH server is reachable before starting autossh
     if is_ssh_tunnel_active(ssh_server_ip, ssh_port)==True:

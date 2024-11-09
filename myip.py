@@ -4,8 +4,9 @@ from sendmail import send_mail_my_ip_is, send_mail_vpn_failed
 import sys
 import ipaddress
 from writeandreadip_tunip import writeip
+from config import myip_logfile
 
-LOG_FILE = "/tmp/myip.py.log"
+LOG_FILE = myip_logfile
 
 def log_message(message):
     with open(LOG_FILE, "a") as log_file:

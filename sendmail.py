@@ -3,8 +3,9 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from config import mailserver, mailusername, mailpassword, source_mailaddress, dest_mailaddress, mailsubject_success, smtpport, mailsubject_failed, smtpport, mailsubject_success_updated
 import sys
+from config import sendmail_logfile
 
-LOG_FILE = "/tmp/sendmail.log"
+LOG_FILE = sendmail_logfile
 
 def log_message(message):
     with open(LOG_FILE, "a") as log_file:

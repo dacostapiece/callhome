@@ -13,9 +13,10 @@ from writeandreadip_tunip import readip
 import pdb
 
 from config import ssh_username, ssh_server, ssh_options, ssh_handling, ssh_port, check_status_string, check_interval, key_file, key_password
+from config import autossh_logfile
 
 # Configure logging
-logging.basicConfig(filename='/tmp/autossh_script.log', level=logging.INFO,
+logging.basicConfig(filename=autossh_logfile, level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Define the status string to check (adjust for different languages/environment)
