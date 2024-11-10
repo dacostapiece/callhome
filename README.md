@@ -42,7 +42,32 @@ Does this info updates whenever any of these IP addresses changes?<br>
 <h2>SUMMARY</h2>
 
 [1. Diagram Overview](https://github.com/dacostapiece/callhome/blob/main/README.md#diagram-overview
-)
+)<br>
+[2. Files Description](https://github.com/dacostapiece/callhome/blob/main/README.md#files-description
+)<br>
+
+[3. How Scripts are Called? - Cronjobs](https://github.com/dacostapiece/callhome/blob/main/README.md#how-scripts-are-called
+)<br>
+
+[3. How Scripts are Called? - Services](https://github.com/dacostapiece/callhome/blob/main/README.md#services
+)<br>
+
+[4. Steps to Setup this Project in Your Environment](README.md#steps-to-setup-this-project-in-your-environment)<br>
+
+[5. CALLHOME SSH SERVER](README.md#callhome_ssh_server)<br>
+
+[6. Files Description SSH Server](README.md#files-description-ssh-server)<br>
+
+[7. How Scripts Are Called? In SSH Server - Cronjobs](README.md#how-scripts-are-called)<br>
+
+[8. How Scripts Are Called? In SSH Server - Services](README.md#services-ssh-server)<br>
+
+[9. Steps to Setup this Project in Your Environment SSH Server](README.md#steps-to-setup-this-project-in-your-environment-ssh-server)<br>
+
+[10. Troubleshooting](README.md#troubleshooting)<br>
+
+[11. Logging](README.md#logging)<br>
+
 
 <h2>[DIAGRAM OVERVIEW]</h2>
 <img src="https://github.com/user-attachments/assets/dea8d28e-2cf5-4d25-9319-7fe015105d34" />
