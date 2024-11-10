@@ -1493,15 +1493,15 @@ Log files about running codes
 
 ```bash
 autossh_script.job.log  
+autossh_script.log     
+myip.py.log 
 myip_script.log     
+openvpn_script.log
+sendmail.log
 sync_services_scripts.log   
 update_status_panel.log
-autossh_script.log     
-openvpn_script.log 
+update_tun0_ipname.log 
 updated_interfaces_cron.log 
-update_tun0_ipname.log
-myip.py.log              
-sendmail.log        
 updated_interfaces.py.log
 ```
 
