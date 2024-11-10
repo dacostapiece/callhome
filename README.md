@@ -1484,3 +1484,34 @@ To use <i>pdb.set_trace()</i>, you just need to write <i>"pdb.set_trace()"</i> w
 so you can stop running code in the interactive at this point and play with "nearby" variables.<br>
 You need to import pdb library to use <i>pdb.set_trace()</i>. Most scripts within this script have it already.<br>
 Google <i>pdb.set_trace()</i> to know how to play with it properly.
+
+<h1>LOGGING</h1><br>
+
+Log files about running codes
+
+<h2>RASPBERRY</h2><br>
+
+```bash
+autossh_script.job.log  
+myip_script.log     
+sync_services_scripts.log   
+update_status_panel.log
+autossh_script.log     
+openvpn_script.log 
+updated_interfaces_cron.log 
+update_tun0_ipname.log
+myip.py.log              
+sendmail.log        
+updated_interfaces.py.log
+```
+
+<h2>SSH SERVER</h2><br>
+
+```bash
+check_autossh_port.log
+openvpn_script.log
+start_vncserver.log
+ssh_handler_job.log
+sync_services_scripts.log
+update_status_panel_ssh_server.log
+```
