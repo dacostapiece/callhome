@@ -5,6 +5,6 @@ Description=OpenVPN Script - Persistance
 ExecStart=/home/dacosta/CALLHOME/openvpn_script.sh
 Restart=always
 User=dacosta
-
+WorkingDirectory=/home/dacosta/CALLHOME
 [Install]
 WantedBy=multi-user.target
