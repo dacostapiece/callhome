@@ -39,6 +39,11 @@ Does this info updates whenever any of these IP addresses changes?<br>
 6) As long as the device and you are connected to same VPN Server OR the device and you are connected to the same SSH Server - you will be <br>able to remotely reach this device.<br>
 <br><b>Basically having a persistance way to reach the remote network through this device.</b><br>
 
+<h2>SUMMARY</h2>
+
+[1. Diagram Overview](https://github.com/dacostapiece/callhome/blob/main/README.md#diagram-overview
+)
+
 <h2>[DIAGRAM OVERVIEW]</h2>
 <img src="https://github.com/user-attachments/assets/dea8d28e-2cf5-4d25-9319-7fe015105d34" />
 
@@ -841,6 +846,7 @@ Description=OpenVPN Script - Persistance
 ExecStart=/home/user/callhome/openvpn_script.sh
 Restart=always
 User=user
+WorkingDirectory=/home/user/callhome
 
 [Install]
 WantedBy=multi-user.target
@@ -1097,7 +1103,7 @@ For me is /usr/bin/python
 Some scripts are call by cronjobs, because they required recurring calls, some scripts are run by service, it runs on device startup or only once and other scripts are simply called by others scripts in chain.
 
 <h2>CRONJOBS SSH SERVER</h2>
-<h2>[DIAGRAM OVERVIER SSH SERVER CRONJOBS]</h2>
+<h2>[DIAGRAM OVERVIEW SSH SERVER CRONJOBS]</h2>
 <img src="https://github.com/user-attachments/assets/2d94089f-86de-4361-996f-a2182337175f" />
 
 <b>SSH_HANDLER.PY CRONJOB</b><br>
@@ -1117,7 +1123,7 @@ You can use "which python" to see where is the full path for python binary<br>
 For me is /usr/bin/python
 
 <h2>SERVICES SSH SERVER</h2>
-<h2>[DIAGRAM OVERVIER SSH SERVER SERVICES]</h2>
+<h2>[DIAGRAM OVERVIEW SSH SERVER SERVICES]</h2>
 <img src="https://github.com/user-attachments/assets/286ce258-ceec-41b8-b68f-991a9ec955f5" />
 
 At least in Raspberry PI, services files/settings are store in /etc/systemd/system <br>
