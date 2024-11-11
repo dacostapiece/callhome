@@ -1487,7 +1487,7 @@ Google <i>pdb.set_trace()</i> to know how to play with it properly.
 
 <h1>LOGGING</h1><br>
 
-Log files about running codes
+Log files about running codes, all in /tmp folder as standard suggested and set.
 
 <h2>RASPBERRY</h2><br>
 
