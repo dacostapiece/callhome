@@ -116,7 +116,7 @@ def runMyIpAddres():
 
     else:
         print("No IPv4 address found for tun interface.")
-        send_mail_vpn_failed()
+        #send_mail_vpn_failed() #real annoying email notification
         log_message("Exiting with code 2 (failure)")
         sys.exit(2) #Fail
     
