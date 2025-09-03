@@ -1,0 +1,14 @@
+[Unit]
+Description=SSH key agent
+After=network.target
+
+[Service]
+ExecStartPre=/bin/sleep 30
+Type=simple
+User=dacosta
+Environment=SSH_AUTH_SOCK=/run/user/%U/ssh-agent.socket
+ExecStart=/home/dacosta/CALLHOME/LOCAL_TEST_VARIABLES/start-ssh-agent.sh
+Restart=always
+
+[Install]
+WantedBy=default.target

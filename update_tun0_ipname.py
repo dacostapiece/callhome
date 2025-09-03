@@ -4,9 +4,9 @@ import ipaddress
 import subprocess
 import re
 from datetime import datetime
-from config import ZONE_ID, DNS_RECORD_ID, DNS_RECORD_NAME, CF_API_TOKEN
+from config import ZONE_ID, DNS_RECORD_ID, DNS_RECORD_NAME, CF_API_TOKEN, update_tun0_ipname_logfile
 
-LOG_FILE_PATH = "/tmp/update_tun0_ipname.log"
+LOG_FILE_PATH = update_tun0_ipname_logfile
 
 def log_run_time():
     """Logs the date and time the script was run to the log file."""
