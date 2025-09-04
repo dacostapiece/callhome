@@ -79,9 +79,9 @@ Does this info updates whenever any of these IP addresses changes?<br>
 <h2>[STATUS PANEL]</h2>
 The project run some scripts that allow us to send service status over API to Atlassian Status Panel page, so we can check on real-time which associated services are running or not.<br>
 https://dacostapiece.statuspage.io/<br><br>
-Status Panel Image 001<br>
-Status Panel Image 002<br>
-Status Panel Image 003<br>
+<img width="1155" height="843" alt="image" src="https://github.com/user-attachments/assets/6e42e0b0-1fab-478a-97b3-58036264b623" /><br>
+<img width="1277" height="842" alt="image" src="https://github.com/user-attachments/assets/72331268-04a9-4a00-9451-450b6b54f8a0" /><br>
+<img width="873" height="843" alt="image" src="https://github.com/user-attachments/assets/5cf1e33c-7bb8-4c7b-950e-7394f048b078" /><br>
 
 <h2>FILES DESCRIPTION</h2>
 <b>AUTOSSH.PY</b><br>
