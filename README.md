@@ -43,6 +43,10 @@ Does this info updates whenever any of these IP addresses changes?<br>
 
 [1. Diagram Overview](https://github.com/dacostapiece/callhome/blob/main/README.md#diagram-overview
 )<br>
+
+[1.1 Status Panel](https://github.com/dacostapiece/callhome/blob/main/README.md#diagram-overview
+)<br>
+
 [2. Files Description](https://github.com/dacostapiece/callhome/blob/main/README.md#files-description
 )<br>
 
@@ -71,6 +75,13 @@ Does this info updates whenever any of these IP addresses changes?<br>
 
 <h2>[DIAGRAM OVERVIEW]</h2>
 <img src="https://github.com/user-attachments/assets/dea8d28e-2cf5-4d25-9319-7fe015105d34" />
+
+<h2>[STATUS PANEL]</h2>
+The project run some scripts that allow us to send service status over API to Atlassian Status Panel page, so we can check on real-time which associated services are running or not.<br>
+https://dacostapiece.statuspage.io/<br><br>
+Status Panel Image 001<br>
+Status Panel Image 002<br>
+Status Panel Image 003<br>
 
 <h2>FILES DESCRIPTION</h2>
 <b>AUTOSSH.PY</b><br>
